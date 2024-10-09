@@ -101,15 +101,15 @@ ggplot2::theme_set(ggthemes::theme_few())
 
 ```
 
-```{r experiment, child="02-experiment.qmd"}
+```{r experiment, child="03-experiment.qmd"}
 
 ```
 
-```{r results, child="03-results.qmd"}
+```{r results, child="04-results.qmd"}
 
 ```
 
-```{r conclusion, child="04-conclusion.qmd"}
+```{r conclusion, child="05-conclusion.qmd"}
 
 ```
 

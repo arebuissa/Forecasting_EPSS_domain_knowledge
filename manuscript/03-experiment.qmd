@@ -1,13 +1,12 @@
 # Experiment setup {#sec-experiment}
 
-# you need to talk about the data set 
-# some visualization 
-# make reduce to paragaphs minimize it 
-# forecast accuracy measures provid ethe formulas 
+
 
 
 ## Data {#sec-data}
-# 2.1. Dataset
+
+### Dataset
+
 For this study, we utilized a dataset spanning five years (2018-2022) of sales data obtained from EPSS. Rigorous checks were conducted to ensure the consistency and completeness of the collected data. From the extensive pool of pharmaceutical products within EPSS, we strategically selected a set of 37 key pharmaceuticals, encompassing various programs and representing different classes of drugs. This deliberate selection enriches the research by providing a comprehensive representation across the pharmaceutical landscape.
 We are presenting the graph for some of the pharmaceuticals sales for the last five years by using visualization for the readers to undesrtand the sales of the pharmaceuticals.
 ```{r}
@@ -46,9 +45,9 @@ for (i in (1:40)) {
 }
 ```
 
-# Visualising monthly time series
+## Visualising monthly time series
 
-## Title 
+
 
 ```{r}
 my_plot[[1]]

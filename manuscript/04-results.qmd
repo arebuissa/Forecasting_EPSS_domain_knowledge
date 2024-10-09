@@ -1,4 +1,5 @@
 # Results and discussion {#sec-results}
+
 ```{r}
 #| include: false
 #| label: restults
@@ -8,6 +9,8 @@ fc_accuracy_predictor_overall <- read_csv("../result/fc_accuracy_predictor_overa
 fc_accuracy_overall <- read_csv("../result/fc_accuracy_all_item.csv")
 data_visualisation <- read.csv("../rscript/data_visualisation.R")
 ```
+
+
 from the total of 37 key pharmaceuticals selected and tested with the  different forecasting models arima showed that a better forecast accuracy for most of the pharmaceuticals followed by mean and  regresstion models with RMSSE value of 0.850, 0.942 and 0.945 respectively (Table 1).
 
 ```{r}
@@ -19,7 +22,10 @@ fc_accuracy_table <- fc_accuracy_cleaned %>%
 kbl(fc_accuracy_table, booktabs = TRUE, escape = FALSE) %>%
   kable_styling(latex_options = c("hold_position"), full_width = FALSE)
 ```
+
+
 Then we tested the models by adding different predictors which affects the sales of the pharmaceuticals like physical count, budget release and budget closure by the government, COVID 19, campaign in to the models as predictors which will affects the sales of the key pharmaceuticals products and the result showed that still arima have a better forecast accuracy with RMSSE of 0.850 (Table 2). 
+
 ```{r}
 #| label: result3
 #| tbl-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
@@ -37,6 +43,8 @@ fc_accuracy_overall %>%
   ggplot(mapping = aes(x = RMSSE, y = fct_reorder(`.model`, RMSSE, .fun = median))) +
   geom_boxplot()
 ```
+
+
 Individual item with different forecasting models 
 We tested 10 models namely arima, arima with predictor, combination, exponential smoothing, mean, naive, regression, regression with predictor, snaive and stlf. Individually on the selected key pharmaceuticals and the result indicated that 11 (32.43%) of the selected pharmaceuticals have better forecast accuracy for arima predictor models, followed by naive 6 (16.21%), mean, regresstion, arima, and STLF methods each of them with 3 (8.10%) (Fig 2)
 
@@ -57,6 +65,8 @@ ggplot(data, aes(x = reorder(Pharmaceuticals, -Accuracy_Percentage), y = Accurac
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+
+
 Those pharmaceuticals who had a better forecast accuracy with Arima predictors are Amoxacillin 500mg capsule, Anti RhD, Artehmether + Lumefantrine, Atenolol, Atrovastatin 200mg, Ferrosu sulphate with follic acid, frusemide injection, Insuline Iosphane bipahsic, Lamivudine +Efaverienze + Tenofovir, Lidocaine + HCL and Propyl thiro uracil.The  six pharmaceuticasl which showed a better forecast accuracy with naive models were Ciprofloxacillin 500mg tablet, Magnesoum sulphate injection, Omeprazole capsule, Omeprazole injection, Rapid diagnostic test, Sulphamethaxone + Trimetoprine tablet.
 
 
