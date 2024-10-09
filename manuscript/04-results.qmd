@@ -14,34 +14,36 @@ data_visualisation <- read.csv("../rscript/data_visualisation.R")
 from the total of 37 key pharmaceuticals selected and tested with the  different forecasting models arima showed that a better forecast accuracy for most of the pharmaceuticals followed by mean and  regresstion models with RMSSE value of 0.850, 0.942 and 0.945 respectively (Table 1).
 
 ```{r}
-library(kableExtra)
-library(dplyr)  # Load the dplyr package
-fc_accuracy_cleaned <- na.omit(fc_accuracy_overall__without_predictor)
-fc_accuracy_table <- fc_accuracy_cleaned %>%
-  dplyr::select(.model, RMSE, MAE, MASE, RMSSE, winkler, CRPS)  # Explicitly specify dplyr::select
-kbl(fc_accuracy_table, booktabs = TRUE, escape = FALSE) %>%
-  kable_styling(latex_options = c("hold_position"), full_width = FALSE)
+# library(kableExtra)
+# library(dplyr)  # Load the dplyr package
+# fc_accuracy_cleaned <- na.omit(fc_accuracy_overall__without_predictor)
+# fc_accuracy_table <- fc_accuracy_cleaned %>%
+#   dplyr::select(.model, RMSE, MAE, MASE, RMSSE, winkler, CRPS)  # Explicitly specify dplyr::select
+# kbl(fc_accuracy_table, booktabs = TRUE, escape = FALSE) %>%
+#   kable_styling(latex_options = c("hold_position"), full_width = FALSE)
 ```
 
 
 Then we tested the models by adding different predictors which affects the sales of the pharmaceuticals like physical count, budget release and budget closure by the government, COVID 19, campaign in to the models as predictors which will affects the sales of the key pharmaceuticals products and the result showed that still arima have a better forecast accuracy with RMSSE of 0.850 (Table 2). 
 
 ```{r}
-#| label: result3
-#| tbl-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
-fc_accuracy_predictor_overall %>% 
-  kbl(booktabs = TRUE, escape = FALSE) |>
-  kable_styling(latex_options = c("hold_position"),full_width = F)
+# #| label: result3
+# #| tbl-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
+# fc_accuracy_predictor_overall %>% 
+#   kbl(booktabs = TRUE, escape = FALSE) |>
+#   kable_styling(latex_options = c("hold_position"),full_width = F)
 ```
+
+
 ```{r}
-#| label: result2
-#| fig-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
-library(ggplot2)  # Load the ggplot2 package
-library(forcats)  # Load the forcats package
-fc_accuracy_overall %>%
-  select(`.model`, item, RMSSE) %>% 
-  ggplot(mapping = aes(x = RMSSE, y = fct_reorder(`.model`, RMSSE, .fun = median))) +
-  geom_boxplot()
+# #| label: result2
+# #| fig-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
+# library(ggplot2)  # Load the ggplot2 package
+# library(forcats)  # Load the forcats package
+# fc_accuracy_overall %>%
+#   select(`.model`, item, RMSSE) %>% 
+#   ggplot(mapping = aes(x = RMSSE, y = fct_reorder(`.model`, RMSSE, .fun = median))) +
+#   geom_boxplot()
 ```
 
 
@@ -50,19 +52,19 @@ We tested 10 models namely arima, arima with predictor, combination, exponential
 
 ```{r}
 # Sample data (replace with your actual data)
-pharmaceuticals <- c("ARIMA Predictor", "Naive", "Mean", "Regression", "ARIMA", "STLF")
-accuracy_percentages <- c(32.43, 16.21, 8.10, 8.10, 8.10, 8.10)
-
-# Create a data frame
-data <- data.frame(Pharmaceuticals = pharmaceuticals, Accuracy_Percentage = accuracy_percentages)
-# Create a bar chart
-library(ggplot2)
-
-ggplot(data, aes(x = reorder(Pharmaceuticals, -Accuracy_Percentage), y = Accuracy_Percentage)) +
-  geom_bar(stat = "identity", fill = "blue") +
-  labs(x = "Pharmaceutical Forecasting Models", y = "Accuracy Percentage") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# pharmaceuticals <- c("ARIMA Predictor", "Naive", "Mean", "Regression", "ARIMA", "STLF")
+# accuracy_percentages <- c(32.43, 16.21, 8.10, 8.10, 8.10, 8.10)
+# 
+# # Create a data frame
+# data <- data.frame(Pharmaceuticals = pharmaceuticals, Accuracy_Percentage = accuracy_percentages)
+# # Create a bar chart
+# library(ggplot2)
+# 
+# ggplot(data, aes(x = reorder(Pharmaceuticals, -Accuracy_Percentage), y = Accuracy_Percentage)) +
+#   geom_bar(stat = "identity", fill = "blue") +
+#   labs(x = "Pharmaceutical Forecasting Models", y = "Accuracy Percentage") +
+#   theme_minimal() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 

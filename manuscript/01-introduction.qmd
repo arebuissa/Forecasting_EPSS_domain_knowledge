@@ -14,6 +14,8 @@ The Ethiopian pharmaceutical sector's distinct characteristics, marked by a dive
 
 
 The current paper offers the following contributions we aim at forecasting pharmaceutical sales over a 12-month period these models aim to enhance the accuracy and reliability of demand predictions within the context of EPSS. Moreover an essential contribution lies in the identification of key factors influencing pharmaceutical sales. The study develops a model that effectively incorporates these driving factors, providing a more nuanced and comprehensive approach to demand prediction. We generate forecasts and evaluate model performance using the Root Mean Squared Error (RMSE), Root Mean Squared Scaled Error (RMSSE) and Mean Absolute Error (MAE), Mean Absolute Scaled Error (MASE), Crips and Winkler are used to assess probabilistic forecast accuracy. 
+
+
 #how you know the forecasting accutacy problem and provide eveidence about the forecasting problems 
 # most forecast focus on point forecast and we want to focus on probablistic forecast
 # i will write the contribution of the reearch rather than these objectives 
