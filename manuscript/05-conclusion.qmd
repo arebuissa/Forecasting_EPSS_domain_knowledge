@@ -1,0 +1,43 @@
+# Conclusion {#sec-conclusion}
+In this study, we embarked on a comprehensive analysis of pharmaceutical demand forecasting within the Ethiopian 
+Pharmaceutical Supply Services (EPSS) context. By leveraging five  years of sales data for 37 key pharmaceutical 
+products, we aimed to  enhance the accuracy of demand predictions and consequently  contribute to more effective supply 
+chain management. Our findings  underscore the significance of accurate demand forecasting in  optimizing inventory 
+levels, resource allocation, and overall supply chain operations.
+
+
+The application of diverse forecasting models yielded valuable insights into their respective performance. Notably, the 
+Autoregressive Integrated Moving Average (ARIMA) model emerged as a  robust choice, consistently exhibiting superior forecast accuracy  across a majority of the selected pharmaceutical products.  Additionally, the incorporation of predictor variables, such as  physical count, budget release and closure by the government,  COVID-19 impact, and campaign events, further underscored the  efficacy of the ARIMA model in accommodating external influences and delivering reliable forecasts.
+
+The individualized assessment of forecasting models revealed specific strengths across pharmaceutical categories. ARIMA 
+models with predictors demonstrated exceptional performance for pharmaceuticals including Amoxacillin 500mg capsule, Anti RhD, Artehmether + Lumefantrine, Atenolol, and others, affirming their utility in capturing complex demand patterns. 
+Moreover, the study shed light on pharmaceuticals best suited for alternative models like naive, mean, and regression 
+methods, contributing to a comprehensive understanding of forecasting applicability.
+
+While these findings contribute significantly to the discourse on pharmaceutical demand forecasting, it's essential to 
+acknowledge limitations. The accuracy of our forecasts is intrinsically linked to the quality and completeness of 
+historical sales data, and the intricate interplay of external variables adds complexity to the forecasting landscape.
+
+In conclusion, this study serves as a pivotal step towards enhancing pharmaceutical supply chain management through 
+refined demand forecasting. The demonstrated success of ARIMA models, particularly when augmented with predictor 
+variables, holds promise for fostering resilient and adaptable supply chains. As the pharmaceutical landscape continues 
+to evolve, our insights encourage further exploration of advanced forecasting techniques and continuous refinement of 
+strategies to bolster supply chain efficiency and ensure consistent availability of essential pharmaceuticals.
+
+
+In light of the study's findings, several actionable recommendations emerge. First and foremost, the integration of the 
+Autoregressive Integrated Moving Average (ARIMA) model with predictor variables stands out as a viable strategy for 
+enhancing pharmaceutical demand forecasting accuracy within Ethiopian Pharmaceutical Supply Services (EPSS). This entails 
+harnessing the predictive power of external factors to refine forecasting precision. To further advance forecasting 
+practices, the exploration of additional predictor variables such as public health campaigns, disease outbreaks, and 
+economic indicators could offer valuable insights into demand dynamics. Moreover, refining the granularity of historical 
+sales data, possibly through finer temporal intervals and geographic diversity, holds potential for more nuanced and 
+accurate predictions. Consideration could also be given to hybrid forecasting models that amalgamate ARIMA's short-term 
+accuracy with machine learning's predictive prowess for long-term trends. Regular model evaluation, sensitivity analysis, and collaborative stakeholder engagement are recommended to ensure ongoing accuracy and alignment with changing demand patterns.
+
+Capacitating EPSS staff through training programs in forecasting methodologies and data interpretation can empower the 
+workforce to make informed decisions. Replication of this study in diverse healthcare settings and comparative analyses 
+can validate the findings' applicability and adaptability. By embracing these recommendations, EPSS can fortify its 
+pharmaceutical supply chain with resilient, efficient, and responsive operations, ultimately ensuring the consistent 
+availability of vital pharmaceuticals.
+  a

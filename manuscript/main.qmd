@@ -1,0 +1,120 @@
+---
+title: "Pharmaceutical Supply Chain Forecasting by using Machine Learning in Ethiopian Pharmaceutical Supply Services"
+author:
+  - name: Arebu Issa Bilal
+    email: arebu.issa@aau.edu.et
+    affiliations:
+        - id: Addis 
+          name: Addis Ababa  University
+          department: Department of Pharmaceutics and Social Pharmacy at School of Pharmacy
+          country: Ethiopia
+          postal-code: 9086
+    attributes:
+        corresponding: true
+  - name: Arebu Issa Bilal
+    email: arebu.issa@aau.edu.et
+  - name: Bahman Rostami-Tabar
+    email: rostami-tabarb@cardiff.ac.uk
+    affiliations:
+        - id: carbs
+          name: University
+          department: Cardiff Business School 
+          country: UK
+          postal-code: CF5
+  - name: Umit Sezer Bititci 
+    email: U.S.Bititci@hw.ac.uk
+    affiliations:
+        - id: heriot- watt 
+          name: University
+          department: Edinburgh Business School 
+          country: UK
+          postal-code: EH14 4AS
+  - name: Teferi Gedif Fenta
+    email: tgedif@gmail.com
+    affiliations:
+        - id: Addis 
+          name: Addis Ababa  University
+          department: Department of Pharmaceutics and Social Pharmacy at School of Pharmacy
+          country: Ethiopia
+          postal-code: 9086        
+         
+abstract: |
+  This study delves into the realm of pharmaceutical demand forecasting within the Ethiopian Pharmaceuticals Supply Services(EPSS) context. It encompasses a comprehensive analysis of 37 key pharmaceutical products,assessing their forecast accuracy across variation models. The initial assessment reveals that the Autoregressive Integrated Moving Average (ARIMA) model emerges as a frotrunner, boasting a Root Mean Squared Error (RMSSE) value of 0.850. ARIMA's prowess in capturing complex demand patterns suggests its suitability for pharmaceutical sales forecasting in the EPSS landscape. To argument forecasting accuarcy, predictor varaibles such as physical count, budget release and closure by the goverment, the impact of COVID-19, and promotional campaigns were incorpoarted. Remarkably, the ARIMA model mantainsits superiority even in the presences of these external factors, reiterating its roustness. Delving further into individual pharmaceutical products, ARIMA with predictors demonstrates exceptional performance for a substantial portion (32.43%) of the products, including Amoxicillin 500mg capsule, Anti RhD, Artehmether + Lumefantrine, and others. Conversely,alternative models like naive, mean, and regression methods showcase strengths for different pharmaceutical categories, underscoring the importance of tailoring forecasting approaches to product-specific dynamics. While this study significantly advances the discourse on pharmaceutical demand forecasting, limitations stemming from data quality and external variables underscore the intricacies of the forecasting landscape. In conclusion, it advocates the integration of the ARIMA model with predictor variables as a strategic approach for refining pharmaceutical demand forecasting within EPSS. It also encourages further exploration of advanced forecasting techniques and ongoing refinement to bolster supply chain efficiency and ensure consistent pharmaceutical availability. Capacity building through staff training and replication of the study in diverse healthcare settings are recommended steps toward resilient and efficient pharmaceutical supply chains.These findings hold promise for fostering supply chains that are adaptable, responsive, and capable of ensuring the continuous availability of essential pharmaceuticals in Ethiopia.
+keywords:
+  - Pharmaceutical Demand Forecasting
+  - Ethiopian Pharmaceutical Supply Services
+  - ARIMA Model
+  - Forecasting Variables
+  - Forecast Accuracy
+bibliography: references.bib
+execute:
+  echo: false
+  message: false
+  warning: false
+  pdf-engine: pdflatex
+  prefer-html: true
+  cache: true
+format:
+  html:
+    number-sections: true
+  docx:
+    number-sections: true
+  elsevier-pdf:
+    keep-tex: true
+    include-in-header:
+      text: |
+        \usepackage{todonotes,mathtools,bm,amsmath,mathpazo}
+        \mathtoolsset{showonlyrefs}
+        \setlength{\parindent}{0cm}
+    journal:
+      name: Journal of 
+      formatting: preprint
+      model: 3p
+      cite-style: authoryear
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(fpp3)
+library(kableExtra)
+library(tidyverse)
+library(kableExtra)
+library(ggthemes)
+library(patchwork)
+library(readr)
+library(forcats)
+# Color blind color palettes
+options(
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2","#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2","#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+# Few theme
+ggplot2::theme_set(ggthemes::theme_few())
+```
+
+```{r intro, child="01-introduction.qmd"}
+
+```
+
+```{r literature, child="02-literature.qmd"}
+
+```
+
+```{r experiment, child="02-experiment.qmd"}
+
+```
+
+```{r results, child="03-results.qmd"}
+
+```
+
+```{r conclusion, child="04-conclusion.qmd"}
+
+```
+
+# Reproducibility {.unnumbered}
+
+R code to produce all results in this paper is available at
+
+# References {#references .unnumbered}

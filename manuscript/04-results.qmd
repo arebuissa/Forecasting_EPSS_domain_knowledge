@@ -1,0 +1,133 @@
+# Results and discussion {#sec-results}
+```{r}
+#| include: false
+#| label: restults
+library(readr)
+fc_accuracy_overall__without_predictor <- read_csv("../result/fc_accuracy_overall__without_predictor.csv")
+fc_accuracy_predictor_overall <- read_csv("../result/fc_accuracy_predictor_overall.csv")
+fc_accuracy_overall <- read_csv("../result/fc_accuracy_all_item.csv")
+data_visualisation <- read.csv("../rscript/data_visualisation.R")
+```
+from the total of 37 key pharmaceuticals selected and tested with the  different forecasting models arima showed that a better forecast accuracy for most of the pharmaceuticals followed by mean and  regresstion models with RMSSE value of 0.850, 0.942 and 0.945 respectively (Table 1).
+
+```{r}
+library(kableExtra)
+library(dplyr)  # Load the dplyr package
+fc_accuracy_cleaned <- na.omit(fc_accuracy_overall__without_predictor)
+fc_accuracy_table <- fc_accuracy_cleaned %>%
+  dplyr::select(.model, RMSE, MAE, MASE, RMSSE, winkler, CRPS)  # Explicitly specify dplyr::select
+kbl(fc_accuracy_table, booktabs = TRUE, escape = FALSE) %>%
+  kable_styling(latex_options = c("hold_position"), full_width = FALSE)
+```
+Then we tested the models by adding different predictors which affects the sales of the pharmaceuticals like physical count, budget release and budget closure by the government, COVID 19, campaign in to the models as predictors which will affects the sales of the key pharmaceuticals products and the result showed that still arima have a better forecast accuracy with RMSSE of 0.850 (Table 2). 
+```{r}
+#| label: result3
+#| tbl-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
+fc_accuracy_predictor_overall %>% 
+  kbl(booktabs = TRUE, escape = FALSE) |>
+  kable_styling(latex_options = c("hold_position"),full_width = F)
+```
+```{r}
+#| label: result2
+#| fig-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
+library(ggplot2)  # Load the ggplot2 package
+library(forcats)  # Load the forcats package
+fc_accuracy_overall %>%
+  select(`.model`, item, RMSSE) %>% 
+  ggplot(mapping = aes(x = RMSSE, y = fct_reorder(`.model`, RMSSE, .fun = median))) +
+  geom_boxplot()
+```
+Individual item with different forecasting models 
+We tested 10 models namely arima, arima with predictor, combination, exponential smoothing, mean, naive, regression, regression with predictor, snaive and stlf. Individually on the selected key pharmaceuticals and the result indicated that 11 (32.43%) of the selected pharmaceuticals have better forecast accuracy for arima predictor models, followed by naive 6 (16.21%), mean, regresstion, arima, and STLF methods each of them with 3 (8.10%) (Fig 2)
+
+```{r}
+# Sample data (replace with your actual data)
+pharmaceuticals <- c("ARIMA Predictor", "Naive", "Mean", "Regression", "ARIMA", "STLF")
+accuracy_percentages <- c(32.43, 16.21, 8.10, 8.10, 8.10, 8.10)
+
+# Create a data frame
+data <- data.frame(Pharmaceuticals = pharmaceuticals, Accuracy_Percentage = accuracy_percentages)
+# Create a bar chart
+library(ggplot2)
+
+ggplot(data, aes(x = reorder(Pharmaceuticals, -Accuracy_Percentage), y = Accuracy_Percentage)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(x = "Pharmaceutical Forecasting Models", y = "Accuracy Percentage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+Those pharmaceuticals who had a better forecast accuracy with Arima predictors are Amoxacillin 500mg capsule, Anti RhD, Artehmether + Lumefantrine, Atenolol, Atrovastatin 200mg, Ferrosu sulphate with follic acid, frusemide injection, Insuline Iosphane bipahsic, Lamivudine +Efaverienze + Tenofovir, Lidocaine + HCL and Propyl thiro uracil.The  six pharmaceuticasl which showed a better forecast accuracy with naive models were Ciprofloxacillin 500mg tablet, Magnesoum sulphate injection, Omeprazole capsule, Omeprazole injection, Rapid diagnostic test, Sulphamethaxone + Trimetoprine tablet.
+
+
+
+Discussion:
+  
+The objective of this study was to evaluate the forecasting accuracy of different 
+models for key selected pharmaceutical products from the Ethiopian Pharmaceutical 
+Supply Services (EPSS). The analysis encompassed a total of 37 key pharmaceutical 
+products, and the results highlight the performance of various forecasting models in 
+predicting sales for these products. In the initial assessment of forecasting models, 
+the ARIMA model emerged as the most accurate for the majority of the pharmaceutical 
+products, exhibiting a Root Mean Squared Scaled Error (RMSSE) value of 0.850. This 
+finding suggests that ARIMA has a strong predictive capability and outperforms other 
+models, including the mean and regression models. The superiority of the ARIMA models 
+over the Moving Average might be explained by  most of the data set have seasonal 
+patern and MA  is one of the simplest prediction techniques for making projections 
+about time-series without a noticeable seasonal pattern [@chopra2001supply].The 
+superiority of the ARIMA model underscores its suitability for pharmaceutical sales 
+forecasting within the context of EPSS. Similar findings were reported in forecasting 
+ethanol demand in India where ARIMA model outperforms other models like linear and 
+non-linear regression models [@dey2023forecasting].
+
+
+To enhance the predictive power of the models, additional predictors were incorporated 
+into the analysis. Predictors such as physical count, budget release and closure by the government, the impact of COVID-19, and promotional campaigns were considered as 
+potential drivers of pharmaceutical sales. Despite the inclusion of these predictors, 
+the ARIMA model maintained its superior forecasting accuracy with an RMSSE of 0.850. 
+This resilience further validates the robustness of the ARIMA model and its ability to 
+capture complex interactions between variables influencing pharmaceutical sales.
+
+
+To delve deeper into the individual performance of the forecasting models, a 
+comprehensive evaluation was conducted on each of the 37 pharmaceutical products. Among the ten models tested, ARIMA with predictors exhibited the highest forecast accuracy 
+for 32.43% of the products. This was followed by the naive model, which performed well 
+for 16.21% of the products. Notably, a few pharmaceuticals demonstrated a strong fit 
+with specific models. For instance, Amoxicillin 500mg capsule, Anti RhD, Artehmether + 
+Lumefantrine, and others exhibited superior forecast accuracy when utilizing the ARIMA 
+model with predictors.
+
+
+Similarly, other pharmaceuticals displayed better forecasting outcomes with alternative models. Notably, Ciprofloxacin 
+500mg tablet, Magnesium sulfate injection, Omeprazole capsule, and others showed 
+improved accuracy with the naive model. These findings underscore the importance of 
+tailoring the choice of forecasting model based on the characteristics and 
+dynamics of individual pharmaceutical products.This finding confirmed that There is not
+a single best technique to solve 
+time-series forecasting problems [@zhang2007quarterly]. In order to deal with 
+time-series forecasting, each problem might be solved with a different approach [@ensafi2022time].
+
+
+In conclusion, this study highlights the pivotal role of accurate forecasting in the 
+pharmaceutical supply chain management. The ARIMA model, particularly when integrated 
+with relevant predictors, emerges as a powerful tool for 
+predicting pharmaceutical sales within the EPSS. However, the selection of the most 
+appropriate model should consider the specific attributes of each pharmaceutical 
+product. Further research could explore the optimization of model parameters and the 
+incorporation of additional contextual variables to enhance forecasting accuracy and 
+supply chain efficiency.
+
+Limitation
+
+One notable limitation of this study revolves around the availability and quality of 
+the data used for analysis. While we employed a comprehensive dataset from the EPSS, it is essential to acknowledge that the accuracy of forecasting models is heavily 
+contingent on the quality, granularity, and completeness of historical sales data. 
+Variations in data recording practices, potential errors, missing values, or 
+inconsistencies within the dataset could impact the precision of the forecasts 
+generated by the employed models. Moreover, the inherent complexity of pharmaceutical 
+demand, influenced by a myriad of external factors such as socioeconomic changes,stock 
+outs, prolonged procurement lead time, rationing of avaiable products, pushing of 
+pharmaceuticals to different health facility without demand, healthcare policies, and 
+unforeseen events, may introduce an additional layer of uncertainty. It is important to recognize that despite our best efforts to address data-related challenges, the 
+robustness and reliability of our forecasting outcomes may still be subject to the 
+limitations inherent in the original data.

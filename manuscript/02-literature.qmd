@@ -1,0 +1,280 @@
+# Research background {#sec-lit}
+# focus on forecasting on pharmaceuticals products 
+# 2 pages 
+# how forecasting is done 
+# what other researches had done 
+# what are the limitation of the other papers
+# 15 relevant papaers 
+
+
+# 02- literature 
+
+Precise sales prediction is an essential and inexpensive way for each company to augment their profits, decrease their costs, and achieve greater flexibility to changes. In other words, exact sales forecasting is utilized for capturing the tradeoff between customer demand satisfaction and inventory costs [@gupta2000mid]. Especially, for the pharmaceutical industry, successful sales forecasting systems can be very beneficial, due to the short shelf-life of many pharmaceutical products
+and the importance of the product quality which is closely related to the human health [@doganis2006time].There are many decisions that depend on the quality of forecasts in the health care system, from capacity planning to layout decisions to the daily schedules. In general,the role of forecasting in health care is to inform both clinical and non-clinical decisions. While the former concerns decisions related to patients and their treatments [@makridakis2019forecasting], the latter involves policy/management, and supply chain decisions that support the delivery of high-quality care for patients.In the coming paragarphs we will review what other researchers had done in the area of pharmaceuticals forecasting.Morover today,manufacturing companies are organized following the principles of just-in-time (JIT) delivery which focuses on efficiency and eliminating the waste of excessive inventory [@van2021using]. In JIT systems, accurate Stock Keeping Unit (SKU) short-term demand forecasts, typically on a daily, weekly or monthly basis, are crucial as they are the fundamental inputs to drive the supply chain planning system.Therefore, forecasting performance can strongly affect a company’s financial results, since both under- and overestimating short-term demand are expensive as they result in supply shortages and consequently poor customer service, and excess inventories and product obsolescence, respectively (Sanders and Graman, 2009).In this section, we provide a brief review of studies on forecasting harmaceuticals products.In conclusion, the research findings indicated that the hybrid neural network approach, which combines linear and nonlinear modeling techniques, outperformed traditional methods like ARIMA and standalone neural networks in forecasting pharmaceutical sales. The hybrid approach demonstrated the ability to capture both linear and nonlinear patterns in sales data accurately, especially in scenarios with limited historical records for individual drugs.
+
+A study by Khalil Zadeh et al. developed an intelligent sales prediction model for Pharmaceutical Distribution Companies (PDCs) by combining network analysis tools and time series forecasting methods. This approach addresses the challenge of limited historical sales data for pharmaceutical products, making traditional forecasting methods inadequate[@zhang2004neural].The researchers employed Mean Squared Error (MSE) and Mean Absolute Error (MAE) to evaluate the performance of various forecasting models, including ARIMA, neural networks, and a hybrid approach combining both. The hybrid model, inspired by Zhang's work[@zhang2004neural], used ARIMA for linear components and neural networks for nonlinear components.Three methods were used: (1) ARIMA, (2) a hybrid neural network with each drug’s past records, and (3) a hybrid neural network with both each drug’s and its group members’ past records. Grouping products and using group members' records significantly improved forecasting accuracy by addressing the issue of limited data and leveraging both linear and nonlinear modeling capabilities.The study concluded that the hybrid approach, incorporating both individual and group past records, performed better than using either method alone [@khalil2014intelligent].
+
+A study by Van Bell et al. used various forecasting models for point of sale data to assess the impact of including sell-through data on forecast accuracy. They compared information sharing (IS) methods with non-information sharing (NIS) methods using the following approaches. Substitution Approach (ETS-W and ARIMA-W): These models use downstream wholesaler sales time series as input instead of prior manufacturer shipments, suitable when all goods pass through wholesalers. Integration Approach (Extrapolative Time Series Methods with Exogenous Variables): This includes methods that integrate downstream information using extrapolative time series techniques and machine learning (ML) approaches. Extrapolative Time Series Methods (ETS and ARIMA): Traditional forecasting methods based on modeling past time series structures and extrapolating into the future. The study evaluated these methods using Mean Squared Error (MSE) and Mean Absolute Error (MAE). Additionally, the researchers used naive methods, IS and NIS with ETS and ARIMA models, and machine learning techniques like LASSO, Support Vector Regression (SVR), and Random Forest (RF).LASSO (Least Absolute Shrinkage and Selection Operator) was identified as the best-performing method for improving forecast accuracy, particularly for one-step ahead forecasts. It outperformed other methods for longer horizons (h > 1) by effectively selecting the most relevant variables and reducing overfitting. ETS was found to be the most effective univariate baseline method, and SVR showed the best performance for h = 1. The study concluded that IS methods generally outperformed NIS methods, indicating that incorporating downstream information, such as sell-through data, can significantly enhance short-term forecast accuracy in supply chain management. Machine learning techniques like LASSO, SVR, and RF faced challenges related to overfitting and model complexity, especially with high-dimensional data. Balancing model complexity and interpretability was crucial for robust forecasting. Overall, the research suggests that LASSO, along with ETS and SVR, are effective for improving demand prediction accuracy in multi-echelon supply chains by leveraging downstream information and collaborative approaches[@van2021using].
+
+A study by Nikolopoulos et al. forecasted UK pharmaceutical time series before and after patent expiry, a critical point when a generic version enters the market. The study used various models, including naïve and moving averages, the Bass diffusion model, repeat purchase diffusion models, three regression models, and two exponential smoothing (ES) approaches for non-trended (simple ES) and trended data (Holt ES) [@nikolopoulos2016forecasting].Holt Exponential Smoothing: This model was the most accurate for forecasting both branded and generic drugs across short-term, mid-term, and long-term horizons.Naïve Model: Used as a benchmark, the relative absolute error (RAE) was calculated to compare forecasting accuracy.Bass Diffusion Model: Although popular in marketing research, it had limitations in accurately forecasting pharmaceutical time series due to the complex dynamics between branded and generic drugs. Comparative Analysis: The study compared various forecasting models to evaluate their performance, highlighting the importance of selecting appropriate models based on the data and context.The research found that Holt’s exponential smoothing model outperformed others, including naïve models, moving averages, and ARIMA models, especially for short-term forecasts. However, forecasting accuracy varied across different horizons. Despite their limitations, diffusion models were included to provide additional insights.Overall, the study emphasized the strengths and limitations of different forecasting approaches in the context of pharmaceutical time series, with Holt’s exponential smoothing model demonstrating superior performance[@nikolopoulos2016forecasting].
+
+Astudy by Siddiqui et al used to develop a combined forecasting model.The combination is developed using two frequent, but separately used models, i.e. Autoregressive Integrated Moving Average (ARIMA)  model and Holts Winter model and a combined model were proposed which is known as the ARHOW model.The ARIMA model is commonly used for time series forecasting, while Holt’s Winter model is effective for handling seasonality in data [@inproceedings{markovska2016comparative].The ARHOW model aims to enhance forecasting accuracy by leveraging the strengths of both ARIMA and Holt’s Winter models. The model equation for obtaining a consolidated forecast is as follows: ARHOW = β * ArimaForecast + β1 * HoltWinterForecast
+In this equation:
+ARHOW represents the Combined Weighted Forecast. ArimaForecast and HoltWinterForecast are the forecasts obtained by applying the ARIMA and Holt’s Winter models over the training set.β and β1 are the weights assigned to the ARIMA and Holt’s Winter forecasts, respectively. By combining the forecasts generated by these two models, the ARHOW model seeks to mitigate the impact of volatility and external factors on forecasting accuracy, ultimately providing more reliable predictions for pharmaceutical sales data [@siddiqui2022hybrid] .  Combining multiple forecasting techniques like ARIMA and Holt’s Winter to create the ARHOW model introduces complexity. Managing and interpreting the results of a hybrid model may pose challenges in practical implementation and decision-making processes .Morover External factors such as regulatory changes, technological advancements, and market dynamics can introduce forecasting errors. While the ARHOW model aims to improve accuracy, it may still be susceptible to errors resulting from unforeseen external influences [@siddiqui2022hybrid].The key forecasting metrics employed in the study include:
+
+Mean Absolute Percentage Error (MAPE), Mean, Mean Absolute Deviation (MAD), Mean Square Error (MSE), Root Mean Square Error (RMSE).The Mean Absolute Percentage Error (MAPE) and other forecasting metrics suggest that the ARHOW model provides more accurate predictions compared to traditional forecasting techniques like ARIMA, Holt’s Winter, ETS, Theta, and Naïve models. The model's efficiency in forecasting pharmaceutical demand can help manufacturers plan inventory and prevent stockouts or overstock situations .In conclusion, the study underscores the effectiveness of the ARHOW model in improving demand forecasting accuracy in the pharmaceutical industry and provides insights for enhancing supply chain efficiency through advanced forecasting techniques .
+
+A study by de Oliveira et al. compared five machine learning regression approaches for lead time forecasting in the pharmaceutical supply chain. The models used were k-nearest neighbors (KNN), support vector machines (SVM), random forests (RF), linear regression (LR), and multi-layer perceptrons (MLP). These models aimed to predict supplier delivery times, enhancing planning for production and logistics services in the pharmaceutical field [@de2021lead]. The study focused on using machine learning techniques to forecast lead times for purchasing products in the pharmaceutical industry. The comparison aimed to identify the most effective approach for predicting purchasing lead times, demonstrating high accuracy potential, especially with linear support vector regression. Key limitations noted included computational complexity, sensitivity to outliers, difficulty in interpretability, and overfitting. Using mean squared error (MSE) as the forecast accuracy metric, the study found that the SVM approach achieved the best performance, with an average error of less than two days. This indicates that SVM was the most effective model among those tested for forecasting purchasing lead times in the pharmaceutical supply chain[@inproceedings{de2021lead].
+
+A study by Rathipriya et al. focused on demand forecasting for time-series pharmaceutical data using both shallow and deep neural network models[@rathipriya2023demand]. The researchers employed several models, including the Autoregressive Integrated Moving Average (ARIMA) model, known for its simplicity and ability to handle non-stationary series.The shallow neural network models used were, Radial Basis Function Neural Network (RBF_NN),Generalized Regression Neural Network (GR_NN),Probabilistic Neural Network (P_NN),For deep neural networks, the study investigated:Long Short-Term Memory (LSTM),Stacked LSTM,Additionally, the study explored hybrid models, combining ARIMA with the Adaptive Neural Fuzzy Inference System (ANFIS) to forecast Iran's annual energy usage, demonstrating higher accuracy compared to individual models. The researchers also employed methods like Genetic Algorithms (GA), Bayesian structures, and Reinforcing Artificial Neural Networks (RANN) for forecasting short-run demand.The performance of the demand forecast models (DFMs) was evaluated using Root Mean Squared Error (RMSE). The study found that shallow neural network models, such as GR_NN, RBF_NN, and P_NN, had almost identical mean RMSE values across all eight drug categories, indicating their effectiveness in predicting pharmaceutical demand. Conversely, deep neural network models like LSTM and Stacked LSTM did not perform as well due to the limited number of samples available for training. The research concluded that shallow neural network-based DFMs performed well for five out of eight drug categories, while the ARIMA model was best for the remaining three. This suggests that no single forecasting model is optimal for all drug categories[@article{rathipriya2023demand].
+
+
+A study by Candan et al. on demand forecasting in the pharmaceutical industry utilized a neuro-fuzzy approach as the forecasting method[@inproceedings{hrupelj2017demand]. Neuro-fuzzy modeling combines information from empirical models, heuristics, and data, providing effective models that explain solutions better than black-box models like neural networks[@abraham2001neuro; @babuvska2003neuro]. The study also explored the emotional learning fuzzy inference system (ELFIS) and locally linear neuro-fuzzy (LLNF) methods proposed by Abdollahzade et al. (2012) for predicting the stock prices of a pharmaceutical company[@abdollahzade2012application; @hrupelj2017demand]. While the neuro-fuzzy approach combines fuzzy logic and neural networks to improve forecasting, it may still struggle with extremely complex or non-linear relationships within the data. The study used paired t-tests and mean difference analysis to evaluate forecast accuracy. Overall, the metrics supported the conclusion that the neuro-fuzzy approach is a robust method for demand forecasting in the pharmaceutical industry, providing accurate predictions closely aligned with actual demand quantities.
+
+A study by Burinskiene discusses various forecasting techniques in the pharmaceutical retail industry. These include: Single Exponential Smoothing: Applies weighted averages with exponentially decreasing weights for older observations. Moving Average: Used for trend-based estimation to predict demand and standard deviation.
+Naive Method: Assumes all predictions are equal to the last observation, serving as a benchmark. Holt's Linear Method: An extension of single exponential smoothing for trend prediction. Holt-Winters No Trend Method: A variation without a trend component[@burinskiene2022forecasting]. The study focuses on short-term forecasting, excluding long-term forecasting and safety stock considerations, which are crucial in the pharmaceutical industry due to varying demand patterns[@nikolopoulos2016forecasting]. The naive method fails to capture trends or seasonality, while the moving average method struggles with sudden changes and irregular patterns[@restyana2021analysis]. Holt's linear method is limited in handling complex seasonal patterns, and the Holt-Winters method requires careful parameter tuning and historical data analysis[@koehler2001forecasting]. Single exponential smoothing is not effective for sudden changes or outliers[@inproceedings{zahra2019forecasting]. The study used MAPE, MSE, and Theil's U2 test to evaluate forecast accuracy, with Theil's U2 test comparing results to the naive forecast. A U2 value greater than 1 indicates better performance than the naive method [@burinskiene2022forecasting]. The Holt-Winters Multiplicative method was found to improve weekly forecasts and outperform other methods, especially in addressing product shortages in pharmacies.
+
+A study conducted by Anusha et al. in the Indian pharmaceutical retail sector utilized forecasting models such as Simple Moving Average, Exponential Smoothing, and Winter’s Exponential Smoothing[@anusha2014demand]. These models were employed to predict demand for both seasonal pharmaceutical items like Okacet 10mg tablets and random pharmaceutical items like Stamlo Beta tablets. Quantitative indicators like Mean Absolute Deviation (MAD), Mean Squared Error (MSE), and Mean Absolute Percentage Error (MAPE) were used to assess forecast error. The Winter’s Exponential Smoothing (WES) model showed the least sales forecast error for the seasonal pharmaceutical item Okacet 10mg tablets, with a MAPE of 27.50, indicating high forecast accuracy. Conversely, for the non-seasonal pharmaceutical item Stamlo Beta tablets, the Six-month Moving Average model performed best with a MAPE of 45.62[@anusha2014demand]. However, the study did not account for unexplained seasonal variations in staff, shifts in the number of potential patients, physician turnover, preferences for pharmaceuticals, and the influence of marketing representatives on surrounding clinics. These factors were not factored into the analysis, potentially affecting the accuracy of demand forecasting in the pharmaceutical retail setting. These limitations suggest that the study may not have considered all relevant variables impacting demand forecasting accuracy.
+
+Zhu et al. conducted a study comparing various forecasting methods in the pharmaceutical industry, including Moving Average (MA), Linear Regression (LR), Exponential Smoothing (ES), Exponential State Space Model (ETS), Vector Autoregressive with exogenous variables (VARX), Symbolic regression, Graph-based analysis, Artificial Neural Networks (ANN), Clustering, and Recurrent Neural Networks (RNN)[@zhu2021demand]. Additionally, machine learning algorithms such as Linear Regression (LR), Support Vector Regression (SVR), Random Forest (RF), and RNN with cross-series training were assessed.The study evaluated forecast accuracy using metrics like Normalized Mean Squared Error (NMSE), Normalized Mean Absolute Error (NMAE), and Bias. Results indicated that the cross-series training models outperformed baseline models (Moving Average, Exponential Smoothing, Linear Regression) in terms of NMSE, NMAE, and Bias. RNN models, particularly when implemented with cross-series training, showed superiority and generalizability across datasets compared to other machine learning algorithms (LR, SVR, RF), confirming the effectiveness of the proposed forecasting framework in the pharmaceutical industry.
+
+Ribeiro et al. conducted a study aimed at detecting outliers and predicting sales for a pharmaceutical distribution company. They employed the dampened Pegels method, a time-series data mining technique, to forecast future quantities of medicines to be ordered by the company[@article{ribeiro2017improving]. The accuracy of the forecasting model was evaluated using the Symmetric Mean Absolute Percentage Error (SMAPE) metric, which indicated that the Pegels method provided more accurate sales forecasts compared to the company's previous method. Furthermore, these forecasts effectively met demand, aiding in efficient stock management and ensuring customer satisfaction while minimizing inventory costs.
+
+The study by Bon and Ng at the University Health Centre aimed to enhance inventory demand forecasting for Panadol 650mg through the utilization of various forecasting techniques. Their research design encompassed both qualitative and quantitative data collection methods within a descriptive framework. Historical data spanning from January 2009 to August 2014 were analyzed employing methods like single moving average, exponential smoothing, and regression analysis. Forecast accuracy was assessed using metrics including RMSE, MSE, MAD, and MAPE to identify the most precise forecasting technique. The objective was to optimize inventory management by selecting the most accurate forecasting method based on these measurements[@bon2017optimization]. Results highlighted regression analysis as the superior technique among the ten methods tested, exhibiting the least forecasting error for optimizing Panadol 650mg inventory demand at the University Health Centre[@inproceedings{bon2017optimization].
+
+The study conducted by Newberne and MIKE focused on utilizing Holt-Winters Forecasting in Healthcare, particularly in the context of healthcare management involving Pseudoephedrine prescriptions and Upper Respiratory Infection (URI) visits [@newberne2006holt]. Data from the Military Healthcare System's M2 database were analyzed using the Holt-Winters method to demonstrate its applicability in healthcare forecasting. Forecasting accuracy was assessed using the Mean Absolute Percentage Error (MAPE) metric. The study employed various forecasting methods including Naïve, Seasonal Naïve, ARIMA, and Deep Learning Model: Long Short-Term Memory (LSTM) Recurrent Neural Network. Additionally, techniques like Simple Exponential Smoothing, Holt with linear and damped trends, Holt-Winters, ES state space model, and Theta were explored to forecast drug quantities for distribution in the Brazilian Public Health System. Among these methods, the LSTM model often exhibited the best performance based on Mean Absolute Error (MAE) as a measure of forecast accuracy. However, deep learning models like LSTM may pose challenges due to their complexity and computational intensity, requiring specialized expertise for tuning and implementation in practical settings.
+
+The study conducted by Zahra and Putra focused on using ARIMA and Single Exponential Smoothing methods to predict and calculate EOQ (Economic Order Quantity). To measure forecast accuracy, the researchers utilized RMSE, MAPE, MAD, and MSE metrics. The findings revealed that the ARIMA (1,0,0) method exhibited the smallest error values, with a MAPE of 13% and MSE of 283,715, indicating its superior accuracy compared to the Exponential Smoothing method. Based on these results, the researchers predicted a need for 222 boxes of medicine for the next period and recommended procuring 223 boxes to maintain a service level of 95%. The study underscored the significance of accurate forecasting in optimizing medicine procurement processes and ensuring adequate stock levels to efficiently meet demand. By employing MAPE and MSE as forecast accuracy metrics, the researchers could compare the performance of different forecasting methods and determine the most effective approach for predicting medicine needs in hospital settings[@zahra2019forecasting].
+
+The study conducted by Restyana et al. focused on analyzing drug forecasting within the Jombang Regency from 2017 to 2019. They employed the Single Moving Average and Single Exponential Smoothing methods to predict drug demand across 35 public health centers. The objective was to identify the method with the lowest forecasting error by assessing metrics like Mean Absolute Deviation (MAD) and Mean Square Error (MSE). By analyzing annual primary data and testing errors, the researchers aimed to evaluate the accuracy of the forecasting methods. The findings revealed that the Single Exponential Smoothing (SES) approach exhibited superior forecast accuracy, as evidenced by lower MAD and MSE values.The study by Kim et al. used Vector Autoregressive with Exogenous Variables (VARX) models for demand forecasting of medicines. Two models were constructed to test the effect of exogenous variables: Model 1, a pure autoregressive model without exogenous variables, and Model 2, the suggested VARX model incorporating topic trends from social media analysis. The study used sales data as endogenous variables and moving averages of topic trends as exogenous variables in the VARX models.The results showed that incorporating topic trends into the VARX models enhanced the performance of demand forecasting, particularly for medicines sensitive to environmental and seasonal changes. By analyzing topic trends related to certain diseases and incorporating them into VARX models, the researchers found significant improvement in forecast accuracy.Prediction error rates were used as the forecast accuracy measure, calculated for four different medicines for each model (Model 1 and Model 2). The comparison of error rates between the two models demonstrated that adding topic trends as exogenous variables in the VARX model significantly improved the accuracy of demand forecasts, highlighting the importance of integrating social media data into forecasting processes[@kim2015demand].
+
+Table 1 provides a summary of some studies in the literature on forecasting in pharmaceuticals products. We have identified several limitations in the existing literature on pharmaceutical product forecasting that have motivated us to pursue this research. These limitations can be summarized as follows:
+
+1. Almost all of the studies have primarily concentrated on point forecasts at a single level.
+2. A majority of the research has not explored longer time series data periods.
+3. Only a few studies have integrated domain knowledge with time series data to enhance pharmaceutical forecasting accuracy.
+4. Additionally, no studies have been conducted in African settings, where challenges related to forecasting and pharmaceutical availability are prevalent.
+
+Table 1. Summary of Some Studies on Forecasting in pharmaceuticals products
+
+---
+title: "Table 1. Summary of Some Studies on Forecasting in pharmaceuticals products"
+tbl-cap-location:top
+
+```{r}
+
+library(knitr)
+data <- data.frame(
+  Header1 = c("Row 1", "Row 2", "Row 3"),
+  Header2 = c("Data 1", "Data 2", "Data 3"),
+  Header3 = c("Data 1", "Data 2", "Data 3")
+)
+kable(data, format = "html")
+
+
+```
+
+
+ |                       |           |               |             |          | References       |  | Year      | Variable      |             |
+ | :-----------           |-----------| ------------- |-----------  |
+ | Siddiqui et al            |           |               |             | 
+ |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               | |
+ |            |           |               |
+ |            |           |               |         
+ |            |           |               |
+ |            |           |               |
+ |            |           |               |
+ |            |           |               |
+ |            |           |               |
+ |            |           |               |
+ |            |           |               |
+ |            |           |               |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |          
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           ||            |           |
+ | -----------|-----------|
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |          
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |          
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |           |
+ |            |
+ |            |
+ |            |
+ |            |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ 
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,258 @@
+---
+title: "Data analysis"
+format: 
+  docx:
+    toc: true
+    number-sections: true
+execute: 
+  echo: false
+  warning: false
+  message: false
+  cache: true
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(lubridate)
+library(fpp3)
+library(ggthemes)
+monthly_issues_tsibble <- read_rds("../data/monthly_issues_tsibble.rds")
+monthly_issues_tsibble <- monthly_issues_tsibble |> filter_index("2017 Aug" ~ "2022 Jun")
+
+knitr::opts_chunk$set(fig.align = 'center', out.width = "90%")
+
+monthly_issues_tsibble |> as_tibble() |> select(month) -> predictors
+
+write_csv(predictors, "../data/predictors.csv")
+getwd()
+```
+
+```{r}
+#| include: false
+items <- unique(monthly_issues_tsibble$item)
+issue_plot_monthly <- function(my_item) {
+  ggplot(data = monthly_issues_tsibble |> filter(item == my_item), mapping = aes(x = month, y = quantity_product_issued))+
+    geom_point(size=1)+
+    geom_line()+
+    theme_few()+
+    labs(title=my_item)+
+    scale_x_yearmonth(date_breaks = "2 month")+
+    theme(axis.text.x = element_text(angle=90))
+}
+
+my_plot <- list()
+for (i in (1:40)) {
+  my_plot[[i]] <- issue_plot_monthly(items[i])
+}
+```
+
+# Visualising monthly time series
+
+## Title 
+
+```{r}
+my_plot[[1]]
+```
+
+The pharmaceutical supply chain plays a critical role in ensuring the availability and timely distribution of medications and healthcare products to patients and healthcare providers worldwide. It encompasses a complex network of manufacturers, distributors, wholesalers, and pharmacies, all working together to deliver safe and effective medicines to those in need. The supply chain begins with the sourcing of raw materials and active pharmaceutical ingredients (APIs), followed by manufacturing and quality control processes. Once the products are ready, they are transported
+
+## Title
+
+```{r}
+my_plot[[2]]
+```
+
+The pharmaceutical supply chain plays a critical role in ensuring the availability and timely distribution of medications and healthcare products to patients and healthcare providers worldwide. It encompasses a complex network of manufacturers, distributors, wholesalers, and pharmacies, all working together to deliver safe and effective medicines to those in need. The supply chain begins with the sourcing of raw materials and active pharmaceutical ingredients (APIs), followed by manufacturing and quality control processes. Once the products are ready, they are transported
+
+
+```{r}
+my_plot[[3]]
+```
+
+
+```{r}
+my_plot[[4]]
+```
+
+
+```{r}
+my_plot[[5]]
+```
+
+
+```{r}
+my_plot[[6]]
+```
+
+
+
+```{r}
+my_plot[[7]]
+```
+
+
+```{r}
+my_plot[[8]]
+```
+
+
+
+```{r}
+my_plot[[9]]
+```
+
+
+```{r}
+my_plot[[10]]
+```
+
+
+
+```{r}
+my_plot[[11]]
+```
+
+
+```{r}
+my_plot[[12]]
+```
+
+
+```{r}
+my_plot[[13]]
+```
+
+
+```{r}
+my_plot[[14]]
+```
+
+
+
+```{r}
+my_plot[[15]]
+```
+
+
+```{r}
+my_plot[[16]]
+```
+
+```{r}
+my_plot[[17]]
+```
+
+
+```{r}
+my_plot[[18]]
+```
+
+
+
+```{r}
+my_plot[[19]]
+```
+
+
+```{r}
+my_plot[[20]]
+```
+
+```{r}
+my_plot[[21]]
+```
+
+
+```{r}
+my_plot[[22]]
+```
+
+```{r}
+my_plot[[23]]
+```
+
+
+```{r}
+my_plot[[24]]
+```
+
+
+
+```{r}
+my_plot[[25]]
+```
+
+
+```{r}
+my_plot[[26]]
+```
+
+
+```{r}
+my_plot[[27]]
+```
+
+
+```{r}
+my_plot[[28]]
+```
+
+```{r}
+my_plot[[29]]
+```
+
+
+```{r}
+my_plot[[30]]
+```
+
+
+
+```{r}
+my_plot[[31]]
+```
+
+
+```{r}
+my_plot[[32]]
+```
+
+```{r}
+my_plot[[33]]
+```
+
+
+```{r}
+my_plot[[34]]
+```
+
+
+```{r}
+my_plot[[35]]
+```
+
+
+```{r}
+my_plot[[36]]
+```
+
+```{r}
+my_plot[[37]]
+```
+
+
+```{r}
+my_plot[[38]]
+```
+
+
+
+```{r}
+my_plot[[39]]
+```
+
+
+```{r}
+my_plot[[40]]
+```

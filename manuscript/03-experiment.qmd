@@ -1,0 +1,205 @@
+# Experiment setup {#sec-experiment}
+
+# you need to talk about the data set 
+# some visualization 
+# make reduce to paragaphs minimize it 
+# forecast accuracy measures provid ethe formulas 
+
+
+## Data {#sec-data}
+# 2.1. Dataset
+For this study, we utilized a dataset spanning five years (2018-2022) of sales data obtained from EPSS. Rigorous checks were conducted to ensure the consistency and completeness of the collected data. From the extensive pool of pharmaceutical products within EPSS, we strategically selected a set of 37 key pharmaceuticals, encompassing various programs and representing different classes of drugs. This deliberate selection enriches the research by providing a comprehensive representation across the pharmaceutical landscape.
+We are presenting the graph for some of the pharmaceuticals sales for the last five years by using visualization for the readers to undesrtand the sales of the pharmaceuticals.
+```{r}
+#| include: false
+library(tidyverse)
+library(lubridate)
+library(fpp3)
+library(ggthemes)
+monthly_issues_tsibble <- read_rds("../data/monthly_issues_tsibble.rds")
+monthly_issues_tsibble <- monthly_issues_tsibble |> filter_index("2017 Aug" ~ "2022 Jun")
+
+knitr::opts_chunk$set(fig.align = 'center', out.width = "90%")
+
+monthly_issues_tsibble |> as_tibble() |> select(month) -> predictors
+
+write_csv(predictors, "../data/predictors.csv")
+getwd()
+```
+
+```{r}
+#| include: false
+items <- unique(monthly_issues_tsibble$item)
+issue_plot_monthly <- function(my_item) {
+  ggplot(data = monthly_issues_tsibble |> filter(item == my_item), mapping = aes(x = month, y = quantity_product_issued))+
+    geom_point(size=1)+
+    geom_line()+
+    theme_few()+
+    labs(title=my_item)+
+    scale_x_yearmonth(date_breaks = "2 month")+
+    theme(axis.text.x = element_text(angle=90))
+}
+
+my_plot <- list()
+for (i in (1:40)) {
+  my_plot[[i]] <- issue_plot_monthly(items[i])
+}
+```
+
+# Visualising monthly time series
+
+## Title 
+
+```{r}
+my_plot[[1]]
+```
+
+```{r}
+my_plot[[2]]
+```
+
+```{r}
+my_plot[[4]]
+```
+
+```{r}
+my_plot[[6]]
+```
+```{r}
+my_plot[[9]]
+```
+
+```{r}
+my_plot[[11]]
+```
+```{r}
+my_plot[[12]]
+```
+```{r}
+my_plot[[15]]
+```
+```{r}
+my_plot[[17]]
+```
+```{r}
+my_plot[[19]]
+```
+```{r}
+my_plot[[21]]
+```
+```{r}
+my_plot[[25]]
+```
+```{r}
+my_plot[[26]]
+```
+```{r}
+my_plot[[29]]
+```
+```{r}
+my_plot[[30]]
+```
+```{r}
+my_plot[[32]]
+```
+```{r}
+my_plot[[36]]
+```
+```{r}
+my_plot[[37]]
+```
+
+# 2. 2. Data Splitting and Preparation
+The primary objective of this study is to forecast pharmaceutical demand within EPSS for the year 2023. To achieve this, the historical sales data for the chosen pharmaceuticals in EPSS was partitioned into distinct training and testing subsets. Employing the widely recognized 70:30 split method, 70% of the available data was designated as the training set, while the remaining 30% was reserved for testing and validation purposes [@chan2019comparison]. As a result, the dataset was segregated into a training set consisting of 42 months and a testing set spanning 18 months
+
+# 2.3.1. Forecasting Methods
+In pursuit of accurate pharmaceutical demand forecasts, we explored a spectrum of forecasting techniques. The following methods were applied:
+
+Naive Method: A simple approach relying on the assumption that the future value will be the same as the most recent observed value.This Methods uses when there is no
+seasonality [@article{burinskiene2022forecasting; @article{nikolopoulos2016forecasting]
+Mean Method: A straightforward technique forecasting future values based on the mean of past observations.
+Seasonal Naive Method: Similar to the naive method, this approach predicts future values using the most recent observed value from the same season.
+Exponential Smoothing: A method that assigns exponentially decreasing weights to past observations to forecast future values.
+Regression: Employing statistical regression models to establish relationships between variables for prediction.
+Autoregressive Integrated Moving Average Model (ARIMA): A time series model incorporating autoregressive, differencing, and moving average components for accurate forecasting.
+ARIMA with Predictors: Extending the ARIMA model with additional predictor variables to enhance forecasting accuracy.
+Combination of Models: Exploring ensemble methods that combine multiple models for improved predictive performance.
+By applying these diverse forecasting methodologies, we aimed to comprehensively assess and compare their efficacy in predicting pharmaceutical demand within EPSS. Each method was evaluated against the testing dataset to ascertain its forecasting accuracy and suitability for the specific 
+
+## Forecasting methods {#sec-method}
+Model building
+
+# Naive 
+The naive forecast method is a simple approach that assumes future values will be the same as the most recent observed value, making it useful for stable or slowly changing time series. While it doesn't consider underlying patterns, it serves as a baseline for evaluating more advanced techniques[@hyndman2018forecasting]. It's particularly suitable for products with stable demand or limited seasonality, providing a straightforward reference for forecasting and inventory management.
+
+# Mean 
+The mean forecast method predicts future values by averaging historical data, making it suitable for stable time series. While it overlooks trends and seasonality, it serves as a baseline for evaluating advanced techniques [@hyndman2018forecasting]. Its simplicity makes it valuable in certain forecasting applications [@hyndman2018forecasting].
+
+# Seasonal naive
+
+The seasonal naive forecast method predicts future values based on the most recent observed value from the corresponding season in the previous year, making it useful for data with strong seasonal patterns. It serves as a baseline for evaluating seasonal forecasting models, capturing repetitive patterns effectively. Its simplicity and ability to capture seasonality make it valuable in seasonal forecasting applications[@hyndman2018forecasting].
+
+# Exponential smoothing
+
+Exponential Smoothing is regarded as one of the most accurate and robust methods for time series forecasting. Not only does it exhibit high accuracy, but it also offers versatility and robustness. What makes Exponential Smoothing particularly appealing is its intuitive nature, making it easy to understand and interpret. Furthermore, this method boasts minimal data storage and computational requirements, making it highly efficient for real-time applications. In the business realm, Exponential Smoothing finds extensive use for inventory demand forecasting, showcasing its practicality [@gardner1985exponential]. Surprisingly, even when pitted against more sophisticated techniques, Exponential Smoothing has demonstrated impressive performance in forecasting competitions [@makridakis2000m3,@makridakis1982accuracy]. Its simplicity and reliability make it a widely trusted approach in the field of forecasting.
+
+# Regression
+
+Regression methods play a crucial role in forecasting and optimizing the health supply chain, ensuring the availability and efficient distribution of essential medical resources. By analyzing historical data, regression models can identify patterns and relationships between variables such as patient demand, disease prevalence, and inventory levels. The basic concept is that we forecast the time series of interest assuming that it has a linear relationship with other time series. For example, we might wish to forecast monthly sales y using total advertising spend as a predictor X. Or we might forecast daily electricity y demand using temperature x1   and the day of week x2 as predictors. The forecast variable y  is sometimes also called the regress and, dependent or explained variable. The predictor variables x  are sometimes also called the regressors, independent or explanatory variables.  
+
+Simple linear regression 
+In the simplest case, the regression model allows for a linear relationship between the forecast variable y and a single predictor variable x: yt = β0 + β1xt + ε 
+Example of data from such a model is shown in Figure 5.1. The coefficients β0 and β1 denote the intercept and the slope of the line respectively. The intercept β0 represents the predicted value of  y when x=0 . The slope represents the average predicted change in y resulting from a one unit increase in x. 
+
+# Figure : An example of data from a simple linear regression model 
+
+Notice that the observations do not lie on the straight line but are scattered around it. We can think of each observation yt  as consisting of the systematic or explained part of the model, = β0 + β1xt , and the random “error”, εt. The “error” term does not imply a mistake, but a deviation from the underlying straight line model. It captures anything that may affect yt other than xt  
+
+Multiple linear regressions 
+When there are two or more predictor variables, the model is called a multiple regression model. The general form of a multiple regression model is 
+
+yt = β0 + β1x1,t + β2x2,t + ⋯ + βkxk,t + εt, (1) 
+
+where is the variable to be forecast and are the predictor variables. Each of the predictor variables must be numerical. The coefficients β1,….. βk measure the effect  of each predictor after taking into account the effects  of all the other predictors in the model. Thus, the coefficients measure the marginal effects of the predictor variables. 
+Assumptions 
+When we use a linear regression model, we are implicitly making some assumptions about the variables in Equation (1). 
+
+First, we assume that the model is a reasonable approximation to reality; that is, the relationship between the forecast variable and the predictor variables satisfies this linear equation. 
+
+Second, we make the following assumptions about the errors (ε1, … , εT ) : 
+
+they have mean zero; otherwise the forecasts will be systematically biased. 
+
+they are not autocorrelated; otherwise the forecasts will be inefficient, as 
+
+there is more information in the data that can be exploited. 
+
+they are unrelated to the predictor variables; otherwise there would be more information that should be included in the systematic part of the model. 
+
+It is also useful to have the errors being normally distributed with a constant variance σ2  in order to easily produce prediction intervals. 
+Another important assumption in the linear regression model is that each predictor x is not a random variable. If we were performing a controlled experiment in a laboratory, we could control the values of each x (so they would not be random) and observe the resulting values of y. With observational data (including most data in business and economics), it is not possible to control the 
+value of x, we simply observe it. Hence we make this an assumption. 
+
+# Auto regressive Integrated Moving Average Model (ARIMA)
+
+The Autoregressive Integrated Moving Average (ARIMA) model is a widely utilized approach for forecasting and analyzing time series data. It combines three key components: autoregression (AR), differencing (I), and moving average (MA). ARIMA models have been extensively studied and applied in various domains due to their flexibility and effectiveness in capturing both short-term and long-term dependencies in time series.Box and Jenkins (1970) [1] introduced the ARIMA model as a powerful tool for time series analysis. The authors provided a comprehensive framework for identifying, estimating, and diagnosing ARIMA models. They emphasized the importance of differencing to achieve stationarity in non-stationary time series data, allowing the model to capture trends and patterns effectively.
+
+[@chase2013demand] describes the application of the ARIMA model. It is the forecasting technique that integrates vital components of time-series and methods of regression. In 1970, George Box and Gwilym Jenkins introduced the ARIMA forecasting method, and they developed a comprehensive approach for forecasting [@chase2013demand].ARIMA (p,d,q) models gather relevant factors from the historical data by using auto-correlation between them to distinguish those slacked request verifiable qualities that best anticipate future demand; whereas p is the order of Autoregressive (AR) term, q is the order of MA term 
+
+ARIMA can demonstrate cycle and regularity, and is mainly used for mid-term aggregate forecasts and pre-sent far superior estimations than time series models or even casual models; explained by [@stadtler2014supply] explicitly considers dependent demands. Additionally, different components, for example, informative factors that impact request. It is also considered a good fit for the Mean Absolute Percentage Errors (MAPE) calculation.
+
+ARIMA model helps analyse the time series’s probabilistic properties and develop sin-gle or multi-equation models [@moritz2015comparison]. Analysing a time series data is that there is a straightforward yet extensive arrangement of useful models that can speak to numerous conceivable examples of information found in time series. For a stationary time-series, we can envision the information creating process as a weighted blend of earlier perceptions in addition to an irregular request term. Besides, identifying the ARIMA model parameters (i.e. p, q and d) is often challenging. Thereby, we use R software’s statistical package; it is widely used in the relevant literature [@bokde2016psf; @dhamo2010using]. Moreover, ‘R’ generated the best combination of p, d and q values because it estimates the value of the parameter based on AIC (Akaike Information Criterion) and BIC (Bayesian Information Criterion).
+
+
+#Performance evaluation {#sec-performance}
+
+# 2.4. Forecast accuracy measures
+To evaluate the forecast accuracy and bias, several measures including Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), Mean Absolute Scaled Error (MASE), Root Mean Squared Scaled Error (RMSSE),and Winkler are used. We only present the results for RMSSE due to the space limit of the journal and also because it is the recommended error metric in M5 competition [@makridakis2022m5].
+
+
+Point forecast accuracy is measured via the Mean Squared Scaled Error (MSSE) and the Mean Absolute Scaled Error (MASE). The Mean Absolute Scaled Error (MASE) [@book{hyndman2018forecasting,@article{hyndman2006another,] is calculated as
+```{r}
+
+```
+
+
