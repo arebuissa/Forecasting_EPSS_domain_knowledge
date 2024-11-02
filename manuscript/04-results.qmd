@@ -4,371 +4,164 @@
 #| include: false
 #| label: restults
 library(readr)
-fc_accuracy_overall__without_predictor <- read_csv("../result/fc_accuracy_overall__without_predictor.csv")
-fc_accuracy_predictor_overall <- read_csv("../result/fc_accuracy_predictor_overall.csv")
-fc_accuracy_overall <- read_csv("../result/fc_accuracy_all_item.csv")
-data_visualisation <- read.csv("../rscript/data_visualisation.R")
+point_accuracy_h <- read_rds("../result/accuracy_h.rds") |> janitor::clean_names() |> select(item, h,model,mase,rmsse)
+prob_accuracy_h <- read_rds("../result/accuracy_h.rds") |> janitor::clean_names() |> select(item, h,model,crps_skill,winkler_skill=skill,crps,winkler)
+
+point_accuracy_id <- read_rds("../result/accuracy_id.rds")|> janitor::clean_names() |> select(item, id,model,mase,rmsse)
+prob_accuracy_id <- read_rds("../result/accuracy_id.rds")|> janitor::clean_names() |> select(item, id,model,crps_skill,winkler_skill=skill,crps,winkler)
+
+point_accuracy_horizon <- read_rds("../result/point_accuracy_horizon.rds") |> select(item, h=horizon,model,mase,rmsse)
+prob_accuracy_horizon <- read_rds("../result/prob_accuracy_horizon.rds") |>  janitor::clean_names() |> select(item, h=horizon,model,crps_skill=crps_skill_score,winkler_skill=winkler_skill_score,crps,winkler=winkler_score)
+
+point_accuracy_origin <- read_rds("../result/point_accuracy_origin.rds") |> janitor::clean_names() |> select(item, id=origin,model,mase,rmsse)
+prob_accuracy_origin <- read_rds("../result/prob_accuracy_origin.rds") |> janitor::clean_names() |> select(item, id=origin,model,crps_skill=crps_skill_score,winkler_skill=winkler_skill_score,crps,winkler=winkler_score)
+
+point_accuracy_h_all <- point_accuracy_h |> bind_rows(point_accuracy_horizon |> mutate(h= as.integer(h)))
+prob_accuracy_h_all <- prob_accuracy_h |> bind_rows(prob_accuracy_horizon |> mutate(h= as.integer(h)))
+
+point_accuracy_origin_all <- point_accuracy_id |> bind_rows(point_accuracy_origin |> mutate(id= as.integer(id)))
+prob_accuracy_origin_all <- prob_accuracy_id |> bind_rows(prob_accuracy_origin |> mutate(id= as.integer(id)))
+
 ```
 
-# Results and discussion {#sec-results}
 
-```{r}
-#| include: false
-rmsse <- readr::read_rds(here::here("results/rmsse.rds")) |>
-  mutate(msse = rmsse^2)
-mase <- readr::read_rds(here::here("results/mase.rds"))
-crps <- readr::read_rds(here::here("results/crps.rds")) |>
-  pivot_wider(names_from = model, values_from = crps) |>
-  group_by(method, h, series) |>
-  mutate(across(where(is.numeric), ~ .x / naiveecdf)) |>
-  ungroup()
-```
+In this section, we compare the forecasting performance of various approaches, examining models that incorporate expert-identified business context predictors versus those that rely solely on historical consumption data. Point forecast performance is reported using MASE and MSSE, while probabilistic forecast accuracy is reported using CRPS. 
+
+The forecasting performance is reported in @fig-point, in which the average forecast accuracy over forecast horizon and across all products is calculated for each origin. we also report the ditribution of accurcy metrics  across all rollog origins, average across forecast horizon and all products. this shows how mdoels varies in roviding accuracy across different origins. further rserach would be required to understand how error analysis across forecast hrizon and across differne origins could be used as afiagnos!
+y-axis shows the models sorted based on ther values of mase and rmsse, when the one i the bottom has lowest error. this modesis TimeGpt, which is the foundational time sei models. 
 
 
-In this section, we compare the forecasting performance of the Stationary, ETS, GLM, and TSGLM models along with the ensemble, using base forecast and Minimum Trace (MinT) reconciliation methods. We have also computed the forecast accuracy for Ordinary Least Square (OLS) and Weighted Least Square (WLS) approaches, along with bottom-up forecasting. However, they are not reported here because their accuracy is outperformed by MinT. We should also note that forecasts, and consequently their corresponding errors, are generated for the entire hierarchy and they could be reported at any level, if required. But to save space, we have reported only the top level (Total), the bottom level, and the levels corresponding to Control areas and Health boards. The latters are chosen because this is where decision-making takes place, so these forecasts are the most important.
+@fig-point also indicate that predictors collected through interacting with experts with domaine knoeldge improves point forecast accuracy for all models, highlighting the essential needs to systematically colelct such information alognside the tarsactional data about consuption. 
 
-The overall forecasting performance is reported in @tbl-result, in which the average forecast accuracy over horizons 43--84 days (corresponding to the planning horizon) is presented per model, method, and the hierarchical level. Reported forecast accuracy is averaged across all forecast horizons, rolling origins, and series at each level. @tbl-result presents both point and probabilistic forecast accuracy at total, control area, health board and bottom-level series. Point forecast performance is reported using MASE and MSSE, while probabilistic forecast accuracy is reported using CRPS. The bold entries in each table identify a combination of method and model that performs best for the corresponding level (i.e. each column), based on the smallest values of accuracy measures.
-
-@tbl-result shows that forecast reconciliation (i.e. MinT) improves point forecast accuracy at the higher levels of the hierarchy including total, control area and health board. However, it does not result in accuracy improvement at the bottom-level series, for which base forecasts are more accurate. This might be due to the noisy structure of time series at the bottom level, and possibly due to very different patterns in the aggregated series. It is also clear from @tbl-result that the ensemble method improves forecast accuracy at total, control area and health board. However, this does not remain valid for bottom series where different individual methods perform best, depending on the accuracy measure. While the forecast reconciliation approach aims to enhance forecast accuracy, its effectiveness is not guaranteed, especially if the bottom-level series exhibit excessive noise and lack systematic patterns. Despite this, reconciling forecasts at the bottom level can offer advantages by generating coherent forecasts that facilitate alignment in planning across various teams within an organization, promote better coordination, and prevent conflicting decisions. Moreover, even when dealing with noisy and irregular bottom-level series, reconciliation can still improve forecast accuracy at higher levels of the hierarchy by leveraging the information available across the hierarchy. Therefore, although the bottom-level forecasts may not be highly accurate on their own, reconciling them with higher-level forecasts can still provide a more consistent view of future demand and potentially yield more accurate forecasts at other levels.
-
-```{r}
-#| label: tbl-result
-#| tbl-cap: "Average forecast performance calculated on the test sets at forecast horizons $h=43,\\dots,84$ days, with time series cross validation applied to attended incident data. The test set consists of 462 days. The best approach is highlighted in bold. Point forecast accuracy is measured using MASE and MSSE, while probabilistic forecast accuracy is measured using CRPS."
-# Set minimum in column to bold
-set_to_bold <- function(table) {
-  for (i in 3:6) {
-    best <- which.min(table[[i]])
-    table[[i]] <- sprintf(table[[i]], fmt = "%1.3f")
-    table[[i]][best] <- paste0("\\textbf{", table[[i]][best], "}")
-  }
-  return(table)
-}
-
-msse1 <- rmsse |>
-  filter(
-    method %in% c("mint", "base"),
-    model != "qcomb",
-    h > 42,
-    model != "ensemble2"
-  ) |>
-  mutate(
-    model = factor(model,
-      levels = c("naiveecdf", "ets", "iglm", "tscount", "ensemble", "ensemble2"),
-      labels = c("Stationary", "ETS", "GLM", "TSGLM", "Ensemble", "Ensemble2")
-    ),
-    method = factor(method, levels = c("base", "mint"), labels = c("Base", "MinT")),
-  ) |>
-  group_by(method, model, series) |>
-  summarise(msse = mean(msse), .groups = "drop") |>
-  pivot_wider(names_from = series, values_from = msse) |>
-  select(Method = method, Model = model, Total, `Control areas`, `Health boards`, Bottom) |>
-  set_to_bold()
-mase1 <- mase |>
-  filter(
-    method %in% c("mint", "base"),
-    model != "qcomb",
-    h > 42,
-    model != "ensemble2"
-  ) |>
-  mutate(
-    model = factor(model,
-      levels = c("naiveecdf", "ets", "iglm", "tscount", "ensemble", "ensemble2"),
-      labels = c("Stationary", "ETS", "GLM", "TSGLM", "Ensemble", "Ensemble2")
-    ),
-    method = factor(method, levels = c("base", "mint"), labels = c("Base", "MinT"))
-  ) |>
-  group_by(method, model, series) |>
-  summarise(mase = mean(mase), .groups = "drop") |>
-  pivot_wider(names_from = series, values_from = mase) |>
-  select(Method = method, Model = model, Total, `Control areas`, `Health boards`, Bottom) |>
-  set_to_bold()
-crps1 <- readr::read_rds(here::here("results/crps.rds")) |>
-  filter(
-    method %in% c("mint", "base"),
-    model != "qcomb",
-    h > 42,
-    model != "ensemble2"
-  ) |>
-  mutate(
-    model = factor(model,
-      levels = c("naiveecdf", "ets", "iglm", "tscount", "ensemble", "ensemble2"),
-      labels = c("Stationary", "ETS", "GLM", "TSGLM", "Ensemble", "Ensemble2")
-    ),
-    method = factor(method, levels = c("base", "mint"), labels = c("Base", "MinT"))
-  ) |>
-  group_by(method, model, series) |>
-  summarise(crps = mean(crps), .groups = "drop") |>
-  pivot_wider(names_from = series, values_from = crps) |>
-  select(Method = method, Model = model, Total, `Control areas`, `Health boards`, Bottom) |>
-  set_to_bold()
-bind_rows(mase1, msse1, crps1) |>
-  kable(format = "latex", booktabs = TRUE, escape = FALSE, align = "llrrrr") |>
-  pack_rows("MSSE", 1, 10) |>
-  pack_rows("MASE", 11, 20, hline_before = TRUE) |>
-  pack_rows("CRPS", 21, 30, hline_before = TRUE)
-```
-
-@tbl-result presents the accuracy of the forecast distributions measures by CRPS, which considers both forecasting reliability and interval sharpness. The smaller the value of CRPS, the better the comprehensive performance. We observe that forecast reconciliation results in forecast improvement for the total and health board level. CRPS is almost identical at the control area and botom levels. Base forecasts are slightly better at the control area level, while reconciliation is marginally accurate than base at the bottom level. The ensemble method is also more accurate for higher levels, but ETS performs well at the bottom level. @tbl-result also indicates that reconciliation using Mint  generates accurate *distributional* forecasts. The marginal improvement in the average probabilistic forecast accuracy at the bottom level might be due to the reconciliation method giving improved forecast accuracy in the tails of the forecast distribution, which are critical for managing risks.
-
-Overall, our results indicate that forecast reconciliation using the MinT method provides reliable forecasts and improves upon the base (unreconciled) forecasts at all levels except the bottom-level series. But even there, forecast reconciliation using MinT improves accuracy in the tails of the distribution.
+We observed that the LSTM model had the highest error compared to all other models. While LSTMs are powerful for capturing complex, non-linear temporal patterns, they may underperform in certain scenarios, especially when compared to simpler time series forecasting models. This underperformance can be attributed to overfitting, as LSTMs have a large number of parameters and require substantial amounts of data to generalize effectively. In contrast, simpler models like ARIMA with exogenous variables often handle straightforward trends or seasonality more effectively and may outperform LSTMs when long-term dependencies or non-linearity in the data are not significant.
 
 
 ```{r}
-#| label: fig-accuracy
-#| fig-width: 8
+#| label: fig-point
+#| fig-width: 7
 #| fig-height: 5
-#| out.width: "100%"
-#| fig-cap: "Average accuracy by week for 12 weeks using MinT reconciliation. The total number of days used to calculate the accuracy in the test set is 462. Forecasts are generateled every 42 days, therefore we use 11 samples to calculate the average accuracy. CRPS is relative to a stationary Empirical Cumulative Distribution Function (ECDF). MASE and MSSE are relative to the corresponding values for the training set."
+#| fig-cap: "Distribution of point forecast accuracy across different origins, averaged across the forecat horizon and all products. The total number of months used to calculate the accuracy in the test set is 12 months for each product. MASE and MSSE are relative to the corresponding values for the training set."
 #| fig-pos: "H"
-crps <- crps |>
-  pivot_longer(ensemble:tscount, names_to = "model", values_to = "crps")
 
-accuracy <- bind_rows(
-  rmsse |> mutate(measure = "msse", accuracy = rmsse^2),
-  mase |> mutate(measure = "mase", accuracy = mase),
-  crps |> mutate(measure = "crps", accuracy = crps),
-) |>
-  select(-rmsse, -mase, -crps)
-
-# Plot of average accuracy vs week for each method for Total
-acc_summary <- accuracy |>
-  filter(
-    series %in% c("Total", "Control areas", "Health boards"),
-    method == "mint", model != "qcomb"
-  ) |>
-  mutate(model = case_when(
-    model == "naiveecdf" ~ "Stationary",
-    model == "ets" ~ "ETS",
-    model == "tscount" ~ "TSGLM",
-    model == "iglm" ~ "GLM",
-    model == "ensemble" ~ "Ensemble",
-    model == "ensemble2" ~ "Ensemble2"
-  )) |>
-  mutate(
-    measure = factor(measure, levels = c("mase", "msse", "crps"), labels = c("MASE", "MSSE", "CRPS")),
-    series = factor(series, levels = c("Total", "Control areas", "Health boards")),
-    model = factor(model, levels = c("Stationary", "ETS", "TSGLM", "GLM", "Ensemble", "Ensemble2")),
-    week = factor(trunc((h - 1) / 7) + 1)
-  ) |>
-  group_by(week, model, measure, series) |>
-  summarise(accuracy = mean(accuracy), .groups = "drop")
-
-
-acc_summary |>
-  filter(
-    model != "Ensemble2"
-  ) |>
-  ggplot(aes(x = week, y = accuracy, group = model, col = model)) +
-  geom_line() +
-  geom_point(size = .5) +
-  facet_grid(measure ~ series, scales = "free_y") +
-  labs(y = "Average accuracy", x = "Week ahead") +
-  ggthemes::scale_color_colorblind() +
+p_mase <- point_accuracy_origin_all |> ggplot(aes(x= mase, y =  fct_reorder(model, mase)))+
+  geom_boxplot()+
+  labs(y = "Models")+
   ggthemes::theme_few()
+
+p_rmsse <- point_accuracy_origin_all |> ggplot(aes(x= rmsse, y =  fct_reorder(model, mase)))+
+  geom_boxplot()+
+  labs(y = "Models")+
+  ggthemes::theme_few()
+
+point_patch <- p_mase/p_rmsse
+
+point_patch+ggthemes::theme_few()
+
 ```
 
-In addition to the overall forecast accuracy presented in @tbl-result, we also report the point and probabilistic forecast accuracy measures for each forecast horizon in @fig-accuracy. The figure focuses on the hierarchical levels important for decision-making including total, control area, and health board; however, the accuracy could be calculated for any level. We only illustrate the results of the MinT method, given its strong performance described in @tbl-result. For illustration purposes, we report the average weekly forecast accuracy instead of the daily forecast horizon, as this reduces the visual noise in the figure. Thus, the x-axis shows horizons from week 1 ($h= 1,\dots,7$) to week 12 ($h= 78,\dots,84$). The forecast horizon from week 7 to week 12 corresponds to the upcoming planning horizon, which is used by planners and decision-makers. For both the point forecast and distributional accuracy  we can see that the ensemble approach performs best across almost all horizons, with the biggest differences at the highest levels of aggregation. It is important to highlight that, all forecasting models outperform the stationary empirical distribution that is used as a benchmark for both point and probabilistic forecasts.
 
-Despite using Poisson regression models to create count distributions of attended incidents for the base forecasts, it is important to note that the reconciled forecast distributions do not maintain a count format. In practical scenarios, there might be a need to use integer forecasts. Count forecast reconciliation is an active area of research, and it would be interesting to explore how our approach could be adapted to generate count-reconciled probabilistic forecasts in future studies. Rounding the forecasts is one possible solution to this problem. However, the impact of rounding on forecast accuracy varies depending on the level of hierarchy and the scale of the data. In situations with high volume demand, the effects of rounding may be negligible, and forecast accuracy calculations can overlook integer effects. On the other hand, in low-volume demand settings, such as forecasts at the bottom level of the hierarchy, integer (rounding) effects may have a more noticeable influence on forecast accuracy.
+```{r}
+#| label: fig-prob
+#| fig-width: 9
+#| fig-height: 3
+#| fig-cap: "Distribution of probabilistic forecast accuracy across different origins, averaged across the forecat horizon and all products. The total number of months used to calculate the accuracy in the test set is 12 months for each product."
+#| fig-pos: "H"
+
+prob_accuracy_origin_all |> ggplot(aes(x= crps, y =  fct_reorder(model, crps)))+
+  geom_boxplot()+
+  labs(y = "Models")+
+  ggthemes::theme_few()
+
+```
 
 
-## An illustration of probabilistic forecast for EMS demand
+```{r}
+#| label: fig-horizon
+#| fig-width: 11
+#| fig-height: 5
+#| fig-cap: "Average accuracy by month for 6 month. The total number of months used to calculate the accuracy in the test set is 12 for each product."
+#| fig-pos: "H"
+
+p1h <- point_accuracy_h_all |> group_by(model,h) |> summarise(mase=mean(mase) , .groups = "drop")|> filter(model != "lstm", model != "lstm_reg") |>  ggplot(aes(x = h, y = mase, colour =model))+
+  geom_point()+
+  geom_line()+
+  ggthemes::theme_few()+
+  ggthemes::scale_color_colorblind()+
+  labs(x= " Forecast horizon")+
+  theme(legend.position="none")
+
+p2h <- point_accuracy_h_all |> group_by(model,h) |> summarise(rmsse=mean(rmsse),.groups = "drop") |> filter(model != "lstm", model != "lstm_reg") |> 
+  ggplot(aes(x = h, y = rmsse, colour =model))+
+  geom_point()+
+  geom_line()+
+  ggthemes::theme_few()+
+  ggthemes::scale_color_colorblind()+
+  labs(x= " Forecast horizon")+
+  theme(legend.position="bottom")
+
+p3h <- prob_accuracy_h_all |> group_by(model,h) |> summarise(crps=mean(crps),.groups = "drop") |> filter(model != "lstm", model != "lstm_reg") |> 
+  ggplot(aes(x = h, y = crps, colour =model))+
+  geom_point()+
+  geom_line()+
+  ggthemes::theme_few()+
+  ggthemes::scale_color_colorblind()+
+  labs(x= " Forecast horizon")+
+  theme(legend.position="none") 
+
+prob_patch <- (p1h|p2h|p3h)
+prob_patch
+```
 
 
-In this section, we provide an illustrative example of a probabilistic forecast for future demand, of the total attended incidents in the SB health board. Due to the complexity of including such plots in the manuscript for the entire hierarchy and 84 days ahead, only one example is presented here. However, it is feasible to generate these plots for the entire hierarchy and for any forecast horizon if necessary.}
+@fig-prob illustrates the forecast distribution accuracy measured by the Continuous Ranked Probability Score (CRPS), which evaluates both forecasting calibration and interval sharpness. A smaller CRPS value indicates better overall performance. We observed that incorporating domain knowledge improved forecast accuracy for most models, enhancing not only point forecasts but also probabilistic forecasts. Notably, TimeGpt achieved the highest probabilistic forecast accuracy, while LSTM models had the lowest. This aligns with the findings related to point forecast accuracy, reinforcing the earlier explanations for these results.
 
-In practice, point forecasts are commonly used, but they have limitations as they ignore the uncertainty associated with the forecast. The future is inherently characterized by an irreducible level of uncertainty. Being prepared entails considering alternate courses of action. Probabilistic forecasts offer an alternative approach to anticipate future demand. Rather than providing a single value, they assign likelihoods to all possible demand outcomes, acknowledging that different numbers of attended incidents are possible, but with varying likelihoods.
+In addition to reporting the forecast accuracy presented across different rolling origins, we also report the point and probabilistic forecast accuracy measures for each forecast horizon in @fig-horizon. this is the accuracy reorted as the average across rolling origins and all products fro each given horizon. For both the point forecast and distributional accuracy  we can see that models incoporating information collected by domain experts improves compared to counterparts that that uses only the historical comsuptions. 
 
-The purpose of probabilistic forecasting, as demonstrated in @fig-forecast-density-hstep and @fig-forecast-density, is to quantify uncertainty. @fig-forecast-density-hstep depicts the forecast distribution of total incidents in one health board over a 7-day period. It also gives the point forecast as well as the 80\% and 90\% prediction intervals. @fig-forecast-density zooms in on the first day to show the histogram more clearly, illustrating the range of possible outcomes and their likelihood.
+Overall, our results indicate that forecast produces using models with infromation colelcted via the domain expert engagement provides reliable forecasts and improves upon the models relying solely on historcial consuption. 
 
-Decisions based on these forecasts could focus on the tails of the distribution: unexpectedly high demand leading to crowding and inefficiency, or unexpectedly low demand resulting in wasted resources. Such forecasts are valuable tools for decision-makers and planners, especially when dealing with low-probability, high-cost situations. Different EMS managements may have varying risk attitudes depending on resource availability, making it crucial to consider the entire distribution when making decisions. For instance, these forecasts enable management to calculate the probability of demand exceeding a certain threshold of available resources (e.g., 90\%), which can serve as an informative early warning measure for overcrowding.
 
-It is important to note that while point forecasts and prediction intervals can be obtained from the probabilistic forecasts, the reverse is not possible. A single number cannot be used to directly derive a probabilistic forecast. Prediction intervals, although helpful in indicating possible ranges, do not provide information on the probabilities of low or high demand.
+Our analysis highlights the value of using foundational time series forecasting models like TimeGpt, particularly in developing countries and the global health and humanitarian sectors. In these contexts, the lack of advanced analytical skills and systematic data collection can hinder effective forecasting and decision-making. 
 
-In EMS planning, future demand is just one aspect to consider. Other inputs, such as capacity, should also be treated as probability distributions to adopt a probabilistic approach to planning. To extract valuable insights and make informed decisions from probabilistic forecasts, specialized numerical tools are required, as the forecasts themselves are typically represented as explicit probability density functions or Monte Carlo generators.
+The findings also emphasize the importance of incorporating relevant domain knowledge into forecasting models. In pharmaceutical supply logistics administration systems, data often consists solely of transactional records on consumption and distribution. Including exogenous variables such as administrative procedures, seasonal patterns, or conflicts, or any other relevant factor that could be identified by those with domain knowledge proved essential for reducing forecast errors. This approach improved both point and probabilistic forecast accuracy, enabling a more confident assessment of uncertainty. Therefore, the systematic collection of information about significant events and their impact on consumption is vital. Recording details of events such as policy changes, administration procedures, conflicts, and incorporating this information into forecasting models creates a comprehensive understanding of consumption. This practice enhances modeling reliability and allows institutions in developing countries and humanitarian organizations to better forecast demand, allocate resources effectively, and respond proactively. Establishing robust data collection systems is thus a critical step for strengthening forecasting capabilities and operational resilience.
+
+## An illustration of probabilistic forecast for Pharmacuitical product consumption
+
+In this section, we present an illustrative example of a probabilistic forecast for future consumption of _Sodium Chloride (Normal Saline)_ product. Due to the complexity of including such visualizations for all products, only one example is shown here. However, it is feasible to generate these plots for all products if needed.
+
+In practice, point forecasts are commonly used despite their limitations, but they do not account for the inherent uncertainty associated with forecasts. The future is inherently uncertain, and effective planning requires considering alternative scenarios. Probabilistic forecasts offer a comprehensive approach by assigning likelihoods to a range of possible outcomes, recognizing that different consumption levels may occur with varying probabilities. The primary purpose of probabilistic forecasting, as illustrated in @fig-forecast-density-hstep, is to quantify and communicate uncertainty. This figure displays the forecast distribution of consumption over a 6-month horizon using a density plot. For each month within the forecast period, a separate distribution is generated. The plot also includes the point forecast alongside 80% and 90% prediction intervals to illustrate potential variability.
+
+It is important to note that while point forecasts and prediction intervals can be derived from probabilistic forecasts, the reverse is not true. A single-point forecast cannot inherently provide the probabilistic context needed to capture the range of possible outcomes. Although prediction intervals can indicate a range of potential values, they do not convey the detailed probabilities of low or high consumption. This distinction highlights the value of probabilistic forecasting in supporting informed decision-making by offering a clearer view of future uncertainties.
 
 
 ```{r}
 #| label: fig-forecast-density-hstep
-#| out.width: "80%"
-#| fig-cap: "A graphical illustration of the forecast distribution of ambulance demand (i.e. total incidence attended) for the SB health board for a horizon of seven days. For each day, we display the point forecast (black point), the histogram, and 80% (thick line) and 90% (thin line) prediction intervals. It also shows a portion of a historical time series as well as its fitted values."
+#| fig-width: 9
+#| fig-height: 4
+#| fig-cap: "A graphical illustration of the forecast distribution of a pharmacutical product (i.e. total incidence attended) for the SB health board for a horizon of six month. For each month, we display the point forecast (black point), the histogram, and 80% (thick line) and 90% (thin line) prediction intervals. It also shows a portion of a historical time series as well as its fitted values."
 #| fig-pos: "H"
-incident_gthf <- readr::read_rds(here::here("data/incidents_gt.rds"))
 
-incident_cv <- incident_gthf |> filter(lhb == "SB", is_aggregated(category), is_aggregated(nature))
-fit <- incident_cv %>%
-  model(
-    ets = ETS(sqrt(incident))
-  )
-set.seed(2023)
-fcst <- fit %>% generate(h = 7, times = 5000, bootstrap = TRUE)
+amoxicillin <- med_qty |> filter(item == "Sodium Chloride (Normal Saline)") |> select(month,quantity) |> 
+  as_tsibble(index = month)
 
+
+fit <- amoxicillin |> filter_index(. ~ "2022 Jan") |>
+  model(ets = ARIMA(quantity))
+
+fcst <- fit |> forecast(h = 6)
 fitted_ets <- fit |> augment()
-fcst_point <- fcst |> index_by(date) |> summarise(.mean=mean(.sim))
-p1 <- ggplot(data = fcst, mapping = aes(x = date, y = .sim))+
-  stat_histinterval(point_interval = "mean_qi",.width = c(0.80, 0.95),breaks=15)+
-  geom_line(data=fcst_point,aes(y=.mean, shape ="Point Forecast"))+
-  geom_line(aes(y = .fitted, shape ="Fitted"), data = filter_index(fitted_ets, "2019-07-17" ~ .))+
-  geom_point(aes(y = .fitted, shape ="Fitted"), data = filter_index(fitted_ets, "2019-07-17" ~ .))+
-  geom_line(aes(y = incident, shape ="Actual"),data = filter_index(incident_cv, "2019-07-17" ~ .))+
-  geom_point(aes(y = incident, shape ="Actual"),data = filter_index(incident_cv, "2019-07-17" ~ .))+
-  scale_shape_manual(name=NULL,
-                   breaks=c('Actual','Fitted','Point Forecast'),
-                   values=c('Actual'=17,'Fitted'=15, 'Point Forecast'=19))+
-  labs(x= "Date", y="Incidents")+
-  theme_few()+
-  theme(legend.position = "top")
-p1
-```
 
-```{r}
-#| label: fig-forecast-density
-#| out.width: 80%
-#| fig-cap: "An illustrative example of the forecast distribution of ambulance demand (i.e. total incidence attended) for the SB health board for one day ahead. This corresponds to the first forecast distribution in Figure 5. The horizontal axis shows all possible outcomes that may occur, with their likelihood shown on the vertical axis. The point in the middle shows the point forecast. Two lines at the bottom of the distribution highlights 80% (thick line) and 90% (thin line) prediction intervals."
-#| fig-pos: "H"
-
-fcst1 <- fcst %>% filter_index("2019-08-01")
-
-p2 <- ggplot(data = fcst1, mapping = aes(x = .sim))+
-  stat_histinterval(point_interval = "mean_qi",.width = c(0.80, 0.95),breaks=40)+
-  scale_x_continuous(breaks = seq(60, 140, 5))+
-  scale_y_continuous(labels = percent)+
-  labs(y = "Density", x = "Incidents")+
-  theme_few()
-p2
+ggplot(data = fcst, mapping = aes(x = month, ydist = quantity))+
+  ggdist::stat_halfeye(alpha = .4)+
+  geom_line(aes(y=.mean, colour ="Point Forecast"))+
+  geom_line(aes(y = .fitted, colour ="Fitted"), data = filter_index(fitted_ets, "2021 Jan" ~ .))+
+  geom_point(aes(y = .fitted, colour ="Fitted"), data = filter_index(fitted_ets, "2021 Jan" ~ .))+
+  geom_line(aes(y = quantity, colour ="Actual"),data = filter_index(amoxicillin, "2021 Jan" ~ .))+
+  geom_point(aes(y = quantity, colour ="Actual"),data = filter_index(amoxicillin, "2021 Jan" ~ .))+
+  scale_color_manual(name=NULL,
+                     breaks=c('Fitted', 'Actual',"Point Forecast"),
+                     values=c('Fitted'='#E69F00', 'Actual'='#0072B2',"Point Forecast"="#000000"))+
+  ggthemes::theme_few()
 ```
 
 
 
-from the total of 37 key pharmaceuticals selected and tested with the  different forecasting models arima showed that a better forecast accuracy for most of the pharmaceuticals followed by mean and  regresstion models with RMSSE value of 0.850, 0.942 and 0.945 respectively (Table 1).
-
-```{r}
-# library(kableExtra)
-# library(dplyr)  # Load the dplyr package
-# fc_accuracy_cleaned <- na.omit(fc_accuracy_overall__without_predictor)
-# fc_accuracy_table <- fc_accuracy_cleaned %>%
-#   dplyr::select(.model, RMSE, MAE, MASE, RMSSE, winkler, CRPS)  # Explicitly specify dplyr::select
-# kbl(fc_accuracy_table, booktabs = TRUE, escape = FALSE) %>%
-#   kable_styling(latex_options = c("hold_position"), full_width = FALSE)
-```
-
-
-Then we tested the models by adding different predictors which affects the sales of the pharmaceuticals like physical count, budget release and budget closure by the government, COVID 19, campaign in to the models as predictors which will affects the sales of the key pharmaceuticals products and the result showed that still arima have a better forecast accuracy with RMSSE of 0.850 (Table 2). 
-
-```{r}
-# #| label: result3
-# #| tbl-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
-# fc_accuracy_predictor_overall %>% 
-#   kbl(booktabs = TRUE, escape = FALSE) |>
-#   kable_styling(latex_options = c("hold_position"),full_width = F)
-```
-
-
-```{r}
-# #| label: result2
-# #| fig-cap: "forecast accuarcy of selected pharmaceuticals in EPSS 2018-2022 after considering predictors"
-# library(ggplot2)  # Load the ggplot2 package
-# library(forcats)  # Load the forcats package
-# fc_accuracy_overall %>%
-#   select(`.model`, item, RMSSE) %>% 
-#   ggplot(mapping = aes(x = RMSSE, y = fct_reorder(`.model`, RMSSE, .fun = median))) +
-#   geom_boxplot()
-```
-
-
-Individual item with different forecasting models 
-We tested 10 models namely arima, arima with predictor, combination, exponential smoothing, mean, naive, regression, regression with predictor, snaive and stlf. Individually on the selected key pharmaceuticals and the result indicated that 11 (32.43%) of the selected pharmaceuticals have better forecast accuracy for arima predictor models, followed by naive 6 (16.21%), mean, regresstion, arima, and STLF methods each of them with 3 (8.10%) (Fig 2)
-
-```{r}
-# Sample data (replace with your actual data)
-# pharmaceuticals <- c("ARIMA Predictor", "Naive", "Mean", "Regression", "ARIMA", "STLF")
-# accuracy_percentages <- c(32.43, 16.21, 8.10, 8.10, 8.10, 8.10)
-# 
-# # Create a data frame
-# data <- data.frame(Pharmaceuticals = pharmaceuticals, Accuracy_Percentage = accuracy_percentages)
-# # Create a bar chart
-# library(ggplot2)
-# 
-# ggplot(data, aes(x = reorder(Pharmaceuticals, -Accuracy_Percentage), y = Accuracy_Percentage)) +
-#   geom_bar(stat = "identity", fill = "blue") +
-#   labs(x = "Pharmaceutical Forecasting Models", y = "Accuracy Percentage") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-```
-
-
-Those pharmaceuticals who had a better forecast accuracy with Arima predictors are Amoxacillin 500mg capsule, Anti RhD, Artehmether + Lumefantrine, Atenolol, Atrovastatin 200mg, Ferrosu sulphate with follic acid, frusemide injection, Insuline Iosphane bipahsic, Lamivudine +Efaverienze + Tenofovir, Lidocaine + HCL and Propyl thiro uracil.The  six pharmaceuticasl which showed a better forecast accuracy with naive models were Ciprofloxacillin 500mg tablet, Magnesoum sulphate injection, Omeprazole capsule, Omeprazole injection, Rapid diagnostic test, Sulphamethaxone + Trimetoprine tablet.
-
-
-
-Discussion:
-  
-The objective of this study was to evaluate the forecasting accuracy of different 
-models for key selected pharmaceutical products from the Ethiopian Pharmaceutical 
-Supply Services (EPSS). The analysis encompassed a total of 37 key pharmaceutical 
-products, and the results highlight the performance of various forecasting models in 
-predicting sales for these products. In the initial assessment of forecasting models, 
-the ARIMA model emerged as the most accurate for the majority of the pharmaceutical 
-products, exhibiting a Root Mean Squared Scaled Error (RMSSE) value of 0.850. This 
-finding suggests that ARIMA has a strong predictive capability and outperforms other 
-models, including the mean and regression models. The superiority of the ARIMA models 
-over the Moving Average might be explained by  most of the data set have seasonal 
-patern and MA  is one of the simplest prediction techniques for making projections 
-about time-series without a noticeable seasonal pattern [@chopra2001supply].The 
-superiority of the ARIMA model underscores its suitability for pharmaceutical sales 
-forecasting within the context of EPSS. Similar findings were reported in forecasting 
-ethanol demand in India where ARIMA model outperforms other models like linear and 
-non-linear regression models [@dey2023forecasting].
-
-
-To enhance the predictive power of the models, additional predictors were incorporated 
-into the analysis. Predictors such as physical count, budget release and closure by the government, the impact of COVID-19, and promotional campaigns were considered as 
-potential drivers of pharmaceutical sales. Despite the inclusion of these predictors, 
-the ARIMA model maintained its superior forecasting accuracy with an RMSSE of 0.850. 
-This resilience further validates the robustness of the ARIMA model and its ability to 
-capture complex interactions between variables influencing pharmaceutical sales.
-
-
-To delve deeper into the individual performance of the forecasting models, a 
-comprehensive evaluation was conducted on each of the 37 pharmaceutical products. Among the ten models tested, ARIMA with predictors exhibited the highest forecast accuracy 
-for 32.43% of the products. This was followed by the naive model, which performed well 
-for 16.21% of the products. Notably, a few pharmaceuticals demonstrated a strong fit 
-with specific models. For instance, Amoxicillin 500mg capsule, Anti RhD, Artehmether + 
-Lumefantrine, and others exhibited superior forecast accuracy when utilizing the ARIMA 
-model with predictors.
-
-
-Similarly, other pharmaceuticals displayed better forecasting outcomes with alternative models. Notably, Ciprofloxacin 
-500mg tablet, Magnesium sulfate injection, Omeprazole capsule, and others showed 
-improved accuracy with the naive model. These findings underscore the importance of 
-tailoring the choice of forecasting model based on the characteristics and 
-dynamics of individual pharmaceutical products.This finding confirmed that There is not
-a single best technique to solve 
-time-series forecasting problems [@zhang2007quarterly]. In order to deal with 
-time-series forecasting, each problem might be solved with a different approach [@ensafi2022time].
-
-
-In conclusion, this study highlights the pivotal role of accurate forecasting in the 
-pharmaceutical supply chain management. The ARIMA model, particularly when integrated 
-with relevant predictors, emerges as a powerful tool for 
-predicting pharmaceutical sales within the EPSS. However, the selection of the most 
-appropriate model should consider the specific attributes of each pharmaceutical 
-product. Further research could explore the optimization of model parameters and the 
-incorporation of additional contextual variables to enhance forecasting accuracy and 
-supply chain efficiency.
-
-Limitation
-
-One notable limitation of this study revolves around the availability and quality of 
-the data used for analysis. While we employed a comprehensive dataset from the EPSS, it is essential to acknowledge that the accuracy of forecasting models is heavily 
-contingent on the quality, granularity, and completeness of historical sales data. 
-Variations in data recording practices, potential errors, missing values, or 
-inconsistencies within the dataset could impact the precision of the forecasts 
-generated by the employed models. Moreover, the inherent complexity of pharmaceutical 
-demand, influenced by a myriad of external factors such as socioeconomic changes,stock 
-outs, prolonged procurement lead time, rationing of avaiable products, pushing of 
-pharmaceuticals to different health facility without demand, healthcare policies, and 
-unforeseen events, may introduce an additional layer of uncertainty. It is important to recognize that despite our best efforts to address data-related challenges, the 
-robustness and reliability of our forecasting outcomes may still be subject to the 
-limitations inherent in the original data.

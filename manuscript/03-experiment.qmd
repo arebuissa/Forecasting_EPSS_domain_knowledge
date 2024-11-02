@@ -3,95 +3,132 @@
 
 ## Data {#sec-data}
 
-For this study, we use a dataset spanning five years (Dec. 2017- July 2022) of consumption data obtained from EPSS. Rigorous checks were conducted to ensure the consistency and completeness of the collected data. From the extensive pool of pharmaceutical products within EPSS, we strategically selected a set of 33 key pharmaceuticals, encompassing various programs and representing different classes of drugs. This deliberate selection enriches the research by providing a comprehensive representation across the pharmaceutical landscape.
-
-We are presenting the graph for some of the pharmaceuticals sales for the last five years by using visualization for the readers to undesrtand the sales of the pharmaceuticals.
+For this study, we use a dataset spanning five years (Dec. 2017- July 2022) of consumption data obtained from EPSS. Rigorous checks were conducted to ensure the consistency and completeness of the collected data. From the extensive pool of pharmaceutical products within EPSS, we selected a set of 33 key pharmaceuticals, including various programs and representing different classes of drugs. 
 
 ### Explaoratory Data Analysis with consumption data
 
-Given the number of produts in this study, we created several data plot and computed features of the time series, including the strength of trend and seasonality to better understadn data. @fig-feature shows the strength of trend versus seasonality. Each point represents one time series with the strength of trend in x-axis and the strength of seasonality in y-axis. Both measures are on a scale of [0,1]. the strength of trend and seasonality were calculated using the "STL" (Seasonal and Trend decomposition using Loess) decomposition method, as described by @mstl.
+Given the number of products in this study, we created several data plot and computed features of the time series, including the strength of trend and seasonality to better understadn data. @fig-feature shows the strength of trend versus seasonality. Each point represents one time series with the strength of trend in x-axis and the strength of seasonality in y-axis. Both measures are on a scale of [0,1]. the strength of trend and seasonality were calculated using the "STL" (Seasonal and Trend decomposition using Loess) decomposition method, as described by @mstl.
 
 
 ```{r}
 #| label: fig-feature
 #| cache: true
-#| out.width: "70%"
+#| out.width: "60%"
 #| fig.align: center
 #| fig-cap: "The strength of the trend and seasonality in the time series of pharmaceutical product consumption. The scatter plot shows 33 data points, with each point corresponding to a product."
-read_csv('data/predicotrs_final_tssible_July_04_2024.csv') |> 
-  janitor::clean_names()
+
+med_qty <- read_csv("../data/predicotrs_final_tssible_July_04_2024.csv") |> 
+  janitor::clean_names() |> mutate(month = yearmonth(month))
+
 med_qty_tsb <- med_qty |> 
-  mutate(month = yearmonth(month)) |> 
   as_tsibble(index = month, key = item)
 
 med_qty_tsb %>%
   features(quantity, feat_stl) %>%
-  ggplot(aes(x = trend_strength, y = seasonal_strength_week)) +
+  ggplot(aes(x = trend_strength, y = seasonal_strength_year)) +
   geom_point(alpha = 0.25) +
-  labs(x = "Strength of trend", y = "Strength of weekly seasonality")
+  labs(x = "Strength of trend", y = "Strength of seasonality")+
+  ggthemes::theme_few()
 ```
 
 
-It is clear that there are some series showing strong trends and/or seasonality, corresponding to series at the higher levels of the hierarchy. The majority of series show low trend and seasonality. These are time series belonging to the bottom series, series related to the nature of incidents for a given control, health board and priority level. Bottom series are dominated by noise with little or no systematic patterns.
-
-In addition to displaying the strength of trend and seasonality, we also visualize all time series, revealing various patterns such as trends, seasonality, and instances of consumption with chaotic behavior during certain months. For instance, some series exhibit both seasonality and trend, while others show a low volume of attended incidents and higher entropy, making them more volatile and challenging to forecast. At the incident level, combined with categories from other levels, many series contain zeros or low counts. This highlights the diversity of daily time series patterns in the data set. Figure @fig-dataviz2 illustrates the time plots for a few selected products.
+It is evident that some time series display strong trends and/or seasonality, while the majority exhibit low trends and minimal seasonality. A number of products show pronounced trends, and only a few demonstrate clear seasonal patterns. Beyond assessing the strength of trends and seasonality, we also visualized all time series to understand data and various patterns, including trends and instances of erratic consumption behavior during certain months. For example, some series show low consumption volumes over consecutive months, followed by peak consumption in specific months, making them more volatile and difficult to forecast. This underscores the diversity of monthly pharmaceutical time series patterns within the dataset and highlights the importance of understanding the factors driving these consumption behaviors. Figure @fig-dataviz2 illustrates the time plots for a few selected products.
 
 ```{r}
 #| label: fig-dataviz2
 #| cache: true
 #| dependson: "fig-feature"
-#| out.width: "100%"
-#| fig-width: 8
-#| fig-height: 10
+#| fig-width: 11
+#| fig-height: 6
 #| fig-cap: "Monthly time plot of consumption. X-axis shows the month, consisting of 60 data points (months) and y-axis shows the comsumption. The panels display data from four products to give a glimpse of the consumption patterns."
 
-(my_plot[[1]] | my_plot[[1]]) /
-(my_plot[[1]] | my_plot[[1]])
+p1 <- ggplot(med_qty |> filter(item == "Oxytocin") |> select(-item), 
+       aes(x=month, y=quantity))+
+  geom_point()+
+  geom_line(aes(group =1))+
+  scale_x_yearmonth(date_breaks = "4 month")+
+  labs(x = "Month", y = "Consumption", title = "Oxytocin")+
+  ggthemes::theme_few()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
+p2 <- ggplot(med_qty |> filter(item == "Amoxicillin - 500mg - Capsule") |> select(-item), 
+       aes(x=month, y=quantity))+
+  geom_point()+
+  geom_line(aes(group =1))+
+  scale_x_yearmonth(date_breaks = "4 month")+
+    labs(x = "Month", y = "Consumption",title = "Amoxicillin - 500mg - Capsule")+
+  ggthemes::theme_few()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+p3 <- ggplot(med_qty |> filter(item == "Ceftriaxone") |> select(-item), 
+       aes(x=month, y=quantity))+
+  geom_point()+
+  geom_line(aes(group =1))+
+  scale_x_yearmonth(date_breaks = "4 month")+
+    labs(x = "Month", y = "Consumption",title = "Ceftriaxone")+
+  ggthemes::theme_few()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+p4 <- ggplot(med_qty |> filter(item == "Atenolol - 50mg - Tablet") |> select(-item), 
+       aes(x=month, y=quantity))+
+  geom_point()+
+  geom_line(aes(group =1))+
+  scale_x_yearmonth(date_breaks = "4 month")+
+    labs(x = "Month", y = "Consumption", title = "Atenolol - 50mg - Tablet")+
+  ggthemes::theme_few()+
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+patch <- (p1 | p2) /
+(p3 | p4) 
+patch+ggthemes::theme_few()
 ```
 
 Visualizing the data revealed that various events significantly impacted the consumption of different products, but these were not reflected in the available data. Expert insights were crucial for understanding the nature and timing of these events, filling gaps in the system, and incorporating qualitative factors that EPSS logistics system miss. Therefore, we conducted interviews with domain experts to collect information on external factors that influence consumption. These interviews allowed us to account for unusual patterns and customize our forecasting models to more accurately reflect the unique consumption behaviors of each product.
 
 
-### Domain knowledge colelction though interview with EPSS experts
+### Collaborative expert review to identify factors affecting consumption
 
-To gather domain knowledge, we contacted experts from the Ethiopian Pharmaceuticals Supply Service (EPSS) who work in the distribution unit. Five experts with over 10 years of experience in managing the distribution of the pharmaceuticals in EPSS agreed to participate. The researchers, along with these experts, examined the electronic bin cards of selected pharmaceuticals. A bin card is a physical or electronic record used to track the inventory levels of individual items in a storage location, such as a warehouse or stockroom. The term 'bin' refers to the specific storage location for an item. Information typically recorded on a bin card includes the Item ID, unit of measure, product description, account details, date, references, beginning balance, manufacturer, batch number, expiry date, quantity received, quantity issued, and balance. In summary, a bin card is a fundamental tool in inventory management, especially in environments where physical stock tracking is essential. It provides a straightforward and immediate way to monitor item quantities, helping to ensure effective inventory management.
+To understand the external factors influencing product consumption, we began by visualizing the time series data for consumption as highlighted in the previous section. This initial step helped identify specific instances within the data that showed unusual patterns, such as peaks, unusually high or low observations, and consecutive periods of low consumption. These observations indicated potential events or factors affecting consumption levels. 
 
+To gather domain knowledge about factors affected the consumption of products, we contacted experts from the Ethiopian Pharmaceuticals Supply Service (EPSS) who work in the distribution unit. Next, we collaborated with six experts from the Ethiopian Pharmaceuticals Supply Service (EPSS), each with over 10 years of experience managing pharmaceutical distribution. In these sessions, we reviewed the time series of all products together to understand the potential drivers behind these anomalies. The experts provided insights based on their extensive experience and knowledge of distribution practices. When there was uncertainty or gaps in the data for certain products, additional experts were consulted to gather further context. If all experts reached a consensus, the influencing factors were confirmed and included in the analysis. 
 
-We meticulously traced sales data for the past five years, triangulating graphs with bin card records to identify predictors influencing demand for each product. The expert uses their domain knowledge and experience to identify about the distribution charachterstics of the specific products and sometimes when they assume that they do not have enough history or do not remember about that specific products they call to other experts who remember specific issues and decide whetrere the specific predictos affect the distribution and if all of them agree the include it as predcitors. The data collection process took more than a month. We downloaded and analyzed over 100 bin cards per product. Dates on the bin cards were converted from the Ethiopian calendar to the Gregorian calendar for accuracy. Transactions due to storage or warehouse changes within EPSS were excluded. After cleaning the data,and discussing with the experts  we identified the following key predictors affecting distribution and sales: stock replenishment, stock outs, COVID-19, fiscal year counting, conflict, and malaria seasonality.
+As part of this process, we examined the electronic bin cards for 33 pharmaceutical products and conducted detailed data exploration. A bin card is a physical or electronic record used to track the inventory levels of individual items in a storage location, such as a warehouse or stockroom. The term 'bin' refers to the specific storage location for an item. Information typically recorded on a bin card includes the Item ID, unit of measure, product description, account details, date, references, beginning balance, manufacturer, batch number, expiry date, quantity received, quantity issued, and balance. In summary, a bin card is a fundamental tool in inventory management, especially in environments where physical stock tracking is essential. It provides a straightforward and immediate way to monitor item quantities, helping to ensure effective inventory management. Over a period of two weeks, we meticulously traced consumption data through these bin cards. Moreover, We ensured accuracy by converting dates from the Ethiopian calendar to the Gregorian calendar and excluded transactions related to internal storage or warehouse relocation within EPSS. Through this collaborative approach, we were able to identify several predictors affecting distribution and consumption that are summarised as followings:
 
+- Stock replenishment:  refers to the process of restocking or refilling inventory to ensure that there are sufficient quantities of products or materials available to meet demand. Whenever there was stock replenishment at the central EPSS, consumption and distribution to hubs and health facilities increased. This increase was attributed to the need to restock depleted inventories and the push from central EPSS to manage space constraints. 
 
-- Stock replenishment:  refers to the process of restocking or refilling inventory to ensure that there are sufficient quantities of products or materials available to meet demand. Whenever there was stock replenishment at the central EPSS, sales and distribution to hubs and health facilities increased. This increase was attributed to the need to restock depleted inventories and the push from central EPSS to manage space constraints. 
+<!-- - Stockouts:  occur when an inventory item is completely depleted, meaning there is no available stock to meet demand. This can happen when demand exceeds the available supply, or when there is a delay or failure in the replenishment process. Resulted in no transactions and a decline in consumption.  -->
 
-- Stockouts:  occur when an inventory item is completely depleted, meaning there is no available stock to meet demand. This can happen when demand exceeds the available supply, or when there is a delay or failure in the replenishment process. Resulted in no transactions and a decline in sales. 
+<!-- - COVID-19: COVID-19, caused by the SARS-CoV-2 virus, had a profound impact on Ethiopia's pharmaceutical supply chain. The pandemic disrupted global manufacturing and supply, leading to shortages of essential medicines and raw materials, Ethiopia, like many other countries, relies heavily on imported pharmaceutical products. With the pandemic causing lockdowns and restrictions in manufacturing hubs like India and China, the supply of essential medicines and raw materials to Ethiopia was significantly disrupted. The impact of COVID-19 on consumption was significant. After the announcement of COVID-19 in Ethiopia, the central EPSS pushed a six-month supply of products to hubs to prevent stock outs. This push was from March to August 2020. During this period, if products were not stocked out, consumption continued to hubs and health facilities. -->
 
-- COVID-19: COVID-19, caused by the SARS-CoV-2 virus, had a profound impact on Ethiopia's pharmaceutical supply chain. The pandemic disrupted global manufacturing and supply, leading to shortages of essential medicines and raw materials, Ethiopia, like many other countries, relies heavily on imported pharmaceutical products. With the pandemic causing lockdowns and restrictions in manufacturing hubs like India and China, the supply of essential medicines and raw materials to Ethiopia was significantly disrupted. The impact of COVID-19 on sales was significant. After the announcement of COVID-19 in Ethiopia, the central EPSS pushed a six-month supply of products to hubs to prevent stock outs. This push was from March to August 2020. During this period, if products were not stocked out, sales continued to hubs and health facilities.
+- Physical fiscal year inventory counting: refers to the process of manually counting and verifying the actual quantities of pharmaceutical products available in stock at a specific location. The process is critical for maintaining the accuracy of inventory records, ensuring that medicines are available when needed, and preventing stockouts or overstocking.  Physical inventory counting periods also influenced consumption. Stores closed during these periods, halting transactions. We observed increased consumption before inventory counting periods, as hubs and facilities stocked up. July and August were identified as physical counting periods each year.
 
-- Physical inventory: refers to the process of manually counting and verifying the actual quantities of pharmaceutical products available in stock at a specific location. The process is critical for maintaining the accuracy of inventory records, ensuring that medicines are available when needed, and preventing stockouts or overstocking.  Physical inventory counting periods also influenced sales. Stores closed during these periods, halting transactions. We observed increased sales before inventory counting periods, as hubs and facilities stocked up. July and August were identified as physical counting periods each year.
+- Internal displacement: Occurs when people are forced to flee their homes but remain within their country's borders, typically due to conflicts, violence, or natural disasters. Conflicts, whether ethnic, political, or resource-driven, can lead to widespread instability, forcing large populations to move and creating humanitarian crises. Conflicts often lead to the destruction of infrastructure, including roads, bridges, and warehouses, making it difficult to transport pharmaceutical products to affected areas. This disruption can cause significant delays or prevent the delivery of essential medicines altogether. Internal displacements and conflicts in Ethiopia over the past five years also affected consumption and distribution. We traced periods of instability and included them as predictors. The identified conflict periods were September 2017 to March 2018, February 2019 to June 2019, and November 2020 to July 2022. 
 
-- Internal displacement: Occurs when people are forced to flee their homes but remain within their country's borders, typically due to conflicts, violence, or natural disasters. Conflicts, whether ethnic, political, or resource-driven, can lead to widespread instability, forcing large populations to move and creating humanitarian crises. Conflicts often lead to the destruction of infrastructure, including roads, bridges, and warehouses, making it difficult to transport pharmaceutical products to affected areas. This disruption can cause significant delays or prevent the delivery of essential medicines altogether. Internal displacements and conflicts in Ethiopia over the past five years also affected sales and distribution. We traced periods of instability and included them as predictors. The identified conflict periods were September 2017 to March 2018, February 2019 to June 2019, and November 2020 to July 2022. 
+- Malaria seasonality: Refers to the predictable patterns and fluctuations in malaria incidence throughout the year, typically influenced by climate and environmental conditions. In many regions, malaria transmission peaks during and shortly after the rainy season, when conditions such as stagnant water pools create ideal breeding sites for the Anopheles mosquitoes that transmit the disease. Conversely, malaria cases often decline during the dry season when mosquito breeding sites are reduced. During peak malaria seasons, there is a significant surge in the demand for antimalarial drugs and other related treatments. Malaria seasonality was another significant predictor. Certain pharmaceuticals, like Artemether + Lumefanthrine and Rapid Diagnostic Test kits, were affected by malaria outbreaks. We identified epidemic periods affecting consumption: September to December 2017, March to May 2018, September to December 2018, March to May 2019, September to December 2019, March to May 2020, September to December 2020, March to May 2021, September to December 2021, and March to May 2022.
 
-- Malaria seasonality: Refers to the predictable patterns and fluctuations in malaria incidence throughout the year, typically influenced by climate and environmental conditions. In many regions, malaria transmission peaks during and shortly after the rainy season, when conditions such as stagnant water pools create ideal breeding sites for the Anopheles mosquitoes that transmit the disease. Conversely, malaria cases often decline during the dry season when mosquito breeding sites are reduced. During peak malaria seasons, there is a significant surge in the demand for antimalarial drugs and other related treatments. Malaria seasonality was another significant predictor. Certain pharmaceuticals, like Artemether + Lumefanthrine and Rapid Diagnostic Test kits, were affected by malaria outbreaks. We identified epidemic periods affecting sales: September to December 2017, March to May 2018, September to December 2018, March to May 2019, September to December 2019, March to May 2020, September to December 2020, March to May 2021, September to December 2021, and March to May 2022.
-
-
+The key predictors identified are deterministic values, since both past and future values of these predictors are known in advance. We then integrated them into the consumption data, creating the complete dataset required for model building and running the experiment.
 
 ## Forecasting models
 
-**Multiple Linear Regression (MLR)**:
+We evaluate a range of univariate models and their counterparts that include predictors, spanning from simpler methods like regression, exponential smoothing, and ARIMA to more complex models such as long short-term memory (LSTM) networks and advanced foundational time series forecasting models. Below, we provide a brief overview of these approaches. Detailed implementation codes in R and Python are available in a GitHub repository and accessible for public.
 
-**ARIMA and ARIMAX (LSTM)**:
 
-**Long Short-Term Memory neural network (LSTM)**: The LSTM model is a specialised form of recurrent neural network (RNN) used to model sequential data by capturing long-term dependencies \[\@<https://doi.org/10.1162/neco.1997.9.8.1735>\]. Unlike traditional RNNs, LSTMs can learn to retain information for longer time periods due to their unique architecture, which consists of several gates that control the flow of information. This makes LSTMs particularly effective for time series forecasting. In our implementation, we used a sequential model architecture, comprising one LSTM layer with 50 units, followed by dense layers, with the final output being a single linear unit. The Adam optimizer was employed to minimize the mean squared error, and the model was trained for 100 epochs using the keras_model_sequential() function from the Keras package in R.
+**Exponential Smoothing State Space model (ETS):** ETS models, as described by @hyndman2021forecasting, combine trend, seasonality, and error components in time series using different configurations that can be additive, multiplicative, or mixed. The trend component can be specified as none ("N"), additive ("A"), or damped additive ("Ad"); the seasonality can be none ("N"), additive ("A"), or multiplicative ("M"); and the error term can be additive ("A") or multiplicative ("M"). To forecast consumption, we use the ETS() function from the fable package in R, which automatically selects the optimal model for each time series based on the corrected Akaike’s Information Criterion (AICc). In our study, an automated algorithm determines the best configuration for trend, seasonality, and error components across each time series, leveraging the ets() function’s use of AIC to identify the optimal model. Given the high volume of time series (1530), manual selection of components is impractical, so the algorithm customizes model forms for each series based on its unique characteristics. This results in a tailored combination of additive or multiplicative components, adapting to the specific patterns of each time series.
 
-**TimeGPT**: TimeGPT is the first pre-trained foundational model designed specifically for time series forecasting, developed by Nixtla [@[https://doi.org/10.48550/arXiv.2310.0358910.03589](https://doi.org/10.48550/arXiv.2310.03589)]. It utilizes a transformer-based architecture with an encoder-decoder configuration but differs from other models in that it is not based on large language models. Instead, it is built from the ground up to handle time series data. TimeGPT was trained on more than 100 billion data points, drawing from publicly available time series across various sectors, such as retail, healthcare, transportation, demographics, energy, banking, and web traffic. This wide range of data sources, each with unique temporal patterns, enables the model to manage diverse time series characteristics effectively. Furthermore, TimeGPT supports the inclusion of external regressors in its forecasts and can generate quantile forecasts, providing reliable uncertainty estimation.
+**Multiple Linear Regression (MLR)**: We use Multiple linear regression to model the relationship between a consumption and potential variables influencing its variation. In our first model, we use multiple linear regression with a trend component to capture the underlying progression over time, i.e., _regression_. We also incorporate dummy variables for each month to account for seasonal fluctuations, without including any additional predictors, i.e., _regression_reg_. This approach helps us establish a baseline model focused solely on temporal trends and seasonal patterns. We then extend this model by introducing additional predictors that include variables such as replenishment cycles, fiscal year indicators, and periods with malaria prevalence. These additional predictors allow the model to see if capturing external factors can provide a better understanding of the factors influencing the consumption and result at enhanced accuracy. We produce forecasts using TLSM() function from the fable package in R.
+
+**ARIMA and ARIMA with regressors**: ARIMA (AutoRegressive Integrated Moving Average) is a powerful statistical model designed to forecast time series by capturing temporal dynamics and are widely used in time series forecasting due to their ability to model complex trends and patterns over time without relying on external predictors. ARIMAX (AutoRegressive Integrated Moving Average with eXogenous variables) extends ARIMA by incorporating external variables, or exogenous predictors, into the model. This modification allows to include relevant information from external factors such as malaria season, and fiscal year period that may explain variations in the series beyond its internal time dynamics, we refer to this in the result as _arima_reg_. By adding these predictors, ARIMAX combines the strengths of ARIMA’s time-series structure with the flexibility of regression models. In our study, we use an automated algorithm to determine the optimal configuration for ARIMA components, following the approach outlined by @hyndman2021forecasting and We use the ARIMA() function from the fable package in R.
+
+**Long Short-Term Memory neural network (LSTM)**: The LSTM model is a specialised form of recurrent neural network (RNN) used to model sequential data by capturing long-term dependencies [@graves2012long]. Unlike traditional RNNs, LSTMs can learn to retain information for longer time periods due to their unique architecture, which consists of several gates that control the flow of information. This makes LSTMs particularly effective for time series forecasting. In our implementation, we used a sequential model architecture, comprising one LSTM layer with 50 units, followed by dense layers, with the final output being a single linear unit. The Adam optimizer was employed to minimize the mean squared error, and the model was trained for 100 epochs using the keras_model_sequential() function from the Keras package in R. We use LSTM models both with and without predictors, referring to the LSTM model with predictors as _lstm_reg_.
+
+**TimeGPT**: TimeGPT is the first pre-trained foundational model designed specifically for time series forecasting, developed by Nixtla [@garza2023timegpt]. It uses a transformer-based architecture with an encoder-decoder configuration but differs from other models in that it is not based on large language models. Instead, it is built from the ground up to handle time series data. TimeGPT was trained on more than 100 billion data points, drawing from publicly available time series across various sectors, such as retail, healthcare, transportation, demographics, energy, banking, and web traffic. This wide range of data sources, each with unique temporal patterns, enables the model to manage diverse time series characteristics effectively. Furthermore, TimeGPT supports the inclusion of external regressors in its forecasts and can generate quantile forecasts, providing reliable uncertainty estimation. We use TimeGpt models both with and without predictors, referring to the model with predictors as _timegpt_reg_.
 
 ## Performance evaluation
 
-To evaluate the performance of the various forecasting approaches, we split the data into a series of ten training and test sets. We use a time series cross-validation approach [@hyndman2021forecasting], with a forecast horizon of 84 days, and each training set expanding in 42-day steps. The first training set uses all data up to 2018-04-25, and the first test set uses the 84 days beginning 2018-04-26. The second training set uses all data up to 2018-06-06, with the second test set using the following 84 days. The largest training set ends on 2019-05-09, with the test set ending on 2019-07-31. Model development and hyper-parameter tuning is performed using the training data and the errors are assess using the corresponding test set. While we compute forecast errors for the entire 12 weeks, we are most interested in the last 42 days of each test set, because that corresponds to how forecasts are generated for planning in practice. Forecasting performance is evaluated using both point and probabilistic error measures.
+To assess the performance of our forecasting methods, we split the data into a series of training and test sets and apply time series cross-validation with a forecast horizon of 6 months. Each training set is expanded in monthly increments, allowing model development and hyperparameter tuning to be performed on the training data, with errors evaluated on the corresponding test sets. We assess forecasting performance using both point and probabilistic error measures.
 
-The error metrics provided below consider a forecasting horizon denoted by $j$, representing the number of time periods ahead we are predicting. In our study, this forecasting horizon ranges from 1 to 84 days, $j= 1,2,\dots, 84$.
+The error metrics presented here consider a forecasting horizon denoted by  by $j$, which represents the number of time periods ahead we are predicting, with $j$ ranging from 1 to 6 months in our study. Point forecast accuracy is measured using the Mean Squared Scaled Error (MSSE) and the Mean Absolute Scaled Error (MASE). The Mean Absolute Scaled Error (MASE) [@HK06; @hyndman2021forecasting] is calculated as follows:
 
-Point forecast accuracy is measured via the Mean Squared Scaled Error (MSSE) and the Mean Absolute Scaled Error (MASE). The Mean Absolute Scaled Error (MASE) [@HK06; @hyndman2021forecasting] is calculated as:
 $$
   \text{MASE} = \text{mean}(|q_{j}|),
 $$
@@ -100,7 +137,9 @@ $$
   q_{j} = \frac{ e_{j}}
  {\displaystyle\frac{1}{T-m}\sum_{t=m+1}^T |y_{t}-y_{t-m}|},
 $$
-and $e_{j}$ is the point forecast error for forecast horizon $j$, $m = 7$ (as we have daily seasonal series), $y_t$ is the observation for period $t$, and $T$ is the sample size (the number of observations used for training the forecasting model). The denominator is the mean absolute error of the seasonal naive method in the fitting sample of $T$ observations and is used to scale the error. Smaller MASE values suggest more accurate forecasts. Note that the measure is scale-independent, thus allowing us to average the results across series.
+and $e_{j}$ is the point forecast error for forecast horizon $j$, $m = 12$ (as we have monthly seasonal series), $y_t$ is the observation for period $t$, and $T$ is the sample size (the number of observations used for training the forecasting model). The denominator is the mean absolute error of the seasonal naive method in the fitting sample of $T$ observations and is used to scale the error. Smaller MASE values suggest more accurate forecasts. Note that the measure is scale-independent, thus allowing us to average the results across series.
+
+Here, $e_{j}$ represents the point forecast error for forecast horizon $j$, with $m = 12$ (since we are dealing with monthly seasonal data). The term $y_t$ denotes the observation at time $t$, and $T$ is the sample size, or the number of observations used for training the forecasting model. The denominator in the MASE formula is the mean absolute error of the seasonal naive method over the training sample of $T$ observations, providing a basis for scaling the forecast error. Lower MASE values indicate more accurate forecasts. Notably, this measure is scale-independent, allowing us to average results across different series for broader performance comparison.
 
 A related measure is MSSE [@hyndman2021forecasting;@makridakis2022m5], which uses squared errors rather than absolute errors:
 $$
@@ -113,7 +152,6 @@ $$
 $$
 Again, this is scale-independent, and smaller MSSE values suggest more accurate forecasts.
 
-Using scale-independent measures, such as MASE and MSSE, enables more appropriate comparisons between time series at different levels and scales, as these measures are not influenced by the magnitude of the data. This is of particular importance in our study, as we work with time series at various levels of hierarchy, with varying scales, resulting in different magnitudes of error. By employing scale-independent measures, we can meaningfully assess the forecast accuracy across the entire hierarchy, ensuring a more robust comparison.
 
 To measure the forecast distribution accuracy, we calculate the Continuous Rank Probability Score [@gneiting2014probabilistic;@hyndman2021forecasting]. It rewards sharpness and penalizes miscalibration, so it measures overall performance of the forecast distribution.
 $$
@@ -127,4 +165,32 @@ where $G_j(x)$ is the forecasted probability distribution function for forecast 
 
 Calibration refers to the statistical consistency between the distributional forecasts and the observations. It measures how well the predicted probabilities match the observations. On the other hand, sharpness refers to the concentration of the forecast distributions --- a sharp forecast distribution results in narrow prediction intervals, indicating high confidence in the forecast. A model is well-calibrated if the predicted probabilities match the distribution of the observations, and it is sharp if it is confident in its predictions. The CRPS rewards sharpness and calibration by assigning lower scores to forecasts with sharper distributions, and to forecasts that are well-calibrated. Thus, it is a metric that combines both sharpness and miscalibration into a single score, making it a useful tool for evaluating the performance of probabilistic forecasts.
 
-CRPS can be considered an average of all possible Winkler scores [@winkler1972decision;@hyndman2021forecasting, Section 5.9] or percentile scores [@hyndman2021forecasting, Section 5.9], and thus provides an evaluation of all possible prediction intervals or quantiles. A specific prediction interval could be evaluated using a Winkler score. Certain situations may also require assessing accuracy for a particular quantile, such as lower (e.g 5\%) or higher (e.g. 95\%) quantiles. In such cases, a percentile score becomes useful in meeting this specific requirement.
+CRPS can be considered an average of all possible qiantiles [@hyndman2021forecasting, Section 5.9], and thus provides an evaluation of all possible prediction intervals or quantiles. A specific prediction interval could be evaluated using a Winkler score, if required. 
+
+
+<!-- If the  $100(1−\alpha)\%$ prediction interval at time  t is given by $[\ell_{\alpha,t}, u_{\alpha,t}]$, then the Winkler score is defined as the length of the interval plus a penalty if the observation is outside the interval -->
+
+<!-- $$ -->
+<!-- W_{\alpha,t} = \begin{cases} -->
+<!--   (u_{\alpha,t} - \ell_{\alpha,t}) + \frac{2}{\alpha} (\ell_{\alpha,t} - y_t) & \text{if } y_t < \ell_{\alpha,t} \\ -->
+<!--   (u_{\alpha,t} - \ell_{\alpha,t})   & \text{if }  \ell_{\alpha,t} \le y_t \le u_{\alpha,t} \\ -->
+<!--   (u_{\alpha,t} - \ell_{\alpha,t}) + \frac{2}{\alpha} (y_t - u_{\alpha,t}) & \text{if } y_t > u_{\alpha,t}. -->
+<!--   \end{cases} -->
+<!-- $$ -->
+
+
+<!-- In this study, we report skill scores for winkler aand CRPS, with skill scores, we compute a forecast accuracy measure relative to some benchmark method. For example, if we use the naïve method as a benchmark, and also compute forecasts using the ETS model, we can compute the CRPS and Winkler skill score of the ETS model relative to the naïve method. If the skill scores are negative, it indicates that the proposed method performs worse than the naïve method; positive scores suggest it performs better. In this sense, skill scores are not entirely independent of data scale, similar to the concepts behind MASE and RMSSE for point forecasts. -->
+
+<!-- $$ -->
+<!-- \frac{\text{CRPS}_{\text{Naïve}} - \text{CRPS}_{\text{ETS}}}{\text{CRPS}_{\text{Naïve}}}. -->
+<!-- $$ -->
+
+
+<!-- $$ -->
+<!-- \frac{\text{Winkler}_{\text{Naïve}} - \text{Winkler}_{\text{ETS}}}{\text{Winkler}_{\text{Naïve}}}. -->
+<!-- $$ -->
+
+
+
+  
+  

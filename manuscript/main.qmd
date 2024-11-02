@@ -1,51 +1,49 @@
 ---
-title: "Pharmaceutical Supply Chain Forecasting by using Machine Learning in Ethiopian Pharmaceutical Supply Services"
+title: "The missing puzzle piece: Contextual insights for enhanced pharmaceutical supply chain forecasting"
 author:
   - name: Arebu Issa Bilal
     email: arebu.issa@aau.edu.et
     affiliations:
         - id: Addis 
-          name: Addis Ababa  University
-          department: Department of Pharmaceutics and Social Pharmacy at School of Pharmacy
-          country: Ethiopia
-          postal-code: 9086
+          name: Addis Ababa University
+          department: Department of Pharmaceutics and Social Pharmacy, School of Pharmacy
+          country: Ethiopia.
     attributes:
         corresponding: true
-  - name: Arebu Issa Bilal
-    email: arebu.issa@aau.edu.et
   - name: Bahman Rostami-Tabar
     email: rostami-tabarb@cardiff.ac.uk
     affiliations:
         - id: carbs
-          name: University
-          department: Cardiff Business School 
-          country: UK
-          postal-code: CF5
+          name: Cardiff University
+          department: Data Lab for Social Good Reserach Group, Cardiff Business School 
+          country: UK.
+  - name: Harsha Halgamuwe Hewage
+    email: HalgamuweHewageHR@cardiff.ac.uk
+    affiliations:
+        - ref: carbs
   - name: Umit Sezer Bititci 
     email: U.S.Bititci@hw.ac.uk
     affiliations:
-        - id: heriot- watt 
-          name: University
-          department: Edinburgh Business School 
-          country: UK
-          postal-code: EH14 4AS
+        - id: herio 
+          name: Heriot-Watt University
+          department: Edinburgh Business School, Heriot-Watt University
+          country: UK.
   - name: Teferi Gedif Fenta
     email: tgedif@gmail.com
     affiliations:
-        - id: Addis 
-          name: Addis Ababa  University
-          department: Department of Pharmaceutics and Social Pharmacy at School of Pharmacy
-          country: Ethiopia
-          postal-code: 9086        
-         
+        - ref: Addis 
+
 abstract: |
-  This study delves into the realm of pharmaceutical demand forecasting within the Ethiopian Pharmaceuticals Supply Services(EPSS) context. It encompasses a comprehensive analysis of 37 key pharmaceutical products,assessing their forecast accuracy across variation models. The initial assessment reveals that the Autoregressive Integrated Moving Average (ARIMA) model emerges as a frotrunner, boasting a Root Mean Squared Error (RMSSE) value of 0.850. ARIMA's prowess in capturing complex demand patterns suggests its suitability for pharmaceutical sales forecasting in the EPSS landscape. To argument forecasting accuarcy, predictor varaibles such as physical count, budget release and closure by the goverment, the impact of COVID-19, and promotional campaigns were incorpoarted. Remarkably, the ARIMA model mantainsits superiority even in the presences of these external factors, reiterating its roustness. Delving further into individual pharmaceutical products, ARIMA with predictors demonstrates exceptional performance for a substantial portion (32.43%) of the products, including Amoxicillin 500mg capsule, Anti RhD, Artehmether + Lumefantrine, and others. Conversely,alternative models like naive, mean, and regression methods showcase strengths for different pharmaceutical categories, underscoring the importance of tailoring forecasting approaches to product-specific dynamics. While this study significantly advances the discourse on pharmaceutical demand forecasting, limitations stemming from data quality and external variables underscore the intricacies of the forecasting landscape. In conclusion, it advocates the integration of the ARIMA model with predictor variables as a strategic approach for refining pharmaceutical demand forecasting within EPSS. It also encourages further exploration of advanced forecasting techniques and ongoing refinement to bolster supply chain efficiency and ensure consistent pharmaceutical availability. Capacity building through staff training and replication of the study in diverse healthcare settings are recommended steps toward resilient and efficient pharmaceutical supply chains.These findings hold promise for fostering supply chains that are adaptable, responsive, and capable of ensuring the continuous availability of essential pharmaceuticals in Ethiopia.
+  Accurate forecasting in pharmaceutical supply chains is critical for ensuring the continuous availability of essential medicines, particularly in developing countries where resource constraints and logistical challenges are more pronounced. Effective demand forecasting supports procurement and inventory management, which in turn could help to prevent stockouts, reduce wastage due to overstocking, and enhance overall healthcare delivery. In such settings, reliable forecasts, that acknowledge uncertainties, are essential to ensure that limited resources are used efficiently to meet health needs. 
+  Despite advancements in forecasting, significant gaps remain in effective forecasting in poor resource countries. Most existing literature on pharmaceutical supply chain forecasting focuses primarily on point estimation of consumption while neglecting the inherent uncertainty of these forecasts Additionally, these studies often rely solely on historical consumption data without considering the broader context that influences consumption Furthermore, many works lack rigorous methodological design, transparency, and reproducibility. This study addresses these gaps by integrating domain-specific knowledge, gathered through expert interviews and engagement with key members of the Ethiopian Pharmaceutical Supply Service (EPSS), into forecasting models. Using a dataset spanning five years (December 2017 to July 2022) from EPSS, we developed forecasting models that integrate expert-identified variables such as stock replenishment schedules, fiscal inventory counts, conflicts, and disease outbreaks. Evaluation metrics such as Mean Absolute Scaled Error (MASE), Root Mean Squared Scaled Error (RMSSE), and Continuous Ranked Probability Score (CRPS) are used to report forecast accuracy. The findings underscore the significance of contextual data in developing robust forecasting models that are adaptable to complex, real-world conditions. Our results also highlight the effectiveness of foundational time series methods, such as LLM models, for forecasting. These methods are particularly appealing for resource-constrained countries that may lack advanced analytical expertise. To promote usability, generalizability, and reproducibility, we share the complete dataset and code in R and Python, and the entire paper is written in Quarto via a GitHub repository to facilitate these practices.
+  
+  
 keywords:
-  - Pharmaceutical Demand Forecasting
-  - Ethiopian Pharmaceutical Supply Services
-  - ARIMA Model
-  - Forecasting Variables
-  - Forecast Accuracy
+  - Forecasting
+  - Pharmaceutical supply chain
+  - Domain knowlege
+  - Forecast accuracy
+  - Developing countries
 bibliography: references.bib
 execute:
   echo: false
@@ -91,6 +89,9 @@ options(
 )
 # Few theme
 ggplot2::theme_set(ggthemes::theme_few())
+
+
+
 ```
 
 ```{r intro, child="01-introduction.qmd"}
@@ -115,6 +116,6 @@ ggplot2::theme_set(ggthemes::theme_few())
 
 # Reproducibility {.unnumbered}
 
-R code to produce all results in this paper is available at
+We use R and Python for model development and accuracy evaluation. The paper is written in Quarto, and all code, data, and files will be shared in a GitHub repository upon acceptance for publication.
 
 # References {#references .unnumbered}

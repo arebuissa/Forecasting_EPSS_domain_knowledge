@@ -15,8 +15,9 @@ The pharmaceutical industry's increasing complexity and the availability of larg
 
 More sophisticated models, such as Neuro-Fuzzy Systems, have emerged as powerful tools for pharmaceutical forecasting. These systems combine the learning capabilities of neural networks with the reasoning abilities of fuzzy logic, offering a balanced approach that incorporates both empirical data and expert knowledge. Deep learning models, while powerful, present challenges such as the need for large datasets and substantial computational resources. Despite these challenges, models like LSTM have shown potential in capturing long-term dependencies in time series data, as demonstrated by @sousa2019statistical in their study on drug distribution in the Brazilian Public Health System. @candan2014demand employed an Adaptive Neuro-Fuzzy Inference System (ANFIS) to forecast pharmaceutical demand. Their study highlighted the system's ability to capture complex patterns in the data, resulting in highly accurate forecasts. The effectiveness of this approach was further validated through statistical tests, such as paired T-tests and mean difference analysis, which confirmed its superiority over traditional methods.
 
+@nguyen2023managing explore how sentiment analysis of news media can be utilized to improve demand forecasting for pharmaceutical products during disruptive events, such as pandemics and scandals. The authors employed a VARX (Vector Autoregressive with Exogenous Variables) model to forecast demand volatility. @papanagnou2018coping investigate the impact of big data analytics, specifically through text mining, on improving forecasting accuracy for pharmaceuticals in retail pharmacies, using HMX pharmacy stores in Nigeria as a case study. They use multivariate time series analysis technique known as VARX, which incorporates customer-generated content from sources like Google, YouTube, and online newspapers to predict demand for medicines. @fourkiotis2024applying focus on enhancing pharmaceutical sales forecasting through the application of both traditional statistical methods and advanced machine learning techniques. Various forecasting approaches, including traditional models like Naïve and ARIMA,Facebook Prophet, and machine learning methods such as XGBoost and LSTM neural networks are compared. The results demonstrated that machine learning models, particularly XGBoost, significantly outperformed traditional methods. @belghith2024new present a rolling forecasting framework employing moving average and three exponential smoothing methods (Brown’s, Holt’s, and Holt-Winters) implemented using Microsoft Power BI for enhanced data visualization.
 
-Despite the advancements in forecasting methods, several gaps remain, particularly in addressing uncertainty and incorporating domain knowledge into the modeling process. Most existing studies focus on point forecasts, which may not fully capture the range of possible outcomes in pharmaceutical demand. This limitation is critical, given the high stakes of inventory management in this industry. Moreover, there is a lack of research on the impact of integrating domain knowledge—such as insights from experienced professionals—into forecasting models. This integration could potentially improve model accuracy and reliability, especially in complex and rapidly changing environments. In summary, the literature on pharmaceutical forecasting has evolved from traditional statistical models to advanced machine learning techniques, each offering unique insights and capabilities. However, there is still room for improvement, particularly in addressing uncertainty and incorporating domain knowledge. Future research should focus on developing probabilistic forecasting models and exploring ways to integrate expert insights into the forecasting process. These advancements could significantly enhance decision-making and operational efficiency in the pharmaceutical supply chain.
+<!-- Despite the advancements in forecasting methods, several gaps remain, particularly in addressing uncertainty and incorporating domain knowledge into the modeling process. Most existing studies focus on point forecasts, which may not fully capture the range of possible outcomes in pharmaceutical demand. This limitation is critical, given the high stakes of inventory management in this industry. Moreover, there is a lack of research on the impact of integrating domain knowledge—such as insights from experienced professionals—into forecasting models. This integration could potentially improve model accuracy and reliability, especially in complex and rapidly changing environments. In summary, the literature on pharmaceutical forecasting has evolved from traditional statistical models to advanced machine learning techniques, each offering unique insights and capabilities. However, there is still room for improvement, particularly in addressing uncertainty and incorporating domain knowledge.  -->
 
 @tbl-literature provides a summary of key studies in the literature on forecasting for pharmaceutical products. We identify several limitations both in the existing research and in practice, which highlight important gaps that motivate our current study. These gaps are summarized as follows:
 
@@ -32,14 +33,17 @@ Despite the advancements in forecasting methods, several gaps remain, particular
 #| echo: false
 #| cache: false
 #| tbl-cap: "Summary of some studies on forecasting in pharmaceutical supply chain"
+#| tbl-pos: "H"
 library(kableExtra)
-readxl::read_xlsx("Literature_review_table.xlsx") |>
+readxl::read_xlsx("Literature_review.xlsx") |>
   knitr::kable(booktabs = T, linesep = "") |>
-  kable_styling(latex_options = "scale_down", font_size = 11) |>
-  column_spec(3, "6em") |>
-  column_spec(5, "4em") |>
-  column_spec(6, "10em") |>
-  column_spec(7, "8em") |>
-  landscape()
+  kable_styling(latex_options = c("scale_down"), font_size = 11) |>
+  column_spec(4, "10em") |>
+  column_spec(7, "10em") |>
+  column_spec(8, "10em") |>
+  column_spec(9, "2em") |>
+  column_spec(10, "2em") |>
+  column_spec(11, "2em") |>
+  kableExtra::landscape()
 ```
 
