@@ -24,17 +24,9 @@ prob_accuracy_origin_all <- prob_accuracy_id |> bind_rows(prob_accuracy_origin |
 
 ```
 
+In this section, we compare the forecasting performance of various approaches, examining models that incorporate expert-identified business context predictors versus those that rely solely on historical consumption data. Point forecast performance is reported using MASE and RMSSE, while probabilistic forecast accuracy is reported using CRPS. 
 
-In this section, we compare the forecasting performance of various approaches, examining models that incorporate expert-identified business context predictors versus those that rely solely on historical consumption data. Point forecast performance is reported using MASE and MSSE, while probabilistic forecast accuracy is reported using CRPS. 
-
-The forecasting performance is reported in @fig-point, in which the average forecast accuracy over forecast horizon and across all products is calculated for each origin. we also report the ditribution of accurcy metrics  across all rollog origins, average across forecast horizon and all products. this shows how mdoels varies in roviding accuracy across different origins. further rserach would be required to understand how error analysis across forecast hrizon and across differne origins could be used as afiagnos!
-y-axis shows the models sorted based on ther values of mase and rmsse, when the one i the bottom has lowest error. this modesis TimeGpt, which is the foundational time sei models. 
-
-
-@fig-point also indicate that predictors collected through interacting with experts with domaine knoeldge improves point forecast accuracy for all models, highlighting the essential needs to systematically colelct such information alognside the tarsactional data about consuption. 
-
-We observed that the LSTM model had the highest error compared to all other models. While LSTMs are powerful for capturing complex, non-linear temporal patterns, they may underperform in certain scenarios, especially when compared to simpler time series forecasting models. This underperformance can be attributed to overfitting, as LSTMs have a large number of parameters and require substantial amounts of data to generalize effectively. In contrast, simpler models like ARIMA with exogenous variables often handle straightforward trends or seasonality more effectively and may outperform LSTMs when long-term dependencies or non-linearity in the data are not significant.
-
+The forecasting performance is reported in @fig-point, in which the average forecast accuracy over forecast horizon and across all products is calculated for each origin. We report the distribution of accuracy metrics across all rolling origins. This shows how models varies in providing accuracy across different origins. The y-axis displays models sorted by their MASE and RMSSE values, with the model exhibiting the lowest error positioned at the bottom. This model is the Ariam model, which incorporates exogenous variables. Additionally, @fig-point indicates that predictors obtained through interactions with domain experts enhance point forecast accuracy across most models. This underscores the critical importance of systematically collecting such expert-informed data alongside transactional consumption data.
 
 ```{r}
 #| label: fig-point
@@ -75,54 +67,59 @@ prob_accuracy_origin_all |> ggplot(aes(x= crps, y =  fct_reorder(model, crps)))+
 ```
 
 
-```{r}
-#| label: fig-horizon
-#| fig-width: 11
-#| fig-height: 5
-#| fig-cap: "Average accuracy by month for 6 month. The total number of months used to calculate the accuracy in the test set is 12 for each product."
-#| fig-pos: "H"
+<!-- ```{r} -->
+<!-- #| label: fig-horizon -->
+<!-- #| fig-width: 11 -->
+<!-- #| fig-height: 5 -->
+<!-- #| fig-cap: "Average accuracy by month for 6 month. The total number of months used to calculate the accuracy in the test set is 12 for each product." -->
+<!-- #| fig-pos: "H" -->
 
-p1h <- point_accuracy_h_all |> group_by(model,h) |> summarise(mase=mean(mase) , .groups = "drop")|> filter(model != "lstm", model != "lstm_reg") |>  ggplot(aes(x = h, y = mase, colour =model))+
-  geom_point()+
-  geom_line()+
-  ggthemes::theme_few()+
-  ggthemes::scale_color_colorblind()+
-  labs(x= " Forecast horizon")+
-  theme(legend.position="none")
+<!-- p1h <- point_accuracy_h_all |> group_by(model,h) |> summarise(mase=mean(mase) , .groups = "drop")|> filter(model != "lstm", model != "lstm_reg") |>  ggplot(aes(x = h, y = mase, colour =model))+ -->
+<!--   geom_point()+ -->
+<!--   geom_line()+ -->
+<!--   ggthemes::theme_few()+ -->
+<!--   ggthemes::scale_color_colorblind()+ -->
+<!--   labs(x= " Forecast horizon")+ -->
+<!--   theme(legend.position="none") -->
 
-p2h <- point_accuracy_h_all |> group_by(model,h) |> summarise(rmsse=mean(rmsse),.groups = "drop") |> filter(model != "lstm", model != "lstm_reg") |> 
-  ggplot(aes(x = h, y = rmsse, colour =model))+
-  geom_point()+
-  geom_line()+
-  ggthemes::theme_few()+
-  ggthemes::scale_color_colorblind()+
-  labs(x= " Forecast horizon")+
-  theme(legend.position="bottom")
+<!-- p2h <- point_accuracy_h_all |> group_by(model,h) |> summarise(rmsse=mean(rmsse),.groups = "drop") |> filter(model != "lstm", model != "lstm_reg") |>  -->
+<!--   ggplot(aes(x = h, y = rmsse, colour =model))+ -->
+<!--   geom_point()+ -->
+<!--   geom_line()+ -->
+<!--   ggthemes::theme_few()+ -->
+<!--   ggthemes::scale_color_colorblind()+ -->
+<!--   labs(x= " Forecast horizon")+ -->
+<!--   theme(legend.position="bottom") -->
 
-p3h <- prob_accuracy_h_all |> group_by(model,h) |> summarise(crps=mean(crps),.groups = "drop") |> filter(model != "lstm", model != "lstm_reg") |> 
-  ggplot(aes(x = h, y = crps, colour =model))+
-  geom_point()+
-  geom_line()+
-  ggthemes::theme_few()+
-  ggthemes::scale_color_colorblind()+
-  labs(x= " Forecast horizon")+
-  theme(legend.position="none") 
+<!-- p3h <- prob_accuracy_h_all |> group_by(model,h) |> summarise(crps=mean(crps),.groups = "drop") |> filter(model != "lstm", model != "lstm_reg") |>  -->
+<!--   ggplot(aes(x = h, y = crps, colour =model))+ -->
+<!--   geom_point()+ -->
+<!--   geom_line()+ -->
+<!--   ggthemes::theme_few()+ -->
+<!--   ggthemes::scale_color_colorblind()+ -->
+<!--   labs(x= " Forecast horizon")+ -->
+<!--   theme(legend.position="none")  -->
 
-prob_patch <- (p1h|p2h|p3h)
-prob_patch
-```
-
-
-@fig-prob illustrates the forecast distribution accuracy measured by the Continuous Ranked Probability Score (CRPS), which evaluates both forecasting calibration and interval sharpness. A smaller CRPS value indicates better overall performance. We observed that incorporating domain knowledge improved forecast accuracy for most models, enhancing not only point forecasts but also probabilistic forecasts. Notably, TimeGpt achieved the highest probabilistic forecast accuracy, while LSTM models had the lowest. This aligns with the findings related to point forecast accuracy, reinforcing the earlier explanations for these results.
-
-In addition to reporting the forecast accuracy presented across different rolling origins, we also report the point and probabilistic forecast accuracy measures for each forecast horizon in @fig-horizon. this is the accuracy reorted as the average across rolling origins and all products fro each given horizon. For both the point forecast and distributional accuracy  we can see that models incoporating information collected by domain experts improves compared to counterparts that that uses only the historical comsuptions. 
-
-Overall, our results indicate that forecast produces using models with infromation colelcted via the domain expert engagement provides reliable forecasts and improves upon the models relying solely on historcial consuption. 
+<!-- prob_patch <- (p1h|p2h|p3h) -->
+<!-- prob_patch -->
+<!-- ``` -->
 
 
-Our analysis highlights the value of using foundational time series forecasting models like TimeGpt, particularly in developing countries and the global health and humanitarian sectors. In these contexts, the lack of advanced analytical skills and systematic data collection can hinder effective forecasting and decision-making. 
+@fig-prob illustrates the forecast distribution accuracy measured by CRPS, which evaluates both forecasting calibration and interval sharpness. A smaller CRPS value indicates better overall performance. We observed that incorporating domain knowledge improved forecast accuracy for most models, enhancing not only point forecasts but also probabilistic forecasts. Notably, ARIMA achieved the highest probabilistic forecast accuracy, while LSTM models had the lowest. This aligns with the findings related to point forecast accuracy, reinforcing the earlier explanations for these results.
 
-The findings also emphasize the importance of incorporating relevant domain knowledge into forecasting models. In pharmaceutical supply logistics administration systems, data often consists solely of transactional records on consumption and distribution. Including exogenous variables such as administrative procedures, seasonal patterns, or conflicts, or any other relevant factor that could be identified by those with domain knowledge proved essential for reducing forecast errors. This approach improved both point and probabilistic forecast accuracy, enabling a more confident assessment of uncertainty. Therefore, the systematic collection of information about significant events and their impact on consumption is vital. Recording details of events such as policy changes, administration procedures, conflicts, and incorporating this information into forecasting models creates a comprehensive understanding of consumption. This practice enhances modeling reliability and allows institutions in developing countries and humanitarian organizations to better forecast demand, allocate resources effectively, and respond proactively. Establishing robust data collection systems is thus a critical step for strengthening forecasting capabilities and operational resilience.
+
+We observe that LSTM models exhibit a widespread error distribution compared to other models. This is attributed to their performance variability, which can significantly depend on the characteristics of demand patterns across different products. For example, the product "Amlodipine - 5mg - Tablet" demonstrates periods of extreme variability, with spikes in demand followed by periods of very low or zero demand. Such patterns align well with the strengths of LSTM models, which excel at capturing long-term dependencies and managing complex temporal fluctuations.
+In contrast, the demand for "Anti-Rho (D)" is erratic and sporadic, characterized by frequent, random fluctuations without any discernible long-term trends or seasonal patterns. This chaotic nature, combined with inconsistent and often low volumes, poses significant challenges for LSTM models. The lack of clear structure or stable patterns limits the models' ability to generalize effectively, resulting in poorer forecast performance. Although LSTM models can handle irregular data to some extent, they require sufficient and well-distributed training samples to achieve optimal performance. In our study, the majority of products exhibit erratic and sporadic demand patterns similar to "Anti-Rho (D)", resulting in this widespread error distribution.
+
+
+<!-- In addition to reporting the forecast accuracy presented across different rolling origins, we also report the point and probabilistic forecast accuracy measures for each forecast horizon in @fig-horizon. this is the accuracy reorted as the average across rolling origins and all products fro each given horizon. For both the point forecast and distributional accuracy  we can see that models incoporating information collected by domain experts improves compared to counterparts that that uses only the historical comsuptions.  -->
+
+<!-- Overall, our results indicate that forecast produces using models with infromation colelcted via the domain expert engagement provides reliable forecasts and improves upon the models relying solely on historcial consuption.  -->
+
+
+The findings emphasize the importance of incorporating relevant domain knowledge into forecasting models. In pharmaceutical supply logistics administration systems, data often consists solely of transactional records on consumption and distribution. Including exogenous variables such as administrative procedures, seasonal patterns, or conflicts, or any other relevant factor that could be identified by those with domain knowledge proved essential for reducing forecast errors. This approach improved both point and probabilistic forecast accuracy, enabling a more confident assessment of uncertainty. Therefore, the systematic collection of information about significant events and their impact on consumption is vital. Recording details of events such as policy changes, administration procedures, conflicts, and incorporating this information into forecasting models creates a comprehensive understanding of consumption. This practice enhances modeling reliability and allows institutions in developing countries and humanitarian organizations to better forecast demand, allocate resources effectively, and respond proactively. Establishing robust data collection systems is thus a critical step for strengthening forecasting capabilities and operational resilience.
+
+Our analysis also highlights the value of using foundational time series forecasting models like TimeGpt, particularly in developing countries and the global health and humanitarian sectors. In these contexts, the lack of advanced analytical skills and systematic data collection can hinder effective forecasting and decision-making. 
 
 ## An illustration of probabilistic forecast for Pharmacuitical product consumption
 
@@ -147,7 +144,8 @@ amoxicillin <- med_qty |> filter(item == "Sodium Chloride (Normal Saline)") |> s
 fit <- amoxicillin |> filter_index(. ~ "2022 Jan") |>
   model(ets = ARIMA(quantity))
 
-fcst <- fit |> forecast(h = 6)
+fcst <- fit |> forecast(h = 6) |> mutate(quantity = distributional::dist_truncated(quantity, lower = 0), .mean=mean(quantity))
+
 fitted_ets <- fit |> augment()
 
 ggplot(data = fcst, mapping = aes(x = month, ydist = quantity))+

@@ -1,0 +1,1180 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  authoryear,
+  preprint,
+  3p]{elsarticle}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{todonotes,mathtools,bm,amsmath,mathpazo}
+\mathtoolsset{showonlyrefs}
+\setlength{\parindent}{0cm}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\journal{International Journal of Production Research}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{elsarticle-harv}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={The missing puzzle piece: Contextual insights for enhanced pharmaceutical supply chain forecasting},
+  pdfkeywords={Forecasting, Pharmaceutical supply chain, Domain
+knowlege, Forecast accuracy, Developing countries},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\begin{document}
+
+\begin{frontmatter}
+\title{The missing puzzle piece: Contextual insights for enhanced
+pharmaceutical supply chain forecasting}
+
+
+\cortext[cor1]{Corresponding author}
+        
+\begin{abstract}
+Accurate forecasting in pharmaceutical supply chains is critical for
+ensuring the continuous availability of essential medicines,
+particularly in developing countries where resource constraints and
+logistical challenges are more pronounced. Effective demand forecasting
+supports procurement and inventory management, which in turn could help
+to prevent stockouts, reduce wastage due to overstocking, and enhance
+overall healthcare delivery. In such settings, reliable forecasts, that
+acknowledge uncertainties, are essential to ensure that limited
+resources are used efficiently to meet health needs. Despite
+advancements in forecasting, significant gaps remain in effective
+forecasting in poor resource countries. Most existing literature on
+pharmaceutical supply chain forecasting focuses primarily on point
+estimation of consumption while neglecting the inherent uncertainty of
+these forecasts. Additionally, these studies often rely solely on
+historical consumption data without considering the broader context that
+influences consumption. Furthermore, many works lack rigorous
+methodological design, transparency, and reproducibility. This study
+addresses these gaps by integrating domain-specific knowledge, gathered
+through expert interviews and engagement with key members of the
+Ethiopian Pharmaceutical Supply Service (EPSS), into forecasting models.
+Using a dataset spanning five years (December 2017 to July 2022) from
+EPSS, we developed forecasting models that integrate expert-identified
+variables such as stock replenishment schedules, fiscal inventory
+counts, and disease outbreaks. Evaluation metrics including Mean
+Absolute Scaled Error (MASE), Root Mean Squared Scaled Error (RMSSE),
+and Continuous Ranked Probability Score (CRPS) are used to report
+forecast accuracy. The findings underscore the significance of
+contextual data in developing robust forecasting models that are
+adaptable to complex, real-world conditions. Our results also highlight
+the effectiveness of foundational time series models for forecasting.
+These models are particularly appealing for resource-constrained
+countries that may lack advanced analytical expertise. To promote
+usability, generalizability, and reproducibility, we share the complete
+dataset and code in R and Python, and the entire paper is written in
+Quarto via a GitHub repository to facilitate these practices.
+\end{abstract}
+
+
+
+
+
+\begin{keyword}
+    Forecasting \sep Pharmaceutical supply chain \sep Domain
+knowlege \sep Forecast accuracy \sep 
+    Developing countries
+\end{keyword}
+\end{frontmatter}
+    
+\section{Introduction}\label{sec-intro}
+
+Universal access to essential medicines is a fundamental goal of
+effective healthcare systems, yet ensuring equitable availability
+continues to be a critical global challenge
+\citep{quick2003essential, world2004annual}. Many countries,
+particularly in Africa and Asia, face significant barriers to accessing
+these medications, often due to high costs and inefficient supply chain
+management \citep{world2004medicines}. A survey conducted in eight
+sub-Saharan African countries revealed alarmingly low availability of
+essential medicines. The average availability of women's priority
+medicines ranged from just 22\% to 40\%, while children's medicines were
+only slightly more accessible, with availability ranging from 28\% to
+57\% \citep{droti2019poor}. However, drug shortages are not limited to
+low-income regions; they also occur in developed areas like the United
+States and Europe, where they disrupt healthcare delivery and compromise
+the quality of patient care
+\citep{fox2003managing, kaakeh2011impact, johnson2011drug, huys2013european, le2011prevalence}.
+
+The consequences of drug shortages extend beyond immediate healthcare
+delivery, impacting healthcare costs, treatment quality, and patient
+safety \citep{alspach2012drug, kaakeh2011impact, baumer2004national}.
+Such shortages can result in treatment delays, suboptimal care due to
+the unavailability of preferred therapies, increased reliance on costly
+secondary markets, and serious patient outcomes, including
+complications, longer hospital stays, and even deaths
+\citep{alspach2012drug}. Addressing these challenges requires a
+resilient pharmaceutical supply chain that can ensure the timely
+availability of medicines. In this context, accurate demand forecasting
+becomes critical for effective procurement and inventory management
+\citep{subramanian2021effective}.
+
+Demand forecasting in pharmaceutical supply chains is a highly complex
+process, shaped by several factors. These include the quality of
+available data, the specific position within the supply chain, and
+external influences such as market trends, regulatory changes, and
+disruptive events such as pandemics, conflicts, flooding
+\citep{schneider2010pharmaceutical, hyndman2018forecasting}. Recently,
+major donors such as Bill \& Melinda Gates Foundation have invested in
+data collection technologies in sub-Saharan Africa, recognizing the
+potential of data to provide valuable insights. This investment is
+essential and offers significant benefits for improving supply chain
+delivery. However, much of the data being collected focuses on
+transactional data, such as consumption and sale. Almost all platforms
+collecting data tend to overlook the critical contextual factors and
+events that influence these transactions---factors that are just as
+crucial for accurate forecasting. This presents a major barrier, as
+understanding the broader context, including administration procedures,
+local policies, disruptions, conflicts, and so on is vital for building
+reliable forecasting models. This gap---known as business context and
+domain knowledge---requires urgent attention in Pharmaceutical supply
+chain forecasting. Without incorporating this knowledge, any forecasting
+model is unlikely to produce reliable results. We must prioritize
+collecting and integrating this contextual information to improve the
+accuracy of demand forecasts in pharmaceutical supply chains. Combining
+statistical models with domain insights offers a more refined
+forecasting process, as evidenced by research that highlights the value
+of judgmental adjustments to enhance forecast accuracy
+\citep{fildes2007against, taylor2022artificial, soyiri2013overview}.
+Domain knowledge enables analysts to incorporate relevant events, such
+as supply chain disruptions, into the forecasting model. This
+integration is particularly beneficial in fields like healthcare, where
+expert insights can align algorithms with real-world applications
+\citep{dash2022review}.
+
+This study aims to bridge that gap by employing advanced machine
+learning models combined with domain expertise to address the
+distinctive characteristics of Ethiopia's pharmaceutical sector. The
+challenges in this sector, such as diverse product categories, limited
+data from service delivery points, communication issues, long lead
+times, forecast inaccuracies, and complex policies, necessitate tailored
+forecasting approaches
+\citep{bilal2024challenges, boche2022procurement}. Accurate demand
+forecasting in Ethiopia is essential for optimizing resource allocation,
+streamlining supply chain operations, and shaping effective healthcare
+policies \citep{rostami2022forecasting}.
+
+This research uses consumption data from 33 health commodities, covering
+the period from December 2017 to July 2022, provided by the Ethiopian
+Pharmaceutical Supply Service (EPSS), to develop models for
+six-month-ahead forecasting. Initially, we implement univariate models
+that rely solely on consumption data. Following this, we conduct
+exploratory data analysis and engage in interviews with EPSS experts to
+gather domain knowledge on events influencing consumption patterns.
+Through these interviews, the experts identified three key factors
+collectively impacting consumption: stock replenishment period, fiscal
+calendar, and the seasonal malaria. We then develop forecasting models
+that incorporate the data gathered through the interview process and
+compare their performance with univariate models that rely solely on
+consumption data.
+
+Our primary aims is to assess whether incorporating domain knowledge
+improves forecast accuracy. Moreover, we also fill a gap in the
+pharmaceutical demand forecasting literature by not only generating
+point forecasts but also producing probabilistic forecasting techniques
+that capture the range of potential outcomes with associated
+probabilities, offering a more comprehensive view of demand uncertainty
+than traditional methods. Model performance is evaluated using point
+accuracy measure including MASE, RMSSE, and probabilistic measure using
+CRPS.
+
+The remainder of this paper is structured as follows: Section 2 reviews
+the literature and identifies gaps to position our work; Section 3
+outlines the experimental design, including data sources, forecasting
+methods, and evaluation criteria; Section 4 presents the results and
+analysis; and Section 5 concludes with a summary of findings and future
+research directions.
+
+\section{Research background}\label{sec-lit}
+
+Accurate sales forecasting is crucial in the pharmaceutical industry,
+where it directly impacts profit maximization, cost minimization, and
+the ability to respond to market changes. Forecasting in healthcare not
+only influences clinical decisions but also plays a pivotal role in
+supply chain management, ensuring that the right drugs are available
+when needed. The challenge lies in balancing customer demand with
+inventory costs, which is particularly complex in pharmaceuticals due to
+factors like short shelf life and quality constraints
+\citep{gupta2000mid, makridakis2020forecasting}.
+
+In this review, a range of forecasting methods has been applied, from
+traditional statistical models to advanced machine learning techniques,
+with many studies using a combination of simple and advanced methods to
+enhance accuracy
+\citep{nikolopoulos2016forecasting, zhu2021demand, anusha2014demand}.
+Some studies, such as those by \citet{newberne2006holt}, and
+\citet{restyana2021analysis}, applied traditional forecasting methods
+like the Holt-Winters method, Single Moving Average (SMA), and Single
+Exponential Smoothing (SES), which are simpler but effective for certain
+applications. In contrast, other researchers explored more advanced
+approaches, including hybrid models and machine learning techniques, to
+address complex forecasting challenges, as seen in the studies by
+\citet{siddiqui2022hybrid}, \citet{de2021lead}, \citet{kim2015demand},
+\citet{candan2014demand}, and \citet{ribeiro2017improving}.
+
+Early research in pharmaceutical forecasting primarily focused on
+traditional statistical methods. These methods, including ARIMA,
+exponential smoothing, and moving averages, were widely used due to
+their simplicity and effectiveness in relatively stable environments
+\citep{zahra2019forecasting}. These models typically assess forecast
+accuracy using metrics like Mean Absolute Percentage Error (MAPE), Mean
+Squared Error (MSE), and Root Mean Squared Error (RMSE). For example,
+\citet{newberne2006holt} applied the Holt-Winters method to forecast
+healthcare data, focusing on prescription trends. Their findings
+highlighted the method's utility in short-term planning and resource
+management, validated through metrics like MAPE, MAD, and MSD.
+Similarly, \citet{restyana2021analysis} compared Single Moving Average
+(SMA) and Single Exponential Smoothing (SES) in drug demand forecasting,
+concluding that SES provided more accurate results, as indicated by
+lower MAD and MSE values.
+
+Recognizing the limitations of traditional models, particularly in
+capturing the complexities of pharmaceutical demand (e.g., seasonality,
+external influences), researchers began developing hybrid models. These
+models combine linear methods like ARIMA with nonlinear techniques such
+as neural networks, aiming to improve forecasting accuracy by addressing
+diverse data patterns. \citet{khalil2014intelligent} introduced a hybrid
+model that integrated ARIMA with neural networks. Their study
+demonstrated that this approach significantly outperformed traditional
+models, especially in scenarios with limited historical data. The hybrid
+model's effectiveness was confirmed by improvements in key performance
+indicators like MAPE and RMSE.
+
+The pharmaceutical industry's increasing complexity and the availability
+of large datasets have led to the adoption of advanced machine learning
+techniques. These methods, such as Support Vector Regression (SVR),
+Random Forest (RF), and Long Short-Term Memory (LSTM) networks, offer
+greater flexibility and predictive power. \citet{van2021using} showed
+that incorporating downstream information into machine learning models,
+like LASSO and SVR, greatly enhances forecast accuracy. Their study on
+multi-echelon supply chains revealed that advanced models, particularly
+those integrating external variables, consistently produced lower
+forecast errors, as measured by AvgRelRMSE. Similarly,
+\citet{rathipriya2023demand} compared shallow neural networks and deep
+learning models for drug demand forecasting. The study found that
+shallow models outperformed deep learning models for most drug
+categories, while ARIMA was more effective for the remaining categories.
+This suggests that no single model is universally optimal, and model
+selection should be context-specific.
+
+More sophisticated models, such as Neuro-Fuzzy Systems, have emerged as
+powerful tools for pharmaceutical forecasting. These systems combine the
+learning capabilities of neural networks with the reasoning abilities of
+fuzzy logic, offering a balanced approach that incorporates both
+empirical data and expert knowledge. Deep learning models, while
+powerful, present challenges such as the need for large datasets and
+substantial computational resources. Despite these challenges, models
+like LSTM have shown potential in capturing long-term dependencies in
+time series data, as demonstrated by \citet{sousa2019statistical} in
+their study on drug distribution in the Brazilian Public Health System.
+\citet{candan2014demand} employed an Adaptive Neuro-Fuzzy Inference
+System (ANFIS) to forecast pharmaceutical demand. Their study
+highlighted the system's ability to capture complex patterns in the
+data, resulting in highly accurate forecasts. The effectiveness of this
+approach was further validated through statistical tests, such as paired
+T-tests and mean difference analysis, which confirmed its superiority
+over traditional methods.
+
+\citet{nguyen2023managing} explore how sentiment analysis of news media
+can be utilized to improve demand forecasting for pharmaceutical
+products during disruptive events, such as pandemics and scandals. The
+authors employed a VARX (Vector Autoregressive with Exogenous Variables)
+model to forecast demand volatility. \citet{papanagnou2018coping}
+investigate the impact of big data analytics, specifically through text
+mining, on improving forecasting accuracy for pharmaceuticals in retail
+pharmacies, using HMX pharmacy stores in Nigeria as a case study. They
+use multivariate time series analysis technique known as VARX, which
+incorporates customer-generated content from sources like Google,
+YouTube, and online newspapers to predict demand for medicines.
+\citet{fourkiotis2024applying} focus on enhancing pharmaceutical sales
+forecasting through the application of both traditional statistical
+methods and advanced machine learning techniques. Various forecasting
+approaches, including traditional models like Naïve and ARIMA,Facebook
+Prophet, and machine learning methods such as XGBoost and LSTM neural
+networks are compared. The results demonstrated that machine learning
+models, particularly XGBoost, significantly outperformed traditional
+methods. \citet{belghith2024new} present a rolling forecasting framework
+employing moving average and three exponential smoothing methods
+(Brown's, Holt's, and Holt-Winters) implemented using Microsoft Power BI
+for enhanced data visualization.
+
+Table~\ref{tbl-literature} provides a summary of key studies in the
+literature on forecasting for pharmaceutical products. We identify
+several limitations both in the existing research and in practice, which
+highlight important gaps that motivate our current study. These gaps are
+summarized as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Despite significant investment in data collection technologies and
+  logistics management systems, these systems primarily collect
+  transactional data, such as consumption. However, no data is collected
+  on events that influence consumption variability---information that
+  would be crucial for building reliable forecasting models. No studies
+  to date have explored how domain expertise could enhance
+  pharmaceutical demand forecasting.
+\item
+  Current research on forecasting for pharmaceutical supply chain
+  predominantly focuses on generating point forecasts. There is a lack
+  of studies that consider the entire forecast distribution of monthly
+  consumption, which would better capture the uncertainty of future
+  demand and provide a valuable risk management tool for
+  decision-makers.
+\item
+  Reproducibility remains a major challenge in this field. It is often
+  difficult for readers to reproduce previous studies without direct
+  assistance from the authors, limiting the practical application and
+  validation of existing research.
+\end{enumerate}
+
+\begin{table}[H]
+
+\caption{\label{tbl-literature}Summary of some studies on forecasting in
+pharmaceutical supply chain}
+
+\centering{
+
+\centering\begingroup\fontsize{11}{13}\selectfont
+
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lll>{\raggedright\arraybackslash}p{10em}ll>{\raggedright\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{2em}>{\raggedright\arraybackslash}p{2em}>{\raggedright\arraybackslash}p{2em}}
+\toprule
+References & data granularity & Lenth of data & Forecast variable & Horizon & Probabilistic & Method & Metric & Items & Data & Code\\
+\midrule
+Current study & Monthly & 60 months & Consumption of pharmaceutical products & 6 months & Yes & TimeGpt (with and without predictors), LSTM (with and without predictors), Exponential Smoothing, ARIMA, Dynamic Regression (ARIMAX), Multiple Regression (with and without predictors) & RMSSE,CRIPS,MASE & 33 & Yes & Yes\\
+Siddiqui et al. (2022) & Monthly & 58 months & Sales of pharmaceutical products & Un known & No & ARIMA, HOLT WINTER, ETS,  Theta, ARHOW & MEAN, MAD, MSE, RMSE,  MAPE & 31 & No & No\\
+de Oliveira et al.(2021) & Daily & 365 days & Lead time & NA & No & k-NN, SVM, RF, LR, MLP & MSE & 11 & Yes & No\\
+Rathipriya et al. (2023) & Weekly & 260 weeks & Sales of pharmaceuticals product & Un known & No & SNN, ARIMA P\_NN GR\_NN RBF\_NN ARIMA P\_NN GR\_NN RBF\_NN & RMSE, Normalized RMSE & 57 & Yes & No\\
+Kim et al.(2015) & Monthly & 44 month & Medicines sales data & 1 month & No & VARX & Prediction error rate & 4 & No & No\\
+Merkuryeva et al. (2019) & Weekly & 20 weeks & Sales of pharmaceuticals & 1–week & No & MA, Symbolic Regression, LR & R², MAD & 1 & No & No\\
+Nikolopoulos et al. (2016) & Yearly & 21 year & Prescription records of pharmaceuticals & 1–5 & No & Diffusion models,  ARIMA, ES, LR & R², ME, MAE, MSE & 14 & No & No\\
+Van Belle et al.(2021) & Weekly & 253 weeks & Medcine sales & 1–5 weeks & No & ARIMA, ETS, MLP, SVR, RF, LR & RMSE & 50 & No & No\\
+Khalil Zadeh et al. (2014) & Monthly & 36 months & Sales  pharmaceutical products & 1 month & No & ARIMA, Graph-based analysis and ANN, & R2,MSE, MAE & 217 & No & No\\
+Zhu  X et al.(2021) & Weekly & 520 weeks & Medcine sales & 1–2 months & No & MA, LR, Clustering and RNN & NME, NMAE, NMSE & 245 & No & No\\
+Anusha et al.(2014) & Monthly & 36 months & Sales of pharmaceuticals & Un known & No & 6 Month MA, SES, WES & MAD, MSE, MAPE & 2 & Yes & No\\
+Burinskiene (2022) & Weekly & 13 weeks & Medcine sales & 36 days & No & SES, MA, Naïve, Holt & MAPE,MSE, U² & 8 & No & No\\
+Candan et al. (2014) & Yearly & 6 years & Medcine sales & 3 months & No & NF & SE Mean & 1 & No & No\\
+Ribeiro et al.(2017) & Monthly & 24 months & Medcine sales & 3 months & No & DPM & SMAPE & 357 & No & No\\
+Bon and NG (2017) & Monthly & 68 months & Medcine sales & 1 month & No & SMA, SES, DMA, DES, RA, HW-A, SA, HW-M, ARIMA-SM & RMSE, MSE, MAD,  MAPE  & 1 & No & No\\
+Newberne and Mike (2006)  & Monthly & 36 months & Pseudoephedrine prescriptions & 3 months & No & HW-M & MAPE & 1 & No & No\\
+Sousa et al.(2019) & Monthly & 79 months & drug distribution & quarterly & No & Naïve, Seasonal Naïve, ARIMA, DLM, LST, Recurrent Neural Network, SES, Holts linear and damped trends, HW, ES-SSM, Theta & MAE & 30 & Yes & Yes\\
+Zahra and Putra (2019) & Monthly & 36 months & Consumption & 12 months & No & ARIMA, ES & RMSE, MAPE, MAD, MSE & 1 & No & No\\
+Nguyen et  al. (2023) & Un known & Un known & Pharmaceutical products & Un known & No & VARX & ME, MAE,MAPE,RMSE & Unknown & No & No\\
+Christos et al.(2017) & Weekly & 129 weeks & Web-scraping  of analgesic medcines & Un known & Yes & VARX  & AIC, BIC, MSE, MAE & Unknown & No & No\\
+Belghith et al.(2024) & Daily & 1095 days & Sales of pharmaceuticals & 1 year & No & Brown’s method, Holt’s method, and Holt-Winters method, moving average & MAD, MAPE & 125 & No & No\\
+Konstantinos  et al.(2024) & Weekly & 260 weeks & Medcine sales & 1 year & No & Naïve, ARIMA, XGBoost , LSTM, Prophet & MAPE,MSE & 57 & No & No\\
+\bottomrule
+\end{tabular}}
+\endgroup{}
+
+}
+
+\end{table}%
+
+\section{Experiment setup}\label{sec-experiment}
+
+\subsection{Data}\label{sec-data}
+
+For this study, we use a dataset spanning five years (Dec.~2017- July
+2022) of consumption data obtained from EPSS. Rigorous checks were
+conducted to ensure the consistency and completeness of the collected
+data. From the extensive pool of pharmaceutical products within EPSS, we
+selected a set of 33 key pharmaceuticals, including various programs and
+representing different classes of drugs.
+
+\subsubsection{Explaoratory Data Analysis with consumption
+data}\label{explaoratory-data-analysis-with-consumption-data}
+
+Given the number of products in this study, we created several data plot
+and computed features of the time series, including the strength of
+trend and seasonality to better understadn data.
+Figure~\ref{fig-feature} shows the strength of trend versus seasonality.
+Each point represents one time series with the strength of trend in
+x-axis and the strength of seasonality in y-axis. Both measures are on a
+scale of {[}0,1{]}. the strength of trend and seasonality were
+calculated using the ``STL'' (Seasonal and Trend decomposition using
+Loess) decomposition method, as described by \citet{mstl}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.6\textwidth,height=\textheight]{main_files/figure-pdf/fig-feature-1.pdf}
+
+}
+
+\caption{\label{fig-feature}The strength of the trend and seasonality in
+the time series of pharmaceutical product consumption. The scatter plot
+shows 33 data points, with each point corresponding to a product.}
+
+\end{figure}%
+
+It is evident that some time series display strong trends and/or
+seasonality, while the majority exhibit low trends and minimal
+seasonality. A number of products show pronounced trends, and only a few
+demonstrate clear seasonal patterns. Beyond assessing the strength of
+trends and seasonality, we also visualized all time series to understand
+data and various patterns, including trends and instances of erratic
+consumption behavior during certain months. For example, some series
+show low consumption volumes over consecutive months, followed by peak
+consumption in specific months, making them more volatile and difficult
+to forecast. This underscores the diversity of monthly pharmaceutical
+time series patterns within the dataset and highlights the importance of
+understanding the factors driving these consumption behaviors. Figure
+Figure~\ref{fig-dataviz2} illustrates the time plots for a few selected
+products.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{main_files/figure-pdf/fig-dataviz2-1.pdf}
+
+}
+
+\caption{\label{fig-dataviz2}Monthly time plot of consumption. X-axis
+shows the month, consisting of 60 data points (months) and y-axis shows
+the comsumption. The panels display data from four products to give a
+glimpse of the consumption patterns.}
+
+\end{figure}%
+
+Visualizing the data revealed that various events significantly impacted
+the consumption of different products, but these were not reflected in
+the available data. Expert insights were crucial for understanding the
+nature and timing of these events, filling gaps in the system, and
+incorporating qualitative factors that EPSS logistics system miss.
+Therefore, we conducted interviews with domain experts to collect
+information on external factors that influence consumption. These
+interviews allowed us to account for unusual patterns and customize our
+forecasting models to more accurately reflect the unique consumption
+behaviors of each product.
+
+\subsubsection{Collaborative expert review to identify factors affecting
+consumption}\label{collaborative-expert-review-to-identify-factors-affecting-consumption}
+
+To understand the external factors influencing product consumption, we
+began by visualizing the time series data for consumption as highlighted
+in the previous section. This initial step helped identify specific
+instances within the data that showed unusual patterns, such as peaks,
+unusually high or low observations, and consecutive periods of low
+consumption. These observations indicated potential events or factors
+affecting consumption levels.
+
+To gather domain knowledge about factors affected the consumption of
+products, we contacted experts from EPSS who work in the distribution
+unit. Next, we collaborated with six experts, each with over 10 years of
+experience managing pharmaceutical distribution. In these sessions, we
+reviewed the time series of all products together to understand the
+potential drivers behind these anomalies. The experts provided insights
+based on their extensive experience and knowledge of distribution
+practices. When there was uncertainty or gaps in the data for certain
+products, additional experts were consulted to gather further context.
+If all experts reached a consensus, the influencing factors were
+confirmed and included in the analysis.
+
+As part of this process, we examined the electronic bin cards for 33
+pharmaceutical products and conducted detailed data exploration. A bin
+card is a physical or electronic record used to track the inventory
+levels of individual items in a storage location, such as a warehouse or
+stockroom. The term `bin' refers to the specific storage location for an
+item. Information typically recorded on a bin card includes the Item ID,
+unit of measure, product description, account details, date, references,
+beginning balance, manufacturer, batch number, expiry date, quantity
+received, quantity issued, and balance. In summary, a bin card is a
+fundamental tool in inventory management, especially in environments
+where physical stock tracking is essential. It provides a
+straightforward and immediate way to monitor item quantities, helping to
+ensure effective inventory management. Over a period of two weeks, we
+meticulously traced consumption data through these bin cards. Moreover,
+We ensured accuracy by converting dates from the Ethiopian calendar to
+the Gregorian calendar and excluded transactions related to internal
+storage or warehouse relocation within EPSS. Through this collaborative
+approach, we were able to identify several predictors affecting
+distribution and consumption that are summarised as followings:
+
+\begin{itemize}
+\tightlist
+\item
+  Stock replenishment: refers to the process of restocking or refilling
+  inventory to ensure that there are sufficient quantities of products
+  or materials available to meet demand. Whenever there was stock
+  replenishment at the central EPSS, consumption and distribution to
+  hubs and health facilities increased. This increase was attributed to
+  the need to restock depleted inventories and the push from central
+  EPSS to manage space constraints.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  Physical fiscal year inventory counting: refers to the process of
+  manually counting and verifying the actual quantities of
+  pharmaceutical products available in stock at a specific location. The
+  process is critical for maintaining the accuracy of inventory records,
+  ensuring that medicines are available when needed, and preventing
+  stockouts or overstocking. Physical inventory counting periods also
+  influenced consumption. Stores closed during these periods, halting
+  transactions. We observed increased consumption before inventory
+  counting periods, as hubs and facilities stocked up. July and August
+  were identified as physical counting periods each year.
+\end{itemize}
+
+\begin{itemize}
+\tightlist
+\item
+  Malaria seasonality: Refers to the predictable patterns and
+  fluctuations in malaria incidence throughout the year, typically
+  influenced by climate and environmental conditions. In many regions,
+  malaria transmission peaks during and shortly after the rainy season,
+  when conditions such as stagnant water pools create ideal breeding
+  sites for the Anopheles mosquitoes that transmit the disease.
+  Conversely, malaria cases often decline during the dry season when
+  mosquito breeding sites are reduced. During peak malaria seasons,
+  there is a significant surge in the demand for antimalarial drugs and
+  other related treatments. Malaria seasonality was another significant
+  predictor. Certain pharmaceuticals, like Artemether + Lumefanthrine
+  and Rapid Diagnostic Test kits, were affected by malaria outbreaks. We
+  identified epidemic periods affecting consumption: September to
+  December 2017, March to May 2018, September to December 2018, March to
+  May 2019, September to December 2019, March to May 2020, September to
+  December 2020, March to May 2021, September to December 2021, and
+  March to May 2022.
+\end{itemize}
+
+The key predictors identified are deterministic values, since both past
+and future values of these predictors are known in advance. We then
+integrated them into the consumption data, creating the complete dataset
+required for model building and running the experiment.
+
+\subsection{Forecasting models}\label{forecasting-models}
+
+We evaluate a range of univariate models and their counterparts that
+include predictors, spanning from simpler methods like regression,
+exponential smoothing, and ARIMA to more complex models such as long
+short-term memory (LSTM) networks and advanced foundational time series
+forecasting models. Below, we provide a brief overview of these
+approaches. Detailed implementation codes in R and Python are available
+in a GitHub repository and accessible for public.
+
+\textbf{Exponential Smoothing State Space model (ETS):} ETS models, as
+described by \citet{hyndman2021forecasting}, combine trend, seasonality,
+and error components in time series using different configurations that
+can be additive, multiplicative, or mixed. The trend component can be
+specified as none (``N''), additive (``A''), or damped additive
+(``Ad''); the seasonality can be none (``N''), additive (``A''), or
+multiplicative (``M''); and the error term can be additive (``A'') or
+multiplicative (``M''). To forecast consumption, we use the ETS()
+function from the fable package in R, which automatically selects the
+optimal model for each time series based on the corrected Akaike's
+Information Criterion (AICc). In our study, an automated algorithm
+determines the best configuration for trend, seasonality, and error
+components across each time series, leveraging the ets() function's use
+of AIC to identify the optimal model. Given the high volume of time
+series (1530), manual selection of components is impractical, so the
+algorithm customizes model forms for each series based on its unique
+characteristics. This results in a tailored combination of additive or
+multiplicative components, adapting to the specific patterns of each
+time series.
+
+\textbf{Multiple Linear Regression (MLR)}: We use Multiple linear
+regression to model the relationship between a consumption and potential
+variables influencing its variation. In our first model, we use multiple
+linear regression with a trend component to capture the underlying
+progression over time, i.e., \emph{regression}. We also incorporate
+dummy variables for each month to account for seasonal fluctuations,
+without including any additional predictors, i.e.,
+\emph{regression\_reg}. This approach helps us establish a baseline
+model focused solely on temporal trends and seasonal patterns. We then
+extend this model by introducing additional predictors that include
+variables such as replenishment cycles, fiscal year indicators, and
+periods with malaria prevalence. These additional predictors allow the
+model to see if capturing external factors can provide a better
+understanding of the factors influencing the consumption and result at
+enhanced accuracy. We produce forecasts using TLSM() function from the
+fable package in R.
+
+\textbf{ARIMA and ARIMA with regressors}: ARIMA (AutoRegressive
+Integrated Moving Average) is a powerful statistical model designed to
+forecast time series by capturing temporal dynamics and are widely used
+in time series forecasting due to their ability to model complex trends
+and patterns over time without relying on external predictors. ARIMAX
+(AutoRegressive Integrated Moving Average with eXogenous variables)
+extends ARIMA by incorporating external variables, or exogenous
+predictors, into the model. This modification allows to include relevant
+information from external factors such as malaria season, and fiscal
+year period, and stock replenishement period that may explain variations
+in the series beyond its internal time dynamics, we refer to this in the
+result as \emph{arima\_reg}. By adding these predictors, ARIMAX combines
+the strengths of ARIMA's time-series structure with the flexibility of
+regression models. In our study, we use an automated algorithm to
+determine the optimal configuration for ARIMA components, following the
+approach outlined by \citet{hyndman2021forecasting} and We use the
+ARIMA() function from the fable package in R.
+
+\textbf{Long Short-Term Memory neural network (LSTM)}: The LSTM model is
+a specialised form of recurrent neural network (RNN) used to model
+sequential data by capturing long-term dependencies
+\citep{graves2012long}. Unlike traditional RNNs, LSTMs can learn to
+retain information for longer time periods due to their unique
+architecture, which consists of several gates that control the flow of
+information. This makes LSTMs particularly effective for time series
+forecasting. In our implementation, we used a sequential model
+architecture, comprising one LSTM layer with 50 units, followed by dense
+layers, with the final output being a single linear unit. The Adam
+optimizer was employed to minimize the mean squared error, and the model
+was trained for 100 epochs using the keras\_model\_sequential() function
+from the Keras package in R. We use LSTM models both with and without
+predictors, referring to the LSTM model with predictors as
+\emph{lstm\_reg}.
+
+\textbf{TimeGPT}: TimeGPT is the first pre-trained foundational model
+designed specifically for time series forecasting, developed by Nixtla
+\citep{garza2023timegpt}. It uses a transformer-based architecture with
+an encoder-decoder configuration but differs from other models in that
+it is not based on large language models. Instead, it is built from the
+ground up to handle time series data. TimeGPT was trained on more than
+100 billion data points, drawing from publicly available time series
+across various sectors, such as retail, healthcare, transportation,
+demographics, energy, banking, and web traffic. This wide range of data
+sources, each with unique temporal patterns, enables the model to manage
+diverse time series characteristics effectively. Furthermore, TimeGPT
+supports the inclusion of external regressors in its forecasts and can
+generate quantile forecasts, providing reliable uncertainty estimation.
+We use TimeGpt models both with and without predictors, referring to the
+model with predictors as \emph{timegpt\_reg}.
+
+In all models, probabilistic forecasts were generated using
+bootstrapping to create 1,000 possible future scenarios for each period
+within the forecast horizon \citep{hyndman2021forecasting}.
+
+\subsection{Performance evaluation}\label{performance-evaluation}
+
+To assess the performance of our forecasting methods, we split the data
+into a series of training and test sets and apply time series
+cross-validation with a forecast horizon of 6 months. Each training set
+is expanded in monthly increments, allowing model development and
+hyperparameter tuning to be performed on the training data, with errors
+evaluated on the corresponding test sets. We assess forecasting
+performance using both point and probabilistic error measures.
+
+The error metrics presented here consider a forecasting horizon denoted
+by by \(j\), which represents the number of time periods ahead we are
+predicting, with \(j\) ranging from 1 to 6 months in our study. Point
+forecast accuracy is measured using the Mean Squared Scaled Error (MSSE)
+and the Mean Absolute Scaled Error (MASE). The Mean Absolute Scaled
+Error (MASE) \citep{HK06, hyndman2021forecasting} is calculated as
+follows:
+
+\[
+  \text{MASE} = \text{mean}(|q_{j}|),
+\] where \[
+  q_{j} = \frac{ e_{j}}
+ {\displaystyle\frac{1}{T-m}\sum_{t=m+1}^T |y_{t}-y_{t-m}|},
+\] and \(e_{j}\) is the point forecast error for forecast horizon \(j\),
+\(m = 12\) (as we have monthly seasonal series), \(y_t\) is the
+observation for period \(t\), and \(T\) is the sample size (the number
+of observations used for training the forecasting model). The
+denominator is the mean absolute error of the seasonal naive method in
+the fitting sample of \(T\) observations and is used to scale the error.
+Smaller MASE values suggest more accurate forecasts. Note that the
+measure is scale-independent, thus allowing us to average the results
+across series.
+
+Here, \(e_{j}\) represents the point forecast error for forecast horizon
+\(j\), with \(m = 12\) (since we are dealing with monthly seasonal
+data). The term \(y_t\) denotes the observation at time \(t\), and \(T\)
+is the sample size, or the number of observations used for training the
+forecasting model. The denominator in the MASE formula is the mean
+absolute error of the seasonal naive method over the training sample of
+\(T\) observations, providing a basis for scaling the forecast error.
+Lower MASE values indicate more accurate forecasts. Notably, this
+measure is scale-independent, allowing us to average results across
+different series for broader performance comparison.
+
+A related measure is MSSE
+\citep{hyndman2021forecasting, makridakis2022m5}, which uses squared
+errors rather than absolute errors:
+\begin{equation}\phantomsection\label{eq-RMSSE}{
+  \text{MSSE} = \text{mean}(q_{j}^2),
+}\end{equation} where, \[
+  q^2_{j} = \frac{ e^2_{j}}
+ {\displaystyle\frac{1}{T-m}\sum_{t=m+1}^T (y_{t}-y_{t-m})^2},
+\] Again, this is scale-independent, and smaller MSSE values suggest
+more accurate forecasts.
+
+To measure the forecast distribution accuracy, we calculate the
+Continuous Rank Probability Score \citep{hyndman2021forecasting}. It
+rewards sharpness and penalizes miscalibration, so it measures overall
+performance of the forecast distribution.
+\begin{equation}\phantomsection\label{eq-CRPS}{
+  \text{CRPS} = \text{mean}(p_j),
+}\end{equation} where \[
+  p_j = \int_{-\infty}^{\infty} \left(G_j(x) - F_j(x)\right)^2dx,
+\] where \(G_j(x)\) is the forecasted probability distribution function
+for forecast horizon \(j\), and \(F_j(x)\) is the true probability
+distribution function for the same period.
+
+Calibration refers to the statistical consistency between the
+distributional forecasts and the observations. It measures how well the
+predicted probabilities match the observations. On the other hand,
+sharpness refers to the concentration of the forecast distributions ---
+a sharp forecast distribution results in narrow prediction intervals,
+indicating high confidence in the forecast. A model is well-calibrated
+if the predicted probabilities match the distribution of the
+observations, and it is sharp if it is confident in its predictions. The
+CRPS rewards sharpness and calibration by assigning lower scores to
+forecasts with sharper distributions, and to forecasts that are
+well-calibrated. Thus, it is a metric that combines both sharpness and
+miscalibration into a single score, making it a useful tool for
+evaluating the performance of probabilistic forecasts.
+
+CRPS can be considered an average of all possible quantiles
+\citep[Section 5.9]{hyndman2021forecasting}, and thus provides an
+evaluation of all possible prediction intervals or quantiles. A specific
+prediction interval could be evaluated using a Winkler score, if
+required.
+
+\section{Results and discussion}\label{sec-results}
+
+In this section, we compare the forecasting performance of various
+approaches, examining models that incorporate expert-identified business
+context predictors versus those that rely solely on historical
+consumption data. Point forecast performance is reported using MASE and
+RMSSE, while probabilistic forecast accuracy is reported using CRPS.
+
+The forecasting performance is reported in Figure~\ref{fig-point}, in
+which the average forecast accuracy over forecast horizon and across all
+products is calculated for each origin. We report the distribution of
+accuracy metrics across all rolling origins. This shows how models
+varies in providing accuracy across different origins. The y-axis
+displays models sorted by their MASE and RMSSE values, with the model
+exhibiting the lowest error positioned at the bottom. This model is the
+Ariam model, which incorporates exogenous variables. Additionally,
+Figure~\ref{fig-point} indicates that predictors obtained through
+interactions with domain experts enhance point forecast accuracy across
+most models. This underscores the critical importance of systematically
+collecting such expert-informed data alongside transactional consumption
+data.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics{main_files/figure-pdf/fig-point-1.pdf}
+
+}
+
+\caption{\label{fig-point}Distribution of point forecast accuracy across
+different origins, averaged across the forecat horizon and all products.
+The total number of months used to calculate the accuracy in the test
+set is 12 months for each product. MASE and MSSE are relative to the
+corresponding values for the training set.}
+
+\end{figure}%
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics{main_files/figure-pdf/fig-prob-1.pdf}
+
+}
+
+\caption{\label{fig-prob}Distribution of probabilistic forecast accuracy
+across different origins, averaged across the forecat horizon and all
+products. The total number of months used to calculate the accuracy in
+the test set is 12 months for each product.}
+
+\end{figure}%
+
+Figure~\ref{fig-prob} illustrates the forecast distribution accuracy
+measured by CRPS, which evaluates both forecasting calibration and
+interval sharpness. A smaller CRPS value indicates better overall
+performance. We observed that incorporating domain knowledge improved
+forecast accuracy for most models, enhancing not only point forecasts
+but also probabilistic forecasts. Notably, ARIMA achieved the highest
+probabilistic forecast accuracy, while LSTM models had the lowest. This
+aligns with the findings related to point forecast accuracy, reinforcing
+the earlier explanations for these results.
+
+We observe that LSTM models exhibit a widespread error distribution
+compared to other models. This is attributed to their performance
+variability, which can significantly depend on the characteristics of
+demand patterns across different products. For example, the product
+``Amlodipine - 5mg - Tablet'' demonstrates periods of extreme
+variability, with spikes in demand followed by periods of very low or
+zero demand. Such patterns align well with the strengths of LSTM models,
+which excel at capturing long-term dependencies and managing complex
+temporal fluctuations. In contrast, the demand for ``Anti-Rho (D)'' is
+erratic and sporadic, characterized by frequent, random fluctuations
+without any discernible long-term trends or seasonal patterns. This
+chaotic nature, combined with inconsistent and often low volumes, poses
+significant challenges for LSTM models. The lack of clear structure or
+stable patterns limits the models' ability to generalize effectively,
+resulting in poorer forecast performance. Although LSTM models can
+handle irregular data to some extent, they require sufficient and
+well-distributed training samples to achieve optimal performance. In our
+study, the majority of products exhibit erratic and sporadic demand
+patterns similar to ``Anti-Rho (D)'', resulting in this widespread error
+distribution.
+
+The findings emphasize the importance of incorporating relevant domain
+knowledge into forecasting models. In pharmaceutical supply logistics
+administration systems, data often consists solely of transactional
+records on consumption and distribution. Including exogenous variables
+such as administrative procedures, seasonal patterns, or conflicts, or
+any other relevant factor that could be identified by those with domain
+knowledge proved essential for reducing forecast errors. This approach
+improved both point and probabilistic forecast accuracy, enabling a more
+confident assessment of uncertainty. Therefore, the systematic
+collection of information about significant events and their impact on
+consumption is vital. Recording details of events such as policy
+changes, administration procedures, conflicts, and incorporating this
+information into forecasting models creates a comprehensive
+understanding of consumption. This practice enhances modeling
+reliability and allows institutions in developing countries and
+humanitarian organizations to better forecast demand, allocate resources
+effectively, and respond proactively. Establishing robust data
+collection systems is thus a critical step for strengthening forecasting
+capabilities and operational resilience.
+
+Our analysis also highlights the value of using foundational time series
+forecasting models like TimeGpt, particularly in developing countries
+and the global health and humanitarian sectors. In these contexts, the
+lack of advanced analytical skills and systematic data collection can
+hinder effective forecasting and decision-making.
+
+\subsection{An illustration of probabilistic forecast for Pharmacuitical
+product
+consumption}\label{an-illustration-of-probabilistic-forecast-for-pharmacuitical-product-consumption}
+
+In this section, we present an illustrative example of a probabilistic
+forecast for future consumption of \emph{Sodium Chloride (Normal
+Saline)} product. Due to the complexity of including such visualizations
+for all products, only one example is shown here. However, it is
+feasible to generate these plots for all products if needed.
+
+In practice, point forecasts are commonly used despite their
+limitations, but they do not account for the inherent uncertainty
+associated with forecasts. The future is inherently uncertain, and
+effective planning requires considering alternative scenarios.
+Probabilistic forecasts offer a comprehensive approach by assigning
+likelihoods to a range of possible outcomes, recognizing that different
+consumption levels may occur with varying probabilities. The primary
+purpose of probabilistic forecasting, as illustrated in
+Figure~\ref{fig-forecast-density-hstep}, is to quantify and communicate
+uncertainty. This figure displays the forecast distribution of
+consumption over a 6-month horizon using a density plot. For each month
+within the forecast period, a separate distribution is generated. The
+plot also includes the point forecast alongside 80\% and 90\% prediction
+intervals to illustrate potential variability.
+
+It is important to note that while point forecasts and prediction
+intervals can be derived from probabilistic forecasts, the reverse is
+not true. A single-point forecast cannot inherently provide the
+probabilistic context needed to capture the range of possible outcomes.
+Although prediction intervals can indicate a range of potential values,
+they do not convey the detailed probabilities of low or high
+consumption. This distinction highlights the value of probabilistic
+forecasting in supporting informed decision-making by offering a clearer
+view of future uncertainties.
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics{main_files/figure-pdf/fig-forecast-density-hstep-1.pdf}
+
+}
+
+\caption{\label{fig-forecast-density-hstep}A graphical illustration of
+the forecast distribution of a pharmacutical product (i.e.~total
+incidence attended) for the SB health board for a horizon of six month.
+For each month, we display the point forecast (black point), the
+histogram, and 80\% (thick line) and 90\% (thin line) prediction
+intervals. It also shows a portion of a historical time series as well
+as its fitted values.}
+
+\end{figure}%
+
+\section{Conclusion and future reserach}\label{sec-conclusion}
+
+In this study, we conducted an extensive analysis of pharmaceutical
+demand forecasting within the EPSS. Using five years of consumption data
+for 33 key pharmaceutical products, along with additional information
+gathered through collaboration with domain experts at EPSS, our goal is
+to contribute to enhancing the demand forecasting process and emphasize
+the importance of integrating domain knowledge into model building. This
+step is critical, as the phase of understanding the data and
+incorporating valuable contextual information is often overlooked. Too
+frequently, forecasting efforts rely solely on consumption data, leading
+to building models with little relevance to reality. Our approach
+highlights the necessity of including domain insights to construct more
+accurate and effective forecasting models.
+
+Our findings highlight the importance of collecting and incorporating
+domain knowledge when building forecasting models. We evaluated both
+point and probabilistic forecasts using a range of models, from simple
+univariate approaches like ARIMA to complex models such as LSTM.
+Notably, we demonstrated that employing complex models does not
+necessarily lead to more accurate forecasts in the pharmaceutical supply
+context. Additionally, our research revealed that newly developed
+foundational time series forecasting models have potential
+applicability, particularly in environments where advanced analytical
+skills and knowledge are limited, as often seen in pharmaceutical supply
+chains in developing countries.
+
+To advance forecasting practices further, exploring additional predictor
+variables---such as public health campaigns, disease outbreaks, and
+economic indicators---could provide valuable insights into demand
+dynamics. Improving the granularity of historical consumption data,
+through finer temporal intervals and geographic differentiation, also
+holds potential for more precise predictions. Additionally, hybrid
+forecasting models that combine judgmental point forecasts with
+probabilistic machine learning models could enhance predictive
+performance. Empowering EPSS staff through training in foundational time
+series models, data interpretation, and collection will enable informed
+decision-making and strengthen workforce capabilities. Replicating this
+study across diverse healthcare settings and conducting comparative
+analyses would help validate the adaptability and applicability of the
+findings. Additionally, it is recommended that pharmaceutical supply
+services systematically collect and maintain detailed records of events
+that may influence consumption, alongside consumption data. This
+practice is essential for refining demand models and enhancing forecast
+accuracy.
+
+\subsection{Practical challenges and
+limitations}\label{practical-challenges-and-limitations}
+
+Despite dedicated efforts to engage with domain experts to better
+understand the data---and spending significant time over two weeks
+collaborating with them---we found that the process of interpreting data
+through domain knowledge is complex and presents unique challenges.
+These challenges include defining what constitutes domain knowledge and
+determining how best to incorporate it to enhance model reliability and
+accuracy. Below, we summarize some of these key challenges. One issue
+involved capturing accurate information from bin cards and expert
+review, particularly during periods of disruption like COVID-19 and
+conflicts. For instance, during the COVID-19 pandemic, experts noted a
+decrease in demand due to travel restrictions. However, despite the
+reduced demand, there were still significant distributions of
+pharmaceuticals from the EPSS central to various hubs and health
+facilities. This was because, in response to anticipated shortages, a
+political decision was made to push products to these facilities before
+the travel restrictions took full effect. The rationale was that if the
+facilities remained closed, patients would have no access to
+medications, necessitating the preemptive stockpiling of essential
+pharmaceuticals. This scenario illustrates how policy decisions can
+significantly impact supply chain data, making it challenging to model
+distribution patterns accurately. Similarly, experts indicated that
+conflicts would disrupt the distribution of pharmaceuticals. While
+conflict zones did indeed hinder transportation, distribution still
+occurred whenever roads were temporarily opened, even amidst on-going
+conflict. This created inconsistencies in the data, as periods of halted
+distribution were followed by rapid replenishment once access was
+restored. Such fluctuations add complexity to modelling the supply chain
+from the central EPSS to hubs and health facilities. Other challenges
+involved seasonal or periodic activities, such as the fiscal year-end
+stock counting. During this time, EPSS temporarily halts transactions to
+conduct a full inventory count, which can take anywhere from one to two
+months, depending on the circumstances. This inconsistency in the
+duration of inventory counts adds a layer of unpredictability to supply
+chain modelling.
+
+\subsection{Future reserach}\label{future-reserach}
+
+Following the current research, several promising areas could further
+advance knowledge and practical applications in this area:
+
+\begin{itemize}
+\item
+  Future research could focus on developing intelligent systems that
+  incorporate domain-specific knowledge into model building. This would
+  involve creating algorithms capable of identifying relevant domain
+  insights and integrating them effectively into model training
+  processes. Such tools would bridge the gap between purely data-driven
+  approaches and expert-knowledge-enhanced modeling, leading to more
+  robust and contextually informed forecasts.
+\item
+  Large Language Models (LLMs) for time series forecasting, like the one
+  included in this study, offer transformative opportunities for
+  developing countries by making advanced forecasting methods
+  accessible, even in contexts with limited expertise or infrastructure.
+  However, future research should explore their applicability,
+  advantages, limitations, and performance relative to traditional and
+  hybrid forecasting methods.
+\item
+  The use of distribution-based representation of error metrics across
+  different rolling origins or forecast horizons, such as boxplots, to
+  showcase forecast accuracy provides essential insights into
+  variability in accuracy at different point of time in data. Building
+  on this, future work could aim at designing methodologies that
+  identify diagnostic patterns within the distribution of errors. These
+  approaches could suggest model improvements by analyzing error
+  distributions and help practitioners to refine models based on error
+  behavior.
+\item
+  While current study focus on monthly aggregate consumption at the
+  organizational level, there is potential in exploring more granular
+  forecasts. Future research could investigate daily or weekly
+  forecasting and examine the impacts at hierarchical levels, such as
+  specific sites or health facilities. Investigating how fine-grained
+  temporal and hierarchical forecasts influence inventory management and
+  operational efficiency could yield valuable insights for reducing
+  stockouts, minimizing costs and reducing waste.
+\end{itemize}
+
+\section*{Reproducibility}\label{reproducibility}
+\addcontentsline{toc}{section}{Reproducibility}
+
+We use R and Python for model development and accuracy evaluation. The
+paper is written in Quarto, and all code, data, and files will be shared
+in a GitHub repository upon acceptance for publication.
+
+
+\renewcommand\refname{References}
+  \bibliography{references.bib}
+
+
+\end{document}

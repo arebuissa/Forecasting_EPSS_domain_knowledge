@@ -60,7 +60,21 @@ fit_univariate <- med_tsb_train_tscv_no_malaria |> model(regression = TSLM(quant
                                                          ets = ETS(quantity)
 )
 
-fcst_univariate <- fit_univariate |> forecast(h=f_horizon, bootstrap = TRUE)
+# fcst_univariate1 <- fit_univariate |> forecast(h=f_horizon, bootstrap = TRUE)
+
+# Generate 1000 future sample paths
+fcst_univariate <- fit_univariate |> generate(h = f_horizon, times = 1000) |>
+  mutate(.sim = if_else(.sim < 0, 0, .sim)) |> 
+  # Compute forecast distributions from future sample paths
+  as_tibble() |>
+  group_by(.id, item, .model, month) |> 
+  summarise(
+    quantity = distributional::dist_sample(list(.sim)), .mean = mean(.sim)
+  ) |>
+  ungroup() |>
+  # Create fable object
+  as_fable(index = month, key = c(.id, item,.model),
+           distribution = "quantity", response = "quantity")
 
 # fcct_and_test <- fcst_univariate |> full_join(med_tsb_test_tscv_stockout, by = c(".id", "item","month"))
 # forecast_nonstock <- fcct_and_test |> select(.id, item, .model, month, quantity= quantity.x,stock_out, .mean) |> filter(stock_out == 0) |> 
@@ -81,7 +95,21 @@ fit_univariate_regg <- med_tsb_train_tscv_no_malaria |> model(regression_reg = T
                                                    arima_reg = ARIMA(quantity ~ stock_replinish  +fical_year_counting )
 )
 
-fcst_predictors <- fit_univariate_regg |> forecast(new_data = med_tsb_test_tscv_no_malaria,bootstrap = TRUE)
+# fcst_predictors1 <- fit_univariate_regg |> 
+#   forecast(new_data = med_tsb_test_tscv_no_malaria,bootstrap = TRUE)
+
+fcst_predictors <- fit_univariate_regg |> generate(new_data = med_tsb_test_tscv_no_malaria, times = 1000) |>
+  mutate(.sim = if_else(.sim < 0, 0, .sim)) |> 
+  # Compute forecast distributions from future sample paths
+  as_tibble() |>
+  group_by(.id, item, .model, month) |> 
+  summarise(
+    quantity = distributional::dist_sample(list(.sim)), .mean = mean(.sim)
+  ) |>
+  ungroup() |>
+  # Create fable object
+  as_fable(index = month, key = c(.id, item,.model),
+           distribution = "quantity", response = "quantity")
 
 # fcct_and_test_predic <- fcst_predictors |> select(.id, item,.model,month,quantity,.mean) |> full_join(med_tsb_test_tscv_no_malaria_stockout, by = c(".id", "item","month"))
 # forecast_nonstock_predict <- fcct_and_test_predic |> select(.id, item, .model, month, quantity= quantity.x,stock_out, .mean) |> filter(stock_out == 0) |> 
@@ -98,7 +126,21 @@ fit_univariate_regg_malaria <- med_tsb_train_tscv_malaria |> model(regression_re
                                                               arima_reg = ARIMA(quantity ~ malaria_seasonality+stock_replinish +fical_year_counting)
 )
 
-fcst_predictors_malaria <- fit_univariate_regg_malaria |> forecast(new_data = med_tsb_test_tscv_malaria,bootstrap = TRUE)
+# fcst_predictors_malaria1 <- fit_univariate_regg_malaria |> 
+#   forecast(new_data = med_tsb_test_tscv_malaria,bootstrap = TRUE)
+
+fcst_predictors_malaria <- fit_univariate_regg_malaria |> generate(new_data = med_tsb_test_tscv_malaria, times = 1000) |>
+  mutate(.sim = if_else(.sim < 0, 0, .sim)) |> 
+  # Compute forecast distributions from future sample paths
+  as_tibble() |>
+  group_by(.id, item, .model, month) |> 
+  summarise(
+    quantity = distributional::dist_sample(list(.sim)), .mean = mean(.sim)
+  ) |>
+  ungroup() |>
+  # Create fable object
+  as_fable(index = month, key = c(.id, item,.model),
+           distribution = "quantity", response = "quantity")
 
 # fcct_and_test_predic_malaria <- fcst_predictors_malaria |> select(.id, item,.model,month,quantity,.mean) |> full_join(med_tsb_test_tscv_malaria_stockout, by = c(".id", "item","month"))
 # forecast_nonstock_predict_malaria <- fcct_and_test_predic_malaria |> select(.id, item, .model, month, quantity= quantity.x,stock_out, .mean) |> filter(stock_out == 0) |> 
