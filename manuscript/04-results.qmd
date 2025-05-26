@@ -26,7 +26,7 @@ prob_accuracy_origin_all <- prob_accuracy_id |> bind_rows(prob_accuracy_origin |
 
 In this section, we compare the forecasting performance of various approaches, examining models that incorporate expert-identified business context predictors versus those that rely solely on historical consumption data. Point forecast performance is reported using MASE and RMSSE, while probabilistic forecast accuracy is reported using CRPS. 
 
-The forecasting performance is reported in @fig-point, in which the average forecast accuracy over forecast horizon and across all products is calculated for each origin. We report the distribution of accuracy metrics across all rolling origins. This shows how models varies in providing accuracy across different origins. The y-axis displays models sorted by their MASE and RMSSE values, with the model exhibiting the lowest error positioned at the bottom. This model is the Ariam model, which incorporates exogenous variables. Additionally, @fig-point indicates that predictors obtained through interactions with domain experts enhance point forecast accuracy across most models. This underscores the critical importance of systematically collecting such expert-informed data alongside transactional consumption data.
+The forecasting performance is reported in @fig-point, in which the average forecast accuracy over forecast horizon and across all products is calculated for each origin. We report the distribution of accuracy metrics across all rolling origins. This shows how models varies in providing accuracy across different origins. The y-axis displays models sorted by their MASE and RMSSE values, with the model exhibiting the lowest error positioned at the bottom. This model is the LSTM model, followed by ARIMA, which incorporate exogenous variables. Additionally, @fig-point indicates that predictors obtained through interactions with domain experts enhance point forecast accuracy across most models. This underscores the critical importance of systematically collecting such expert-informed data alongside transactional consumption data.
 
 ```{r}
 #| label: fig-point
@@ -105,27 +105,54 @@ prob_accuracy_origin_all |> ggplot(aes(x= crps, y =  fct_reorder(model, crps)))+
 <!-- ``` -->
 
 
-@fig-prob illustrates the forecast distribution accuracy measured by CRPS, which evaluates both forecasting calibration and interval sharpness. A smaller CRPS value indicates better overall performance. We observed that incorporating domain knowledge improved forecast accuracy for most models, enhancing not only point forecasts but also probabilistic forecasts. Notably, ARIMA achieved the highest probabilistic forecast accuracy, while LSTM models had the lowest. This aligns with the findings related to point forecast accuracy, reinforcing the earlier explanations for these results.
+@fig-prob illustrates the forecast distribution accuracy measured by CRPS, which evaluates both forecasting calibration and interval sharpness. A smaller CRPS value indicates better overall performance. We observed that incorporating domain knowledge improved forecast accuracy for most models, enhancing not only point forecasts but also probabilistic forecasts. Notably, LSTM and ARIMA yielded the most accurate probabilistic forecasts when identified predictors were incorporated. This aligns with the findings related to point forecast accuracy, reinforcing the earlier explanations for these results.
 
 
-We observe that LSTM models exhibit a widespread error distribution compared to other models. This is attributed to their performance variability, which can significantly depend on the characteristics of demand patterns across different products. For example, the product "Amlodipine - 5mg - Tablet" demonstrates periods of extreme variability, with spikes in demand followed by periods of very low or zero demand. Such patterns align well with the strengths of LSTM models, which excel at capturing long-term dependencies and managing complex temporal fluctuations.
-In contrast, the demand for "Anti-Rho (D)" is erratic and sporadic, characterized by frequent, random fluctuations without any discernible long-term trends or seasonal patterns. This chaotic nature, combined with inconsistent and often low volumes, poses significant challenges for LSTM models. The lack of clear structure or stable patterns limits the models' ability to generalize effectively, resulting in poorer forecast performance. Although LSTM models can handle irregular data to some extent, they require sufficient and well-distributed training samples to achieve optimal performance. In our study, the majority of products exhibit erratic and sporadic demand patterns similar to "Anti-Rho (D)", resulting in this widespread error distribution.
-
-
-<!-- In addition to reporting the forecast accuracy presented across different rolling origins, we also report the point and probabilistic forecast accuracy measures for each forecast horizon in @fig-horizon. this is the accuracy reorted as the average across rolling origins and all products fro each given horizon. For both the point forecast and distributional accuracy  we can see that models incoporating information collected by domain experts improves compared to counterparts that that uses only the historical comsuptions.  -->
-
-<!-- Overall, our results indicate that forecast produces using models with infromation colelcted via the domain expert engagement provides reliable forecasts and improves upon the models relying solely on historcial consuption.  -->
+\textcolor{blue}{While LSTM models achieved the best overall forecast accuracy across products, their performance exhibited notable variability depending on the characteristics of individual demand patterns. For example, the product $Amlodipine - 5mg - Tablet$ demonstrates periods of extreme variability, with spikes in demand followed by periods of very low or zero consumption. Such patterns align well with the strengths of univariate LSTM models, which are adept at capturing long-term dependencies and managing complex temporal fluctuations. In contrast, the demand for $Anti-Rho (D)$ is erratic and sparse, with frequent random fluctuations and little structural consistency. This lack of clear temporal patterns can make it challenging for LSTM models to learn generalizable signals, particularly given the limited data length available for training. Although LSTM can manage irregular data to some extent, it performs best when patterns are consistent or cyclic. These variations across product types contributed to the observed distribution of forecast errors across the product portfolio. Moreover, although we expect that multivariate LSTM models benefit from expert-informed predictors, our results show that the univariate LSTM consistently achieved better forecast performance. This outcome may be attributed to the nature of the predictors—binary, static, or weakly aligned with short-term temporal dynamics—which can disrupt rather than enhance learning when added to a neural network sensitive to input configuration. Moreover, with relatively short historical series and limited training samples, the inclusion of additional variables may have led to overfitting or reduced generalization. These findings suggest that while LSTM models can effectively learn temporal patterns from consumption data alone, incorporating structured external knowledge requires careful feature engineering and alignment to be beneficial.}
 
 
 The findings emphasize the importance of incorporating relevant domain knowledge into forecasting models. In pharmaceutical supply logistics administration systems, data often consists solely of transactional records on consumption and distribution. Including exogenous variables such as administrative procedures, seasonal patterns, or conflicts, or any other relevant factor that could be identified by those with domain knowledge proved essential for reducing forecast errors. This approach improved both point and probabilistic forecast accuracy, enabling a more confident assessment of uncertainty. Therefore, the systematic collection of information about significant events and their impact on consumption is vital. Recording details of events such as policy changes, administration procedures, conflicts, and incorporating this information into forecasting models creates a comprehensive understanding of consumption. This practice enhances modeling reliability and allows institutions in developing countries and humanitarian organizations to better forecast demand, allocate resources effectively, and respond proactively. Establishing robust data collection systems is thus a critical step for strengthening forecasting capabilities and operational resilience.
 
-Our analysis also highlights the value of using foundational time series forecasting models like TimeGpt, particularly in developing countries and the global health and humanitarian sectors. In these contexts, the lack of advanced analytical skills and systematic data collection can hinder effective forecasting and decision-making. 
+## Computational efficiency and resource considerations
+
+\textcolor{blue}{In addition to forecast accuracy, it is also important to consider the computational efficiency of each model, particularly in settings where computational resources and technical expertise are limited.}
+
+@tbl-runtime \textcolor{blue}{shows the total runtime required to train and generate forecasts across all 33 pharmaceutical product time series for each method for all origins. All models were implemented using R, except TimeGPT, which was run via Google Colab using a T4 GPU backend. All other models were executed on a local machine with 7 CPU cores} (11th Gen Intel(R) Core(TM) i5-1135G7 \@ 2.40 GHz and 8 GB RAM)
+
+
+```{r}
+#| label: tbl-runtime
+#| echo: false
+#| tbl-cap: "Computation time required for training and generating forecasts for each model across all products."
+#| tbl-pos: "H"
+runtime <- read.csv('../result/runtime_tbl.csv') |> 
+  janitor::clean_names() |> 
+  mutate(category = cut(run_time_in_seconds,
+                        breaks = c(-Inf, 100, 1000, Inf), # Adjust the breaks
+                        labels = c("low", "medium", "high"))) |> 
+  rename(Model = model,
+         'Runtime (Seconds)' = run_time_in_seconds,
+         'Runtime type' = runtime_type)
+
+ 
+runtime |> 
+  knitr::kable(booktabs = T, linesep = "") |>
+  kable_styling(latex_options = c("striped"), font_size = 11)
+```
+
+
+\textcolor{blue}{As shown in Figure 4 and 5, models that incorporated expert-informed regressors generally achieved better forecast accuracy compared to their univariate versions. This trend was most evident in classical models such as ARIMA and regression, where the inclusion of regressors led to a noticeable shift toward lower and more concentrated error distributions. However, this improvement came with an increase in computational cost. In all cases, the addition of regressors increased runtime—by 72\% in the regression model (from 27.48 to 47.38 seconds) and by 43\% in ARIMA (from 96.27 to 138.08 seconds). TimeGPT also showed a slight increase in runtime (from 2.57 to 3.72 seconds), although the total processing time remained extremely low overall. Moreover, LSTM exhibited the largest increase in runtime when regressors were added, rising from 6,892 to 7,234 seconds. This sharp increase reflects the sensitivity of neural networks to input configuration, especially in contexts with limited data, irregular demand, and noisy signals.}
+
+\textcolor{blue}{These results underscore the importance of balancing model performance with implementation cost. While deep learning models such as LSTM offer strong potential when well-tuned, they demand significantly more computational resources and may be less robust when integrating static or weakly aligned contextual features. By contrast, TimeGPT, a foundational model pretrained on large-scale time series data, provides a compelling alternative. It required less than 4 seconds to forecast all products, offered competitive accuracy, and required no tuning or retraining—making it well-suited for practical use in low-resource environments.}
+
 
 ## An illustration of probabilistic forecast for Pharmacuitical product consumption
 
 In this section, we present an illustrative example of a probabilistic forecast for future consumption of _Sodium Chloride (Normal Saline)_ product. Due to the complexity of including such visualizations for all products, only one example is shown here. However, it is feasible to generate these plots for all products if needed.
 
-In practice, point forecasts are commonly used despite their limitations, but they do not account for the inherent uncertainty associated with forecasts. The future is inherently uncertain, and effective planning requires considering alternative scenarios. Probabilistic forecasts offer a comprehensive approach by assigning likelihoods to a range of possible outcomes, recognizing that different consumption levels may occur with varying probabilities. The primary purpose of probabilistic forecasting, as illustrated in @fig-forecast-density-hstep, is to quantify and communicate uncertainty. This figure displays the forecast distribution of consumption over a 6-month horizon using a density plot. For each month within the forecast period, a separate distribution is generated. The plot also includes the point forecast alongside 80% and 90% prediction intervals to illustrate potential variability.
+In practice, point forecasts are commonly used despite their limitations, but they do not account for the inherent uncertainty associated with forecasts. The future is inherently uncertain, and effective planning requires considering alternative scenarios. Probabilistic forecasts offer a comprehensive approach by assigning likelihoods to a range of possible outcomes, recognizing that different consumption levels may occur with varying probabilities. \textcolor{blue}{The goal is to maximize the sharpness of these predictive distributions—i.e., how concentrated the forecasts are—while maintaining calibration, meaning that the predicted probabilities align well with actual outcomes} [@gneiting2014probabilistic]. \textcolor{blue}{This approach allows decision-makers to fully leverage available information, incorporating uncertainty in a structured and measurable way.} The primary purpose, as illustrated in @fig-forecast-density-hstep, is to quantify and communicate uncertainty. This figure displays the forecast distribution of consumption over a 6-month horizon using a density plot. For each month within the forecast period, a separate distribution is generated. The plot also includes the point forecast alongside 80% and 90% prediction intervals to illustrate potential variability.
+
+Probabilistic forecasts enhance planning and decision-making by offering a comprehensive view of potential future outcomes and their likelihood, rather than relying on a single point estimate. A probabilistic forecast takes the form of a predictive probability distribution over future quantities or events of interest. 
 
 It is important to note that while point forecasts and prediction intervals can be derived from probabilistic forecasts, the reverse is not true. A single-point forecast cannot inherently provide the probabilistic context needed to capture the range of possible outcomes. Although prediction intervals can indicate a range of potential values, they do not convey the detailed probabilities of low or high consumption. This distinction highlights the value of probabilistic forecasting in supporting informed decision-making by offering a clearer view of future uncertainties.
 
@@ -161,5 +188,63 @@ ggplot(data = fcst, mapping = aes(x = month, ydist = quantity))+
   ggthemes::theme_few()
 ```
 
+\textcolor{blue}{To further illustrate the practical relevance, we consider an illustrative case where the mean forecasted consumption for the next month is 1,000 units, with a 90\% prediction interval ranging from 850 to 1,150 units.} @tbl-point_vs_probabilistic \textcolor{blue}{summarizes the decision outcomes under each approach.}
+
+\textcolor{blue}{Under a traditional approach, inventory decisions would rely solely on the point forecast. Based on the mean prediction of 1,000 units, the store manager would order precisely that quantity, assuming it would meet the expected demand. However, this approach does not incorporate any adjustment for uncertainty, potentially leading to stockouts if actual demand exceeds 1,000 units, or excess inventory if consumption is lower.}
+
+\textcolor{blue}{In contrast, utilizing the full probabilistic forecast allows the decision-maker to take variability into account. If a higher service level is required, for example 95\%, the inventory policy may be adjusted by stocking closer to the upper bound of the 90\% prediction interval (e.g., 1,150 units). If inventory holding costs are a major concern and the organization can tolerate a modest risk of shortage, the order quantity could remain closer to the median forecast of 1,000 units.}
+
+ 
+```{r}
+#| label: tbl-point_vs_probabilistic
+#| tbl-pos: "H"
+#| tbl-cap: "Comparison of ordering decisions under point and probabilistic forecasts - an illustrative example."
+
+library(kableExtra)
+df <- tibble(
+  `Forecast Type` = c("Point Forecast Only", "Probabilistic Forecast (95% service level)"),
+  `Ordering Quantity` = c("1,000 units", "1,150 units"),
+  `Risk Consideration` = c(
+    "No explicit consideration of uncertainty",
+    "Adjusts inventory to account for demand variability"
+  )
+)
+
+  df |> knitr::kable(booktabs = T, linesep = "") |>
+  kable_styling(latex_options = c("scale_down"), font_size = 11)
+
+```
 
 
+
+ 
+\textcolor{blue}{This illustrative comparison indicates that point forecasts provide a single estimate without adjusting for forecast uncertainty, while probabilistic forecasts allow decision-makers to explicitly align inventory decisions with risk tolerance and service level requirements. This is particularly important for pharmaceutical products, where the consequences of stockouts or overstocking can be significant both operationally and clinically.}
+
+
+
+## Managerial Implications 
+
+\textcolor{blue}{This study offers actionable lessons for supply chain managers, public health planners, and policymakers navigating the uncertainty of pharmaceutical demand—particularly in systems like Ethiopia, where operational constraints and demand volatility are the norm, not the exception.}
+
+\textcolor{blue}{At present, national forecasting at the Ethiopian Pharmaceutical Supply Service (EPSS) still relies heavily on basic extrapolation tools—usually Excel sheets or donor-developed software such as the Quantification Analysis Tool (QAT). These tools are easy to use but limited: they assume stable demand, ignore uncertainty, and often miss the operational signals embedded in local experience. In practice, forecasts are sometimes adjusted based on gut feeling or anecdotal program insights—not because planners want to—but because the tools don’t offer a better alternative.}
+
+\textcolor{blue}{The models developed here—freely available, open-source, and designed to integrate directly with routine EPSS data—allow planners to make decisions using full probabilistic forecasts, not just single-point estimates. Forecasts are delivered with prediction intervals (e.g., 80\% or 90\%) that help teams decide not only how much to order, but how much risk they’re willing to tolerate. For products with known seasonality—like antimalarials or diagnostic kits—this matters. The system doesn’t just forecast a number; it gives planners a buffer strategy.}
+
+\textcolor{blue}{Beyond accuracy, the models also reflect how medicines actually move through the system. Predictors based on warehouse replenishments, fiscal year inventory routines, and known disease cycles are embedded into the forecasts—not hard-coded, but learned from the data in ways that are transparent and reproducible. These inputs are drawn from expert operational knowledge and can be updated or modified as the system evolves.}
+
+\textcolor{blue}{Importantly, the entire modeling pipeline is built in R and Python, and is already shared alongside code and data. This makes it immediately usable by EPSS analysts and regional logistics teams, even in settings without access to proprietary tools or high-end infrastructure. It's not a black box; it's something the system can own, modify, and grow with.}
+
+\textcolor{blue}{To support real uptake, we recommend five practical steps:}
+
+- \textcolor{blue}{Embed these probabilistic models into EPSS quantification rounds to replace rigid extrapolation methods and bring scenario-based planning into monthly and quarterly cycles.}
+
+- \textcolor{blue}{Use prediction intervals to define risk-informed buffer policies, especially for high-volatility products. Not every item needs the same margin of error.}
+
+- \textcolor{blue}{Automate the collection of domain knowledge  (e.g., replenishment events, stock counts, seasonal triggers) into the logistics data stream to reduce reliance on manual elicitation while preserving contextual intelligence.}
+
+- \textcolor{blue}{Train regional and central teams using the open-source tools and shared codebase, turning forecasting into a hands-on, in-country competency rather than a dependency on external tools or consultants.}
+
+- \textcolor{blue}{Establish routine forecast review sessions, supported by visual dashboards that reflect not just what the model says, but how uncertain that estimate is—and what that means for stock levels, procurement plans, and emergency readiness.}
+
+\textcolor{blue}{Taken together, these steps push forecasting beyond formulas and into real decision-making.
+}

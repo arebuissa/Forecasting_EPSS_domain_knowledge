@@ -1,37 +1,37 @@
 ---
 title: "The missing puzzle piece: Contextual insights for enhanced pharmaceutical supply chain forecasting"
-# author:
-#   - name: Arebu Issa Bilal
-#     email: arebu.issa@aau.edu.et
-#     affiliations:
-#         - id: Addis 
-#           name: Addis Ababa University
-#           department: Department of Pharmaceutics and Social Pharmacy, School of Pharmacy
-#           country: Ethiopia.
-#     attributes:
-#         corresponding: true
-#   - name: Bahman Rostami-Tabar
-#     email: rostami-tabarb@cardiff.ac.uk
-#     affiliations:
-#         - id: carbs
-#           name: Cardiff University
-#           department: Data Lab for Social Good Reserach Group, Cardiff Business School 
-#           country: UK.
-#   - name: Harsha Halgamuwe Hewage
-#     email: HalgamuweHewageHR@cardiff.ac.uk
-#     affiliations:
-#         - ref: carbs
-#   - name: Umit Sezer Bititci 
-#     email: U.S.Bititci@hw.ac.uk
-#     affiliations:
-#         - id: herio 
-#           name: Heriot-Watt University
-#           department: Edinburgh Business School, Heriot-Watt University
-#           country: UK.
-#   - name: Teferi Gedif Fenta
-#     email: tgedif@gmail.com
-#     affiliations:
-#         - ref: Addis 
+author:
+  - name: Arebu Issa Bilal
+    email: arebu.issa@aau.edu.et
+    affiliations:
+        - id: Addis
+          name: Addis Ababa University
+          department: Department of Pharmaceutics and Social Pharmacy, School of Pharmacy
+          country: Ethiopia.
+    attributes:
+        corresponding: true
+  - name: Bahman Rostami-Tabar
+    email: rostami-tabarb@cardiff.ac.uk
+    affiliations:
+        - id: carbs
+          name: Cardiff University
+          department: Data Lab for Social Good Reserach Group, Cardiff Business School
+          country: UK.
+  - name: Harsha Halgamuwe Hewage
+    email: HalgamuweHewageHR@cardiff.ac.uk
+    affiliations:
+        - ref: carbs
+  - name: Umit Sezer Bititci
+    email: U.S.Bititci@hw.ac.uk
+    affiliations:
+        - id: herio
+          name: Heriot-Watt University
+          department: Edinburgh Business School, Heriot-Watt University
+          country: UK.
+  - name: Teferi Gedif Fenta
+    email: tgedif@gmail.com
+    affiliations:
+        - ref: Addis
 
 abstract: |
   Accurate forecasting in pharmaceutical supply chains is critical for ensuring the continuous availability of essential medicines, particularly in developing countries where resource constraints and logistical challenges are more pronounced. Effective demand forecasting supports procurement and inventory management, which in turn could help to prevent stockouts, reduce wastage due to overstocking, and enhance overall healthcare delivery. In such settings, reliable forecasts, that acknowledge uncertainties, are essential to ensure that limited resources are used efficiently to meet health needs. 
@@ -51,7 +51,6 @@ execute:
   warning: false
   pdf-engine: pdflatex
   prefer-html: true
-  cache: true
 format:
   html:
     number-sections: true
@@ -61,9 +60,35 @@ format:
     keep-tex: true
     include-in-header:
       text: |
-        \usepackage{todonotes,mathtools,bm,amsmath,mathpazo}
+        \usepackage{todonotes,mathtools,bm,amsmath,mathpazo,xcolor}
         \mathtoolsset{showonlyrefs}
         \setlength{\parindent}{0cm}
+        \usepackage{tikz}
+        \usetikzlibrary{positioning, shapes.geometric, arrows.meta, fit}
+        \tikzset{
+          process/.style={
+          rectangle,
+          draw=black,
+          thick,
+          text width=4.5cm,
+          align=center,
+          minimum height=1.4cm
+          },
+        groupbox/.style={
+          draw=black,
+          thick,
+          dashed,
+          inner sep=0.3cm,
+          rounded corners,
+          label={[black]90:#1}
+        },
+        arrow/.style={
+          thick,
+          ->,
+          >=Stealth
+        }
+                }  
+        
     journal:
       name: International Journal of Production Research
       formatting: preprint
@@ -106,16 +131,19 @@ ggplot2::theme_set(ggthemes::theme_few())
 
 ```
 
-```{r results, child="04-results.qmd"}
 
+```{r results, child="04-results.qmd"}
 ```
+
 
 ```{r conclusion, child="05-conclusion.qmd"}
 
-```
+``` 
 
 # Reproducibility {.unnumbered}
 
-We use R and Python for model development and accuracy evaluation. The paper is written in Quarto, and all code, data, and files will be shared in a GitHub repository upon acceptance for publication.
+To enhance transparency and reproducibility, we not only provide data and the code, but also the entire paper that is written in R & Python. All materials to reproduce this paper is available at [Insert Github link once paper accepted](Insert Github link once paper accepted).
+
+The repository contains the raw data, all R and Python scripts used in experiments, the results used in the paper, as well as the quarto files for producing this paper. 
 
 # References {#references .unnumbered}

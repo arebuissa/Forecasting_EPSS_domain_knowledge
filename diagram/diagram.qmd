@@ -1,0 +1,64 @@
+```{=latex}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.85, transform shape, node distance=1.3cm and 2cm]
+
+% Node style
+\tikzset{
+  process/.style={
+    rectangle,
+    draw=black,
+    thick,
+    text width=4.5cm,
+    align=center,
+    minimum height=1.4cm
+  },
+  arrow/.style={
+    thick,
+    ->,
+    >=Stealth
+  }
+}
+
+% Nodes
+\node (step1) [process] {1. Expert Identification (with EPSS)};
+\node (step2) [process, below=of step1] {2. Onboarding \& Orientation};
+\node (step3) [process, below=of step2] {3. Workshop: Collaborative Data Review \& Joint Identification of Anomalies};
+
+\node (step4) [process, right=of step1] {4. Cross Validation Using Bin Cards \& Inventory Records};
+\node (step5) [process, below=of step4] {5. Structured Expert Elicitation \& Contextual Clarification};
+
+\node (step6) [process, right=of step4] {6. Expert Elicitation of Predictor Relevance};
+\node (step7) [process, below=of step6] {7. Consensus-Based Selection of Predictors};
+\node (step8) [process, below=of step7] {8. Variable Encoding \& Time Alignment};
+
+\node (step9) [process, below=of step8, yshift=-0.3cm] {9. Integration into Forecasting Models};
+
+% Arrows
+\draw [arrow] (step1) -- (step2);
+\draw [arrow] (step2) -- (step3);
+
+\path (step3.east) -- +(0.6,0) coordinate (s3stub);
+\draw [arrow] (step3.east) -- (s3stub) |- (step4.west);
+
+\draw [arrow] (step4) -- (step5);
+
+\path (step5.east) -- +(0.6,0) coordinate (s5stub);
+\draw [arrow] (step5.east) -- (s5stub) |- (step6.west);
+
+\draw [arrow] (step6) -- (step7);
+\draw [arrow] (step7) -- (step8);
+\draw [arrow] (step8) -- (step9);
+
+% Group boxes
+\node[draw=black, thick, dashed, inner sep=0.3cm, rounded corners, fit=(step1)(step2)(step3), label={[black]90:Expert Engagement}] {};
+\node[draw=black, thick, dashed, inner sep=0.3cm, rounded corners, fit=(step4)(step5), label={[black]90:Validation}] {};
+\node[draw=black, thick, dashed, inner sep=0.3cm, rounded corners, fit=(step6)(step7)(step8), label={[black]90:Feature Construction}] {};
+\node[draw=black, thick, dashed, inner sep=0.3cm, rounded corners, fit=(step9), label={[black]90:Model Integration}] {};
+
+\end{tikzpicture}
+\end{figure}
+
+``` 
+
+
