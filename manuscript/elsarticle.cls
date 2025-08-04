@@ -1290,13 +1290,13 @@
   \vskip\belowcaptionskip}
 
 \AtBeginDocument{\@ifpackageloaded{hyperref}
-  {\def\@linkcolor{blue}
-   \def\@anchorcolor{blue}
-   \def\@citecolor{blue}
-   \def\@filecolor{blue}
-   \def\@urlcolor{blue}
-   \def\@menucolor{blue}
-   \def\@pagecolor{blue}
+  {\def\@linkcolor{black}
+   \def\@anchorcolor{black}
+   \def\@citecolor{black}
+   \def\@filecolor{black}
+   \def\@urlcolor{black}
+   \def\@menucolor{black}
+   \def\@pagecolor{black}
 \begingroup
   \@makeother\`%
   \@makeother\=%
