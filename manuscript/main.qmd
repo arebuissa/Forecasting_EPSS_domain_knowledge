@@ -1,12 +1,12 @@
 ---
-title: "The missing puzzle piece: Contextual insights for enhanced pharmaceutical supply chain forecasting"
+title: "The missing puzzle piece: contextual insights for enhanced pharmaceutical supply chain forecasting"
 author:
   - name: Arebu Issa Bilal
     email: arebu.issa@aau.edu.et
     affiliations:
         - id: Addis
           name: Addis Ababa University
-          department: Department of Pharmaceutics and Social Pharmacy, School of Pharmacy
+          department: Department of Social and Administrative Pharmacy, School of Pharmacy
           country: Ethiopia.
     attributes:
         corresponding: true
@@ -15,7 +15,7 @@ author:
     affiliations:
         - id: carbs
           name: Cardiff University
-          department: Data Lab for Social Good Reserach Group, Cardiff Business School
+          department: Data Lab for Social Good Research Group, Cardiff Business School
           country: UK.
   - name: Harsha Halgamuwe Hewage
     email: HalgamuweHewageHR@cardiff.ac.uk
@@ -34,8 +34,8 @@ author:
         - ref: Addis
 
 abstract: |
-  Accurate forecasting in pharmaceutical supply chains is critical for ensuring the continuous availability of essential medicines, particularly in developing countries where resource constraints and logistical challenges are more pronounced. Effective demand forecasting supports procurement and inventory management, which in turn could help to prevent stockouts, reduce wastage due to overstocking, and enhance overall healthcare delivery. In such settings, reliable forecasts, that acknowledge uncertainties, are essential to ensure that limited resources are used efficiently to meet health needs. 
-  Despite advancements in forecasting, significant gaps remain in effective forecasting in poor resource countries. Most existing literature on pharmaceutical supply chain forecasting focuses primarily on point estimation of consumption while neglecting the inherent uncertainty of these forecasts. Additionally, these studies often rely solely on historical consumption data without considering the broader context that influences consumption. Furthermore, many works lack rigorous methodological design, transparency, and reproducibility. This study addresses these gaps by integrating domain-specific knowledge, gathered through expert interviews and engagement with key members of the Ethiopian Pharmaceutical Supply Service (EPSS), into forecasting models. Using a dataset spanning five years (December 2017 to July 2022) from EPSS, we developed forecasting models that integrate expert-identified variables such as stock replenishment schedules, fiscal inventory counts, and disease outbreaks. Evaluation metrics including Mean Absolute Scaled Error (MASE), Root Mean Squared Scaled Error (RMSSE), and Continuous Ranked Probability Score (CRPS) are used to report forecast accuracy. The findings underscore the significance of contextual data in developing robust forecasting models that are adaptable to complex, real-world conditions. Our results also highlight the effectiveness of foundational time series models for forecasting. These models are particularly appealing for resource-constrained countries that may lack advanced analytical expertise. To promote usability, generalizability, and reproducibility, we share the complete dataset and code in R and Python, and the entire paper is written in Quarto via a GitHub repository to facilitate these practices.
+  Accurate forecasting in pharmaceutical supply chains is critical for ensuring the continuous availability of essential medicines, particularly in developing countries where resource constraints and logistical challenges are more pronounced. Effective demand forecasting supports procurement and inventory management, which in turn could help to prevent stockouts, reduce wastage due to overstocking, and enhance overall healthcare delivery. In such settings, reliable forecasts that acknowledge uncertainties, are essential to ensure that limited resources are used efficiently to meet health needs. 
+  Despite advancements in forecasting, significant gaps remain in effective forecasting in poor resource countries. Most existing literature on pharmaceutical supply chain forecasting focuses primarily on point estimation while neglecting the inherent uncertainty of these forecasts. Additionally, these studies often rely solely on historical consumption and distribution data, overlooking the broader contextual factors that shape these patterns. Furthermore, many works lack rigorous methodological design, transparency, and reproducibility. This study addresses these gaps by integrating domain-specific knowledge, gathered through expert interviews and engagement with key members of the Ethiopian Pharmaceutical Supply Service, into forecasting models. Using a dataset spanning five years (December 2017 to July 2022) from EPSS, we developed forecasting models that integrate expert-identified variables such as stock replenishment schedules, fiscal inventory counts, and disease outbreaks. Evaluation metrics including Mean Absolute Scaled Error, Root Mean Squared Scaled Error, and Continuous Ranked Probability Score are used to report forecast accuracy. The findings underscore the significance of contextual data in developing robust forecasting models that are adaptable to complex, real-world conditions. Our results also highlight the effectiveness of foundational time series models for forecasting. These models are particularly appealing for resource-constrained countries that may lack advanced analytical expertise. To promote usability, generalizability, and reproducibility, we share the complete dataset and code in R and Python, and the entire paper is written in Quarto via a GitHub repository to facilitate these practices.
   
   
 keywords:
@@ -142,7 +142,7 @@ ggplot2::theme_set(ggthemes::theme_few())
 
 # Reproducibility {.unnumbered}
 
-To enhance transparency and reproducibility, we not only provide data and the code, but also the entire paper that is written in R & Python. All materials to reproduce this paper is available at [Insert Github link once paper accepted](Insert Github link once paper accepted).
+To enhance transparency and reproducibility, we not only provide data and the code, but also the entire paper that is written in R & Python. All materials to reproduce this paper is available at [this Github repository](https://github.com/arebuissa/Forecasting_EPSS_domain_knowledge).
 
 The repository contains the raw data, all R and Python scripts used in experiments, the results used in the paper, as well as the quarto files for producing this paper. 
 
